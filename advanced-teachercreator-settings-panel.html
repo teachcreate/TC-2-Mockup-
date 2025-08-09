@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creator Settings - TeachCreate.io</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #F9FAFB;
+            color: #111827;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: #4F46E5;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav a {
+            color: #6B7280;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .nav a:hover {
+            background: #F3F4F6;
+            color: #4F46E5;
+            transform: translateY(-1px);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .cart-icon {
+            position: relative;
+            background: #4F46E5;
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+        }
+
+        .cart-icon:hover {
+            background: #3730A3;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #EF4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .user-dropdown {
+            position: relative;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4F46E5, #F59E0B);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            padding: 0.5rem;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            z-index: 1000;
+        }
+
+        .dropdown-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #374151;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .dropdown-item:hover {
+            background: #F3F4F6;
+            color: #4F46E5;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Page Header */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title-section {
+            flex: 1;
+        }
+
+        .page-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: #6B7280;
+            font-size: 1.125rem;
+        }
+
+        .creator-badge {
+            background: linear-gradient(135deg, #4F46E5, #F59E0B);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Quick Access Links */
+        .quick-access {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .access-link {
+            background: white;
+            border: 2px solid #E5E7EB;
+            color: #4F46E5;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .access-link:hover {
+            background: #4F46E5;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        /* Settings Grid */
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+        }
+
+        .settings-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .settings-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #F9FAFB, #F3F4F6);
+            padding: 2rem;
+            border-bottom: 2px solid #E5E7EB;
+        }
+
+        .card-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #111827;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .card-description {
+            color: #6B7280;
+            font-size: 1rem;
+        }
+
+        .card-content {
+            padding: 2rem;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: #374151;
+            font-size: 1rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #4F46E5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .input-help {
+            font-size: 0.875rem;
+            color: #6B7280;
+            margin-top: 0.5rem;
+        }
+
+        /* Color Picker */
+        .color-picker-group {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .color-input {
+            width: 60px;
+            height: 40px;
+            border: 2px solid #E5E7EB;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .color-input:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        /* Toggle Switch */
+        .toggle-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            background: #F9FAFB;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .toggle-group:hover {
+            background: #F3F4F6;
+        }
+
+        .toggle-info {
+            flex: 1;
+        }
+
+        .toggle-title {
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.25rem;
+        }
+
+        .toggle-description {
+            color: #6B7280;
+            font-size: 0.875rem;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 52px;
+            height: 28px;
+            background: #E5E7EB;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .toggle-switch.active {
+            background: #4F46E5;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .toggle-switch.active .toggle-slider {
+            transform: translateX(24px);
+        }
+
+        /* Pricing Grid */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .pricing-item {
+            background: #F9FAFB;
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .pricing-item:hover {
+            border-color: #4F46E5;
+            transform: translateY(-2px);
+        }
+
+        .pricing-label {
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #D1D5DB;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            color: #4F46E5;
+        }
+
+        /* Analytics Cards */
+        .analytics-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, #4F46E5, #3730A3);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+
+        /* File Upload */
+        .file-upload-area {
+            border: 2px dashed #D1D5DB;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #F9FAFB;
+        }
+
+        .file-upload-area:hover {
+            border-color: #4F46E5;
+            background: #F0F9FF;
+        }
+
+        .file-upload-area.dragover {
+            border-color: #4F46E5;
+            background: #EEF2FF;
+        }
+
+        .upload-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #6B7280;
+        }
+
+        .upload-text {
+            color: #374151;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-hint {
+            color: #6B7280;
+            font-size: 0.875rem;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.875rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: #4F46E5;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #3730A3;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .btn-secondary {
+            background: #F59E0B;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #D97706;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #4F46E5;
+            border: 2px solid #4F46E5;
+        }
+
+        .btn-outline:hover {
+            background: #4F46E5;
+            color: white;
+        }
+
+        /* Revenue Calculator */
+        .revenue-calculator {
+            background: linear-gradient(135deg, #10B981, #059669);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin-top: 1.5rem;
+        }
+
+        .calculator-title {
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+        }
+
+        .calculator-item {
+            text-align: center;
+        }
+
+        .calculator-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .calculator-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+
+        /* Auto-save indicator */
+        .auto-save {
+            position: fixed;
+            top: 100px;
+            right: 2rem;
+            background: #10B981;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            opacity: 0;
+            transform: translateX(100px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .auto-save.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 0 1rem;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .main-container {
+                padding: 1rem;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-access {
+                flex-direction: column;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .analytics-preview {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .calculator-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">TeachCreate.io</a>
+            <nav class="nav">
+                <a href="#">Explore</a>
+                <a href="#">My Toolkit</a>
+                <a href="#" style="color: #4F46E5; font-weight: 600;">Creator Portal</a>
+            </nav>
+            <div class="header-right">
+                <button class="cart-icon">
+                    🛒
+                    <span class="cart-badge">3</span>
+                </button>
+                <div class="user-dropdown">
+                    <div class="user-avatar" onclick="toggleDropdown()">SC</div>
+                    <div class="dropdown-menu" id="userDropdown">
+                        <a href="#" class="dropdown-item">Profile Settings</a>
+                        <a href="#" class="dropdown-item">Account Settings</a>
+                        <a href="#" class="dropdown-item">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Auto-save indicator -->
+    <div class="auto-save" id="autoSave">
+        <span>💾</span>
+        Settings saved automatically
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="page-title-section">
+                <h1 class="page-title">Creator Settings</h1>
+                <p class="page-subtitle">Advanced configuration for your teaching business</p>
+            </div>
+            <div class="creator-badge">
+                <span>⭐</span>
+                Premium Creator
+            </div>
+        </div>
+
+        <!-- Quick Access Links -->
+        <div class="quick-access">
+            <a href="#" class="access-link">
+                <span>🚀</span>
+                Go to Creator Portal
+            </a>
+            <a href="#" class="access-link">
+                <span>💰</span>
+                Manage Payouts
+            </a>
+            <a href="#" class="access-link">
+                <span>📊</span>
+                View Analytics Dashboard
+            </a>
+        </div>
+
+        <!-- Settings Grid -->
+        <div class="settings-grid">
+            <!-- Profile & Store Branding -->
+            <div class="settings-card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <span>🎨</span>
+                        Profile & Store Branding
+                    </h2>
+                    <p class="card-description">Customize how your teaching brand appears to students</p>
+                </div>
+                <div class="card-content">
+                    <div class="form-group">
+                        <label class="form-label">Store Logo</label>
+                        <div class="file-upload-area" onclick="triggerFileUpload('logo')">
+                            <div class="upload-icon">🖼️</div>
+                            <div class="upload-text">Upload Store Logo</div>
+                            <div class="upload-hint">PNG, JPG up to 2MB • 400x400px recommended</div>
+                        </div>
+                        <input type="file" id="logoUpload" style="display: none;" accept="image/*" onchange="handleFileUpload(event, 'logo')">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Store Banner</label>
+                        <div class="file-upload-area" onclick="triggerFileUpload('banner')">
+                            <div class="upload-icon">🖼️</div>
+                            <div class="upload-text">Upload Store Banner</div>
+                            <div class="upload-hint">PNG, JPG up to 5MB • 1200x400px recommended</div>
+                        </div>
+                        <input type="file" id="bannerUpload" style="display: none;" accept="image/*" onchange="handleFileUpload(event, 'banner')">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Brand Colors</label>
+                        <div class="color-picker-group">
+                            <div>
+                                <input type="color" class="color-input" value="#4F46E5" onchange="updateBrandColor('primary', this.value)">
+                                <div style="text-align: center; margin-top: 0.5rem; font-size: 0.875rem; color: #6B7280;">Primary</div>
+                            </div>
+                            <div>
+                                <input type="color" class="color-input" value="#F59E0B" onchange="updateBrandColor('secondary', this.value)">
+                                <div style="text-align: center; margin-top: 0.5rem; font-size: 0.875rem; color: #6B7280;">Secondary</div>
+                            </div>
+                            <div>
+                                <input type="color" class="color-input" value="#10B981" onchange="updateBrandColor('accent', this.value)">
+                                <div style="text-align: center; margin-top: 0.5rem; font-size: 0.875rem; color: #6B7280;">Accent</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Store Description</label>
+                        <textarea class="form-input form-textarea" placeholder="Tell students about your teaching philosophy and expertise..." oninput="autoSave('storeDescription')">Passionate educator with 10+ years of experience creating engaging, standards-aligned resources for elementary classrooms. Specializing in interactive math and science activities that make learning fun!</textarea>
+                        <div class="input-help">This appears on your public store page</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Social Media Links</label>
+                        <input type="url" class="form-input" placeholder="https://twitter.com/yourhandle" style="margin-bottom: 0.5rem;" oninput="autoSave('twitter')">
+                        <input type="url" class="form-input" placeholder="https://instagram.com/yourhandle" style="margin-bottom: 0.5rem;" oninput="autoSave('instagram')">
+                        <input type="url" class="form-input" placeholder="https://yourwebsite.com" oninput="autoSave('website')">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Monetization Settings -->
+            <div class="settings-card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <span>💰</span>
+                        Monetization Settings
+                    </h2>
+                    <p class="card-description">Configure pricing defaults and payout preferences</p>
+                </div>
+                <div class="card-content">
+                    <div class="form-group">
+                        <label class="form-label">Default Pricing by Content Type</label>
+                        <div class="pricing-grid">
+                            <div class="pricing-item">
+                                <div class="pricing-label">Worksheets</div>
+                                <input type="number" class="pricing-input" value="3.99" min="0" step="0.01" onchange="updatePricing('worksheets', this.value)">
+                            </div>
+                            <div class="pricing-item">
+                                <div class="pricing-label">Lesson Plans</div>
+                                <input type="number" class="pricing-input" value="8.99" min="0" step="0.01" onchange="updatePricing('lessons', this.value)">
+                            </div>
+                            <div class="pricing-item">
+                                <div class="pricing-label">Activity Packs</div>
+                                <input type="number" class="pricing-input" value="12.99" min="0" step="0.01" onchange="updatePricing('packs', this.value)">
+                            </div>
+                            <div class="pricing-item">
+                                <div class="pricing-label">Digital Tools</div>
+                                <input type="number" class="pricing-input" value="15.99" min="0" step="0.01" onchange="updatePricing('tools', this.value)">
+                            </div>
+                        </div>
+                        <div class="input-help">These prices will be suggested when you create new content</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Payout Method</label>
+                        <select class="form-input" onchange="autoSave('payoutMethod')">
+                            <option value="paypal">PayPal</option>
+                            <option value="stripe">Direct Bank Transfer (Stripe)</option>
+                            <option value="check">Physical Check</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Payout Schedule</label>
+                        <select class="form-input" onchange="autoSave('payoutSchedule')">
+                            <option value="weekly">Weekly (Minimum $25)</option>
+                            <option value="biweekly" selected>Bi-weekly (Minimum $50)</option>
+                            <option value="monthly">Monthly (Minimum $100)</option>
+                        </select>
+                    </div>
+
+                    <div class="revenue-calculator">
+                        <div class="calculator-title">
+                            <span>📈</span>
+                            Revenue Projection (This Month)
+                        </div>
+                        <div class="calculator-grid">
+                            <div class="calculator-item">
+                                <div class="calculator-value" id="grossRevenue">$1,247</div>
+                                <div class="calculator-label">Gross Sales</div>
+                            </div>
+                            <div class="calculator-item">
+                                <div class="calculator-value" id="platformFee">$187</div>
+                                <div class="calculator-label">Platform Fee (15%)</div>
+                            </div>
+                            <div class="calculator-item">
+                                <div class="calculator-value" id="netRevenue">$1,060</div>
+                                <div class="calculator-label">Your Earnings</div>
+                            </div>
+                            <div class="calculator-item">
+                                <div class="calculator-value" id="nextPayout">$423</div>
+                                <div class="calculator-label">Next Payout</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Preferences -->
+            <div class="settings-card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <span>📊</span>
+                        Analytics Preferences
+                    </h2>
+                    <p class="card-description">Customize your analytics dashboard and reports</p>
+                </div>
+                <div class="card-content">
+                    <div class="form-group">
+                        <label class="form-label">Dashboard Preview</label>
+                        <div class="analytics-preview">
+                            <div class="metric-card">
+                                <div class="metric-value">1,247</div>
+                                <div class="metric-label">Total Sales</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value">89</div>
+                                <div class="metric-label">Active Products</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value">4.8</div>
+                                <div class="metric-label">Avg Rating</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value">2,341</div>
+                                <div class="metric-label">Page Views</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Default Time Range</label>
+                        <select class="form-input" onchange="autoSave('defaultTimeRange')">
+                            <option value="7days">Last 7 days</option>
+                            <option value="30days" selected>Last 30 days</option>
+                            <option value="90days">Last 90 days</option>
+                            <option value="1year">Last year</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Email Reports</label>
+                        <div class="toggle-group">
+                            <div class="toggle-info">
+                                <div class="toggle-title">Weekly Summary</div>
+                                <div class="toggle-description">Get a weekly email with your key metrics</div>
+                            </div>
+                            <div class="toggle-switch active" onclick="toggleSetting(this, 'weeklyReports')">
+                                <div class="toggle-slider"></div>
+                            </div>
+                        </div>
+                        <div class="toggle-group">
+                            <div class="toggle-info">
+                                <div class="toggle-title">Monthly Deep Dive</div>
+                                <div class="toggle-description">Detailed monthly report with insights and trends</div>
+                            </div>
+                            <div class="toggle-switch active" onclick="toggleSetting(this, 'monthlyReports')">
+                                <div class="toggle-slider"></div>
+                            </div>
+                        </div>
+                        <div class="toggle-group">
+                            <div class="toggle-info">
+                                <div class="toggle-title">Goal Alerts</div>
+                                <div class="toggle-description">Notifications when you reach revenue milestones</div>
+                            </div>
+                            <div class="toggle-switch" onclick="toggleSetting(this, 'goalAlerts')">
+                                <div class="toggle-slider"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Monthly Revenue Goal</label>
+                        <input type="number" class="form-input" value="1500" min="0" step="50" placeholder="Enter your monthly goal..." onchange="updateRevenueGoal(this.value)">
+                        <div class="input-help">We'll track your progress and send alerts when you hit milestones</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Public Profile Visibility -->
+            <div class="settings-card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <span>👁️</span>
+                        Public Profile Visibility
+                    </h2>
+                    <p class="card-description">Control what information is visible to students and other creators</p>
+                </div>
+                <div class="card-content">
+                    <div class="form-group">
+                        <label class="form-label">Profile Visibility Settings</label>
+                        
+                        <div class="toggle-group">
+                            <div class="toggle-info">
+                                <div class="toggle-title">Public Creator Profile</div>
+                                <div class="toggle-description">Allow students to find and view your creator profile</div>
+                            </div>
+                            <div class="toggle-switch active" onclick="toggleSetting(this, 'publicProfile')">
+                                <div class="toggle-slider"></div>
+                            </div>
+                        </div>
+
+                        <div class="toggle-group">
+                            <div class="toggle-info">
+                                <div class="toggle-title">Show Total Sales Count</div>
+                                <div class="toggle-description">Display how many items you've sold on your profile</div>
+                            </div>
+                            <div class="toggle-switch active" onclick="toggleSetting(this, 'showSalesCount')">
+                                <div class="toggle-slider"></div>
+                            </div>
+                        </div>
+
+                        <div class="toggle-group">
+                            <div class="toggle-info">
+                                <div class="toggle-title">Show Join Date</div>
+                                <div class="toggle-description">Display when you joined TeachCreate.io</div>
+                            </div>
+                            <div class="toggle-switch active" onclick="toggleSetting(this, 'showJoinDate')">
+                                <div class="toggle-slider"></div>
+                            </div>
+                        </div>
+
+                        <div class="toggle-group">
+                            <div class="toggle-info">
+                                <div class="toggle-title">Allow Direct Messages</div>
+                                <div class="toggle-description">Let other creators and students contact you directly</div>
+                            </div>
+                            <div class="toggle-switch" onclick="toggleSetting(this, 'allowMessages')">
+                                <div class="toggle-slider"></div>
+                            </div>
+                        </div>
+
+                        <div class="toggle-group">
+                            <div class="toggle-info">
+                                <div class="toggle-title">Featured in Search</div>
+                                <div class="toggle-description">Allow your profile to appear in creator search results</div>
+                            </div>
+                            <div class="toggle-switch active" onclick="toggleSetting(this, 'featuredInSearch')">
+                                <div class="toggle-slider"></div>
+                            </div>
+                        </div>
+
+                        <div class="toggle-group">
+                            <div class="toggle-info">
+                                <div class="toggle-title">Show Social Media Links</div>
+                                <div class="toggle-description">Display your social media links on your public profile</div>
+                            </div>
+                            <div class="toggle-switch active" onclick="toggleSetting(this, 'showSocialLinks')">
+                                <div class="toggle-slider"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Creator Bio (Public)</label>
+                        <textarea class="form-input form-textarea" placeholder="Write a brief bio that will appear on your public profile..." oninput="autoSave('publicBio')">Elementary teacher turned digital creator! I love making math and science fun and accessible for young learners. When I'm not creating resources, you can find me hiking with my dog or trying new coffee shops. ☕📚</textarea>
+                        <div class="input-help">This bio appears on your public creator profile</div>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                        <button class="btn btn-primary" onclick="previewProfile()">
+                            <span>👁️</span>
+                            Preview Public Profile
+                        </button>
+                        <button class="btn btn-outline" onclick="shareProfile()">
+                            <span>🔗</span>
+                            Copy Profile Link
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Save All Button -->
+        <div style="text-align: center; margin-top: 3rem;">
+            <button class="btn btn-secondary" style="font-size: 1.125rem; padding: 1rem 2rem;" onclick="saveAllSettings()">
+                <span>💾</span>
+                Save All Settings
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // User dropdown functionality
+        function toggleDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.user-dropdown')) {
+                document.getElementById('userDropdown').classList.remove('active');
+            }
+        });
+
+        // File upload functionality
+        function triggerFileUpload(type) {
+            document.getElementById(type + 'Upload').click();
+        }
+
+        function handleFileUpload(event, type) {
+            const file = event.target.files[0];
+            if (file) {
+                // Simulate file upload
+                const uploadArea = event.target.previousElementSibling;
+                uploadArea.style.background = '#EEF2FF';
+                uploadArea.style.borderColor = '#4F46E5';
+                uploadArea.innerHTML = `
+                    <div class="upload-icon">✅</div>
+                    <div class="upload-text">${file.name}</div>
+                    <div class="upload-hint">Upload successful! Click to change.</div>
+                `;
+                showAutoSave();
+            }
+        }
+
+        // Drag and drop functionality
+        document.querySelectorAll('.file-upload-area').forEach(area => {
+            area.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                area.classList.add('dragover');
+            });
+
+            area.addEventListener('dragleave', () => {
+                area.classList.remove('dragover');
+            });
+
+            area.addEventListener('drop', (e) => {
+                e.preventDefault();
+                area.classList.remove('dragover');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    // Handle dropped file
+                    area.style.background = '#EEF2FF';
+                    area.style.borderColor = '#4F46E5';
+                    area.innerHTML = `
+                        <div class="upload-icon">✅</div>
+                        <div class="upload-text">${files[0].name}</div>
+                        <div class="upload-hint">Upload successful! Click to change.</div>
+                    `;
+                    showAutoSave();
+                }
+            });
+        });
+
+        // Brand color updates
+        function updateBrandColor(type, color) {
+            console.log(`Updated ${type} color to ${color}`);
+            showAutoSave();
+        }
+
+        // Pricing updates
+        function updatePricing(type, value) {
+            console.log(`Updated ${type} pricing to $${value}`);
+            updateRevenueCalculator();
+            showAutoSave();
+        }
+
+        // Revenue calculator
+        function updateRevenueCalculator() {
+            // Simulate revenue calculation based on pricing changes
+            const grossRevenue = Math.floor(Math.random() * 500) + 1000;
+            const platformFee = Math.floor(grossRevenue * 0.15);
+            const netRevenue = grossRevenue - platformFee;
+            const nextPayout = Math.floor(netRevenue * 0.4);
+
+            document.getElementById('grossRevenue').textContent = `$${grossRevenue.toLocaleString()}`;
+            document.getElementById('platformFee').textContent = `$${platformFee.toLocaleString()}`;
+            document.getElementById('netRevenue').textContent = `$${netRevenue.toLocaleString()}`;
+            document.getElementById('nextPayout').textContent = `$${nextPayout.toLocaleString()}`;
+        }
+
+        // Revenue goal update
+        function updateRevenueGoal(value) {
+            console.log(`Updated revenue goal to $${value}`);
+            showAutoSave();
+        }
+
+        // Toggle settings
+        function toggleSetting(toggle, setting) {
+            toggle.classList.toggle('active');
+            console.log(`Toggled ${setting}:`, toggle.classList.contains('active'));
+            showAutoSave();
+        }
+
+        // Auto-save functionality
+        function autoSave(field) {
+            console.log(`Auto-saving ${field}`);
+            showAutoSave();
+        }
+
+        function showAutoSave() {
+            const autoSaveDiv = document.getElementById('autoSave');
+            autoSaveDiv.classList.add('show');
+            
+            setTimeout(() => {
+                autoSaveDiv.classList.remove('show');
+            }, 2000);
+        }
+
+        // Profile actions
+        function previewProfile() {
+            alert('This would open a modal showing how your public creator profile appears to students and other users.');
+        }
+
+        function shareProfile() {
+            const profileUrl = 'https://teachcreate.io/creators/sarah-chen';
+            navigator.clipboard.writeText(profileUrl).then(() => {
+                alert('Profile link copied to clipboard!\n\n' + profileUrl);
+            }).catch(() => {
+                alert('Profile link: ' + profileUrl);
+            });
+        }
+
+        // Save all settings
+        function saveAllSettings() {
+            const button = event.target;
+            const originalText = button.innerHTML;
+            
+            button.innerHTML = '<span>💾</span> Saving All Settings...';
+            button.disabled = true;
+            button.style.background = '#F59E0B';
+            
+            // Simulate save process
+            setTimeout(() => {
+                button.innerHTML = '<span>✅</span> All Settings Saved!';
+                button.style.background = '#10B981';
+                
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                    button.style.background = '#F59E0B';
+                }, 2000);
+            }, 2000);
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add entrance animations
+            const cards = document.querySelectorAll('.settings-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 150);
+            });
+
+            // Initialize revenue calculator
+            updateRevenueCalculator();
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96c5663660754f2a',t:'MTc1NDcyMzA2NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
