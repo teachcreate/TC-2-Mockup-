@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit New Project - TeachCreate.io</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #F9FAFB;
+            color: #111827;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: #4F46E5;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav a {
+            color: #6B7280;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .nav a:hover {
+            background: #F3F4F6;
+            color: #4F46E5;
+            transform: translateY(-1px);
+        }
+
+        .nav a.active {
+            color: #4F46E5;
+            background: #EEF2FF;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .cart-icon {
+            position: relative;
+            background: #4F46E5;
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+        }
+
+        .cart-icon:hover {
+            background: #3730A3;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #EF4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .user-dropdown {
+            position: relative;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4F46E5, #F59E0B);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            padding: 0.5rem;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            z-index: 1000;
+        }
+
+        .dropdown-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #374151;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .dropdown-item:hover {
+            background: #F3F4F6;
+            color: #4F46E5;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        /* Page Header */
+        .page-header {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: #6B7280;
+            font-size: 1.125rem;
+        }
+
+        /* Creator Links */
+        .creator-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .creator-link {
+            background: white;
+            color: #4F46E5;
+            border: 2px solid #4F46E5;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .creator-link:hover {
+            background: #4F46E5;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        /* Form Container */
+        .form-container {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 1.25rem;
+            color: #111827;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #374151;
+        }
+
+        .required {
+            color: #EF4444;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #4F46E5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .title-input {
+            font-size: 1.25rem;
+            font-weight: 600;
+            padding: 1rem 1.25rem;
+        }
+
+        .price-container {
+            display: flex;
+            gap: 1rem;
+            align-items: end;
+        }
+
+        .price-type {
+            flex: 1;
+        }
+
+        .price-input {
+            flex: 2;
+        }
+
+        .price-input input {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .price-input.disabled input {
+            background: #F3F4F6;
+            color: #9CA3AF;
+        }
+
+        /* Tags and Categories */
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .tag-pill {
+            background: #EEF2FF;
+            color: #4F46E5;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+
+        .tag-pill:hover {
+            background: #4F46E5;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .tag-pill.selected {
+            background: #4F46E5;
+            color: white;
+            border-color: #3730A3;
+        }
+
+        .custom-tag-input {
+            background: #F9FAFB;
+            border: 2px dashed #D1D5DB;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .custom-tag-input:focus {
+            border-color: #4F46E5;
+            background: white;
+        }
+
+        /* Upload Areas */
+        .upload-area {
+            border: 2px dashed #D1D5DB;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            background: #FAFBFC;
+        }
+
+        .upload-area:hover {
+            border-color: #4F46E5;
+            background: #F8FAFF;
+        }
+
+        .upload-area.dragover {
+            border-color: #4F46E5;
+            background: #EEF2FF;
+        }
+
+        .upload-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #9CA3AF;
+        }
+
+        .upload-text {
+            color: #6B7280;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-hint {
+            color: #9CA3AF;
+            font-size: 0.875rem;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .uploaded-file {
+            background: #ECFDF5;
+            border: 2px solid #10B981;
+            border-radius: 12px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .file-info {
+            flex: 1;
+        }
+
+        .file-name {
+            font-weight: 600;
+            color: #065F46;
+        }
+
+        .file-size {
+            color: #059669;
+            font-size: 0.875rem;
+        }
+
+        .remove-file {
+            background: none;
+            border: none;
+            color: #EF4444;
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .remove-file:hover {
+            background: #FEF2F2;
+        }
+
+        /* Tool Type Selector */
+        .tool-types {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .tool-type {
+            background: white;
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tool-type:hover {
+            border-color: #4F46E5;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.1);
+        }
+
+        .tool-type.selected {
+            border-color: #4F46E5;
+            background: #EEF2FF;
+        }
+
+        .tool-type-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .tool-type-name {
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.25rem;
+        }
+
+        .tool-type-desc {
+            color: #6B7280;
+            font-size: 0.875rem;
+        }
+
+        /* Rich Text Editor */
+        .editor-container {
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .editor-container:focus-within {
+            border-color: #4F46E5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .editor-toolbar {
+            background: #F9FAFB;
+            padding: 0.75rem;
+            border-bottom: 1px solid #E5E7EB;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .editor-btn {
+            background: none;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #6B7280;
+        }
+
+        .editor-btn:hover {
+            background: #E5E7EB;
+            color: #111827;
+        }
+
+        .editor-btn.active {
+            background: #4F46E5;
+            color: white;
+        }
+
+        .editor-content {
+            min-height: 200px;
+            padding: 1rem;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+        }
+
+        /* Action Buttons */
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #E5E7EB;
+        }
+
+        .btn {
+            padding: 0.75rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #6B7280;
+            border: 2px solid #E5E7EB;
+        }
+
+        .btn-secondary:hover {
+            background: #F9FAFB;
+            border-color: #D1D5DB;
+            transform: translateY(-1px);
+        }
+
+        .btn-primary {
+            background: #4F46E5;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #3730A3;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        /* Side Panel */
+        .side-panel {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            height: fit-content;
+            position: sticky;
+            top: 120px;
+        }
+
+        .tips-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: #111827;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tip-item {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #F0FDF4;
+            border-radius: 12px;
+            border-left: 4px solid #10B981;
+        }
+
+        .tip-title {
+            font-weight: 600;
+            color: #065F46;
+            margin-bottom: 0.5rem;
+        }
+
+        .tip-text {
+            color: #047857;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        /* Progress Indicator */
+        .progress-indicator {
+            background: #F0FDF4;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-title {
+            font-weight: 600;
+            color: #065F46;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-bar {
+            background: #D1FAE5;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: #10B981;
+            height: 100%;
+            width: 45%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            color: #047857;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .side-panel {
+                position: static;
+            }
+
+            .tool-types {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 0 1rem;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .main-container {
+                padding: 1rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .creator-links {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .price-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-in {
+            animation: slideIn 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">TeachCreate.io</a>
+            <nav class="nav">
+                <a href="#">Explore</a>
+                <a href="#">My Toolkit</a>
+                <a href="#" class="active">Creator Portal</a>
+            </nav>
+            <div class="header-right">
+                <button class="cart-icon">
+                    🛒
+                    <span class="cart-badge">3</span>
+                </button>
+                <div class="user-dropdown">
+                    <div class="user-avatar" onclick="toggleDropdown()">SC</div>
+                    <div class="dropdown-menu" id="userDropdown">
+                        <a href="#" class="dropdown-item">Profile Settings</a>
+                        <a href="#" class="dropdown-item">Account Settings</a>
+                        <a href="#" class="dropdown-item">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">Submit New Project</h1>
+            <p class="page-subtitle">Share your amazing educational tool with teachers worldwide</p>
+            <div class="creator-links">
+                <a href="#" class="creator-link">
+                    <span>🏪</span>
+                    View My Creator Shop
+                </a>
+                <a href="#" class="creator-link">
+                    <span>💰</span>
+                    Manage Payouts
+                </a>
+            </div>
+        </div>
+
+        <!-- Form Container -->
+        <div class="form-container">
+            <form id="projectForm">
+                <!-- Project Title -->
+                <div class="form-section">
+                    <h2 class="section-title">
+                        <span>📝</span>
+                        Project Details
+                    </h2>
+                    <div class="form-group">
+                        <label class="form-label">Project Title <span class="required">*</span></label>
+                        <input type="text" class="form-input title-input" placeholder="Enter your project title..." required>
+                    </div>
+                </div>
+
+                <!-- Pricing -->
+                <div class="form-section">
+                    <h2 class="section-title">
+                        <span>💰</span>
+                        Pricing
+                    </h2>
+                    <div class="price-container">
+                        <div class="price-type">
+                            <label class="form-label">Price Type <span class="required">*</span></label>
+                            <select class="form-input" id="priceType" onchange="togglePriceInput()" required>
+                                <option value="">Select pricing...</option>
+                                <option value="free">Free</option>
+                                <option value="paid">Paid</option>
+                            </select>
+                        </div>
+                        <div class="price-input disabled" id="priceInputContainer">
+                            <label class="form-label">Price (USD)</label>
+                            <input type="number" class="form-input" placeholder="0.00" step="0.01" min="0" disabled id="priceInput">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Categories and Tags -->
+                <div class="form-section">
+                    <h2 class="section-title">
+                        <span>🏷️</span>
+                        Categories & Tags
+                    </h2>
+                    <div class="form-group">
+                        <label class="form-label">Categories <span class="required">*</span></label>
+                        <div class="tags-container">
+                            <div class="tag-pill" onclick="toggleTag(this)">Mathematics</div>
+                            <div class="tag-pill" onclick="toggleTag(this)">Science</div>
+                            <div class="tag-pill" onclick="toggleTag(this)">Language Arts</div>
+                            <div class="tag-pill" onclick="toggleTag(this)">Social Studies</div>
+                            <div class="tag-pill" onclick="toggleTag(this)">Art & Music</div>
+                            <div class="tag-pill" onclick="toggleTag(this)">Physical Education</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tags</label>
+                        <div class="tags-container">
+                            <div class="tag-pill" onclick="toggleTag(this)">Elementary</div>
+                            <div class="tag-pill" onclick="toggleTag(this)">Middle School</div>
+                            <div class="tag-pill" onclick="toggleTag(this)">High School</div>
+                            <div class="tag-pill" onclick="toggleTag(this)">Interactive</div>
+                            <div class="tag-pill" onclick="toggleTag(this)">Gamified</div>
+                            <div class="tag-pill" onclick="toggleTag(this)">Assessment</div>
+                            <input type="text" class="custom-tag-input" placeholder="Add custom tag..." onkeypress="addCustomTag(event)">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tool Type -->
+                <div class="form-section">
+                    <h2 class="section-title">
+                        <span>🛠️</span>
+                        Tool Type
+                    </h2>
+                    <div class="tool-types">
+                        <div class="tool-type" onclick="selectToolType(this)">
+                            <div class="tool-type-icon">🎮</div>
+                            <div class="tool-type-name">Interactive Tool</div>
+                            <div class="tool-type-desc">Games, simulations, calculators</div>
+                        </div>
+                        <div class="tool-type" onclick="selectToolType(this)">
+                            <div class="tool-type-icon">🎯</div>
+                            <div class="tool-type-name">Educational Game</div>
+                            <div class="tool-type-desc">Fun learning experiences</div>
+                        </div>
+                        <div class="tool-type" onclick="selectToolType(this)">
+                            <div class="tool-type-icon">📚</div>
+                            <div class="tool-type-name">Learning Resource</div>
+                            <div class="tool-type-desc">Worksheets, templates, guides</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- File Uploads -->
+                <div class="form-section">
+                    <h2 class="section-title">
+                        <span>📁</span>
+                        Files & Media
+                    </h2>
+                    <div class="form-group">
+                        <label class="form-label">Thumbnail Image <span class="required">*</span></label>
+                        <div class="upload-area" onclick="triggerFileInput('thumbnail')" ondrop="handleDrop(event, 'thumbnail')" ondragover="handleDragOver(event)">
+                            <div class="upload-icon">🖼️</div>
+                            <div class="upload-text">Click to upload or drag and drop</div>
+                            <div class="upload-hint">PNG, JPG up to 5MB (recommended: 400x300px)</div>
+                        </div>
+                        <input type="file" class="file-input" id="thumbnailInput" accept="image/*" onchange="handleFileSelect(event, 'thumbnail')">
+                        <div id="thumbnailPreview"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Project Files <span class="required">*</span></label>
+                        <div class="upload-area" onclick="triggerFileInput('project')" ondrop="handleDrop(event, 'project')" ondragover="handleDragOver(event)">
+                            <div class="upload-icon">📦</div>
+                            <div class="upload-text">Upload your project files</div>
+                            <div class="upload-hint">ZIP, HTML, or individual files up to 50MB</div>
+                        </div>
+                        <input type="file" class="file-input" id="projectInput" multiple onchange="handleFileSelect(event, 'project')">
+                        <div id="projectPreview"></div>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="form-section">
+                    <h2 class="section-title">
+                        <span>📄</span>
+                        Description
+                    </h2>
+                    <div class="form-group">
+                        <label class="form-label">Project Description <span class="required">*</span></label>
+                        <div class="editor-container">
+                            <div class="editor-toolbar">
+                                <button type="button" class="editor-btn" onclick="formatText('bold')" title="Bold"><strong>B</strong></button>
+                                <button type="button" class="editor-btn" onclick="formatText('italic')" title="Italic"><em>I</em></button>
+                                <button type="button" class="editor-btn" onclick="formatText('underline')" title="Underline"><u>U</u></button>
+                                <button type="button" class="editor-btn" onclick="formatText('insertUnorderedList')" title="Bullet List">• List</button>
+                                <button type="button" class="editor-btn" onclick="formatText('insertOrderedList')" title="Numbered List">1. List</button>
+                            </div>
+                            <div class="editor-content" contenteditable="true" placeholder="Describe your project, its educational value, and how teachers can use it in their classrooms..."></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="saveDraft()">
+                        <span>💾</span>
+                        Save Draft
+                    </button>
+                    <button type="submit" class="btn btn-primary" onclick="publishProject(event)">
+                        <span>🚀</span>
+                        Publish Project
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Side Panel -->
+        <div class="side-panel">
+            <div class="progress-indicator">
+                <div class="progress-title">Submission Progress</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text" id="progressText">3 of 7 sections completed</div>
+            </div>
+
+            <h3 class="tips-title">
+                <span>💡</span>
+                Submission Tips
+            </h3>
+
+            <div class="tip-item">
+                <div class="tip-title">Create an Eye-Catching Title</div>
+                <div class="tip-text">Use clear, descriptive titles that tell teachers exactly what your tool does. Include the subject and grade level when relevant.</div>
+            </div>
+
+            <div class="tip-item">
+                <div class="tip-title">High-Quality Thumbnails</div>
+                <div class="tip-text">Upload bright, clear images that showcase your tool in action. Screenshots of the interface work great!</div>
+            </div>
+
+            <div class="tip-item">
+                <div class="tip-title">Detailed Descriptions</div>
+                <div class="tip-text">Explain the educational value, learning objectives, and provide clear instructions for teachers.</div>
+            </div>
+
+            <div class="tip-item">
+                <div class="tip-title">Test Your Files</div>
+                <div class="tip-text">Make sure all files work properly and include any necessary instructions or dependencies.</div>
+            </div>
+
+            <div class="tip-item">
+                <div class="tip-title">Fair Pricing</div>
+                <div class="tip-text">Research similar tools to price competitively. Consider offering a free version to build your reputation.</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // User dropdown functionality
+        function toggleDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.user-dropdown')) {
+                document.getElementById('userDropdown').classList.remove('active');
+            }
+        });
+
+        // Price type toggle
+        function togglePriceInput() {
+            const priceType = document.getElementById('priceType').value;
+            const priceContainer = document.getElementById('priceInputContainer');
+            const priceInput = document.getElementById('priceInput');
+
+            if (priceType === 'paid') {
+                priceContainer.classList.remove('disabled');
+                priceInput.disabled = false;
+                priceInput.required = true;
+            } else {
+                priceContainer.classList.add('disabled');
+                priceInput.disabled = true;
+                priceInput.required = false;
+                priceInput.value = '';
+            }
+            updateProgress();
+        }
+
+        // Tag selection
+        function toggleTag(element) {
+            element.classList.toggle('selected');
+            updateProgress();
+        }
+
+        // Add custom tag
+        function addCustomTag(event) {
+            if (event.key === 'Enter' && event.target.value.trim()) {
+                const tagText = event.target.value.trim();
+                const newTag = document.createElement('div');
+                newTag.className = 'tag-pill selected';
+                newTag.textContent = tagText;
+                newTag.onclick = () => toggleTag(newTag);
+                
+                event.target.parentNode.insertBefore(newTag, event.target);
+                event.target.value = '';
+                updateProgress();
+            }
+        }
+
+        // Tool type selection
+        function selectToolType(element) {
+            document.querySelectorAll('.tool-type').forEach(type => {
+                type.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            updateProgress();
+        }
+
+        // File upload handling
+        function triggerFileInput(type) {
+            document.getElementById(type + 'Input').click();
+        }
+
+        function handleDragOver(event) {
+            event.preventDefault();
+            event.currentTarget.classList.add('dragover');
+        }
+
+        function handleDrop(event, type) {
+            event.preventDefault();
+            event.currentTarget.classList.remove('dragover');
+            const files = event.dataTransfer.files;
+            handleFiles(files, type);
+        }
+
+        function handleFileSelect(event, type) {
+            const files = event.target.files;
+            handleFiles(files, type);
+        }
+
+        function handleFiles(files, type) {
+            const previewContainer = document.getElementById(type + 'Preview');
+            previewContainer.innerHTML = '';
+
+            Array.from(files).forEach(file => {
+                const fileDiv = document.createElement('div');
+                fileDiv.className = 'uploaded-file slide-in';
+                fileDiv.innerHTML = `
+                    <div class="file-info">
+                        <div class="file-name">${file.name}</div>
+                        <div class="file-size">${(file.size / 1024 / 1024).toFixed(2)} MB</div>
+                    </div>
+                    <button type="button" class="remove-file" onclick="removeFile(this)">🗑️</button>
+                `;
+                previewContainer.appendChild(fileDiv);
+            });
+            updateProgress();
+        }
+
+        function removeFile(button) {
+            button.parentElement.remove();
+            updateProgress();
+        }
+
+        // Rich text editor
+        function formatText(command) {
+            document.execCommand(command, false, null);
+            document.querySelector('.editor-content').focus();
+        }
+
+        // Progress tracking
+        function updateProgress() {
+            const form = document.getElementById('projectForm');
+            const requiredFields = form.querySelectorAll('[required]');
+            const selectedTags = document.querySelectorAll('.tag-pill.selected');
+            const selectedToolType = document.querySelector('.tool-type.selected');
+            const uploadedFiles = document.querySelectorAll('.uploaded-file');
+            const editorContent = document.querySelector('.editor-content').textContent.trim();
+
+            let completed = 0;
+            const total = 7;
+
+            // Check title
+            if (form.querySelector('.title-input').value.trim()) completed++;
+            
+            // Check pricing
+            const priceType = document.getElementById('priceType').value;
+            if (priceType === 'free' || (priceType === 'paid' && document.getElementById('priceInput').value)) {
+                completed++;
+            }
+
+            // Check categories
+            if (selectedTags.length > 0) completed++;
+
+            // Check tool type
+            if (selectedToolType) completed++;
+
+            // Check thumbnail
+            if (document.getElementById('thumbnailPreview').children.length > 0) completed++;
+
+            // Check project files
+            if (document.getElementById('projectPreview').children.length > 0) completed++;
+
+            // Check description
+            if (editorContent.length > 50) completed++;
+
+            const percentage = (completed / total) * 100;
+            document.getElementById('progressFill').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = `${completed} of ${total} sections completed`;
+        }
+
+        // Form actions
+        function saveDraft() {
+            const button = event.target;
+            const originalText = button.innerHTML;
+            button.innerHTML = '<span>💾</span> Saving...';
+            button.disabled = true;
+
+            setTimeout(() => {
+                button.innerHTML = '<span>✅</span> Draft Saved!';
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                }, 1500);
+            }, 1000);
+        }
+
+        function publishProject(event) {
+            event.preventDefault();
+            
+            const button = event.target;
+            const originalText = button.innerHTML;
+            button.innerHTML = '<span>🚀</span> Publishing...';
+            button.disabled = true;
+
+            // Simulate validation and publishing
+            setTimeout(() => {
+                button.innerHTML = '<span>✅</span> Published Successfully!';
+                
+                setTimeout(() => {
+                    alert('🎉 Congratulations! Your project has been published and is now available in the TeachCreate.io marketplace. Teachers can start discovering and using your amazing tool!');
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                }, 2000);
+            }, 2000);
+        }
+
+        // Initialize progress on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateProgress();
+            
+            // Add input listeners for real-time progress updates
+            document.querySelector('.title-input').addEventListener('input', updateProgress);
+            document.querySelector('.editor-content').addEventListener('input', updateProgress);
+            
+            // Add placeholder behavior for editor
+            const editor = document.querySelector('.editor-content');
+            editor.addEventListener('focus', function() {
+                if (this.textContent.trim() === '') {
+                    this.innerHTML = '';
+                }
+            });
+            
+            editor.addEventListener('blur', function() {
+                if (this.textContent.trim() === '') {
+                    this.innerHTML = '<span style="color: #9CA3AF;">Describe your project, its educational value, and how teachers can use it in their classrooms...</span>';
+                }
+            });
+            
+            // Initialize placeholder
+            editor.innerHTML = '<span style="color: #9CA3AF;">Describe your project, its educational value, and how teachers can use it in their classrooms...</span>';
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96c553fb51b4da87',t:'MTc1NDcyMjMxOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
