@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Settings - TeachCreate.io</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #F9FAFB;
+            color: #111827;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: #4F46E5;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav a {
+            color: #6B7280;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .nav a:hover {
+            background: #F3F4F6;
+            color: #4F46E5;
+            transform: translateY(-1px);
+        }
+
+        .nav a.active {
+            color: #4F46E5;
+            background: #EEF2FF;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .creator-links {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .creator-link {
+            background: #F59E0B;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .creator-link:hover {
+            background: #D97706;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+
+        .cart-icon {
+            position: relative;
+            background: #4F46E5;
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+        }
+
+        .cart-icon:hover {
+            background: #3730A3;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #EF4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .user-dropdown {
+            position: relative;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4F46E5, #F59E0B);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            padding: 0.5rem;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            z-index: 1000;
+        }
+
+        .dropdown-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #374151;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .dropdown-item:hover {
+            background: #F3F4F6;
+            color: #4F46E5;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: #6B7280;
+            font-size: 1.125rem;
+        }
+
+        /* Content Layout */
+        .content-layout {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        /* Profile Form */
+        .profile-form {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .form-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 1.25rem;
+            color: #111827;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Avatar Upload */
+        .avatar-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .avatar-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+        }
+
+        .avatar-preview {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4F46E5, #F59E0B);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            overflow: hidden;
+            border: 4px solid white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .avatar-preview:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .avatar-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .avatar-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .avatar-container:hover .avatar-overlay {
+            opacity: 1;
+        }
+
+        .upload-text {
+            color: #6B7280;
+            font-size: 0.875rem;
+            text-align: center;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        /* Form Groups */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #374151;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #4F46E5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .char-counter {
+            text-align: right;
+            font-size: 0.875rem;
+            color: #6B7280;
+            margin-top: 0.25rem;
+        }
+
+        .char-counter.warning {
+            color: #F59E0B;
+        }
+
+        .char-counter.error {
+            color: #EF4444;
+        }
+
+        /* Social Media Fields */
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .social-field {
+            position: relative;
+        }
+
+        .social-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.25rem;
+        }
+
+        .social-input {
+            padding-left: 3rem;
+        }
+
+        /* Featured Creations */
+        .featured-creations {
+            margin-top: 2rem;
+        }
+
+        .creations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .creation-card {
+            background: white;
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            padding: 1rem;
+            cursor: grab;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .creation-card:hover {
+            border-color: #4F46E5;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.1);
+        }
+
+        .creation-card.dragging {
+            opacity: 0.5;
+            transform: rotate(5deg);
+        }
+
+        .creation-thumbnail {
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(135deg, #A855F7, #3B82F6);
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+        }
+
+        .creation-title {
+            font-weight: 600;
+            color: #111827;
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .creation-stats {
+            color: #6B7280;
+            font-size: 0.75rem;
+        }
+
+        .remove-creation {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: #EF4444;
+            color: white;
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0.75rem;
+            opacity: 0;
+            transition: all 0.2s ease;
+        }
+
+        .creation-card:hover .remove-creation {
+            opacity: 1;
+        }
+
+        .add-creation {
+            border: 2px dashed #D1D5DB;
+            background: #F9FAFB;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 140px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .add-creation:hover {
+            border-color: #4F46E5;
+            background: #F0F9FF;
+        }
+
+        .add-icon {
+            font-size: 2rem;
+            color: #9CA3AF;
+            margin-bottom: 0.5rem;
+        }
+
+        .add-text {
+            color: #6B7280;
+            font-size: 0.875rem;
+            text-align: center;
+        }
+
+        /* Side Panel */
+        .side-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .panel-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .panel-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 1.125rem;
+            color: #111827;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: #F9FAFB;
+            border-radius: 12px;
+        }
+
+        .stat-number {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #4F46E5;
+        }
+
+        .stat-label {
+            color: #6B7280;
+            font-size: 0.875rem;
+        }
+
+        /* Preview Toggle */
+        .preview-toggle {
+            background: #4F46E5;
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .preview-toggle:hover {
+            background: #3730A3;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        /* Save Button */
+        .save-button {
+            background: #10B981;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+        }
+
+        .save-button:hover {
+            background: #059669;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Preview Mode */
+        .preview-mode {
+            display: none;
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .preview-mode.active {
+            display: block;
+        }
+
+        .preview-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .preview-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4F46E5, #F59E0B);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .preview-info h2 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 0.25rem;
+        }
+
+        .preview-bio {
+            color: #6B7280;
+            margin-bottom: 1rem;
+        }
+
+        .preview-social {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .social-link {
+            padding: 0.5rem;
+            background: #F3F4F6;
+            border-radius: 8px;
+            color: #6B7280;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .social-link:hover {
+            background: #4F46E5;
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .content-layout {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .social-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .creations-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 0 1rem;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .creator-links {
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+
+            .creator-link {
+                font-size: 0.75rem;
+                padding: 0.375rem 0.75rem;
+            }
+
+            .main-container {
+                padding: 1rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .creations-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-in {
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">TeachCreate.io</a>
+            <nav class="nav">
+                <a href="#">Explore</a>
+                <a href="#">My Toolkit</a>
+                <a href="#" class="active">Creator Portal</a>
+            </nav>
+            <div class="header-right">
+                <div class="creator-links">
+                    <a href="#" class="creator-link">
+                        <span>🏪</span>
+                        Edit Creator Shop
+                    </a>
+                    <a href="#" class="creator-link">
+                        <span>💰</span>
+                        Manage Payouts & Metrics
+                    </a>
+                </div>
+                <button class="cart-icon">
+                    🛒
+                    <span class="cart-badge">3</span>
+                </button>
+                <div class="user-dropdown">
+                    <div class="user-avatar" onclick="toggleDropdown()">SC</div>
+                    <div class="dropdown-menu" id="userDropdown">
+                        <a href="#" class="dropdown-item">Profile Settings</a>
+                        <a href="#" class="dropdown-item">Account Settings</a>
+                        <a href="#" class="dropdown-item">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">Profile Settings</h1>
+            <p class="page-subtitle">Customize your creator profile and showcase your best work</p>
+        </div>
+
+        <!-- Content Layout -->
+        <div class="content-layout">
+            <!-- Profile Form -->
+            <div class="profile-form" id="profileForm">
+                <!-- Avatar Upload -->
+                <div class="form-section">
+                    <h2 class="section-title">
+                        <span>👤</span>
+                        Profile Picture
+                    </h2>
+                    <div class="avatar-upload">
+                        <div class="avatar-container">
+                            <div class="avatar-preview" id="avatarPreview" onclick="triggerFileInput()">
+                                SC
+                            </div>
+                            <div class="avatar-overlay" onclick="triggerFileInput()">
+                                <span style="color: white; font-size: 1.5rem;">📷</span>
+                            </div>
+                        </div>
+                        <div class="upload-text">
+                            Click to upload a new profile picture<br>
+                            <small>Recommended: 400x400px, max 5MB</small>
+                        </div>
+                        <input type="file" class="file-input" id="avatarInput" accept="image/*" onchange="handleAvatarUpload(event)">
+                    </div>
+                </div>
+
+                <!-- Basic Info -->
+                <div class="form-section">
+                    <h2 class="section-title">
+                        <span>📝</span>
+                        Basic Information
+                    </h2>
+                    <div class="form-group">
+                        <label class="form-label">Store Name</label>
+                        <input type="text" class="form-input" id="storeName" placeholder="Sarah's Teaching Corner" value="Sarah's Teaching Corner" oninput="updatePreview()">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Bio</label>
+                        <textarea class="form-input form-textarea" id="bio" placeholder="Tell teachers about yourself and your teaching philosophy..." oninput="updateBioCounter(); updatePreview()">Elementary teacher with 8+ years of experience creating engaging math and science tools. Passionate about making learning fun and accessible for all students!</textarea>
+                        <div class="char-counter" id="bioCounter">142/500 characters</div>
+                    </div>
+                </div>
+
+                <!-- Social Media -->
+                <div class="form-section">
+                    <h2 class="section-title">
+                        <span>🌐</span>
+                        Social Media & Website
+                    </h2>
+                    <div class="social-grid">
+                        <div class="form-group">
+                            <label class="form-label">Personal Website</label>
+                            <div class="social-field">
+                                <span class="social-icon">🌐</span>
+                                <input type="url" class="form-input social-input" placeholder="https://yourwebsite.com" oninput="updatePreview()">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Twitter</label>
+                            <div class="social-field">
+                                <span class="social-icon">🐦</span>
+                                <input type="text" class="form-input social-input" placeholder="@username" oninput="updatePreview()">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Instagram</label>
+                            <div class="social-field">
+                                <span class="social-icon">📷</span>
+                                <input type="text" class="form-input social-input" placeholder="@username" oninput="updatePreview()">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">LinkedIn</label>
+                            <div class="social-field">
+                                <span class="social-icon">💼</span>
+                                <input type="text" class="form-input social-input" placeholder="linkedin.com/in/username" oninput="updatePreview()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Featured Creations -->
+                <div class="form-section">
+                    <h2 class="section-title">
+                        <span>⭐</span>
+                        Featured Creations
+                        <small style="font-weight: 400; color: #6B7280; font-size: 0.875rem;">(Drag to reorder, max 5)</small>
+                    </h2>
+                    <div class="creations-grid" id="creationsGrid">
+                        <div class="creation-card" draggable="true" ondragstart="handleDragStart(event)" ondragover="handleDragOver(event)" ondrop="handleDrop(event)">
+                            <button class="remove-creation" onclick="removeCreation(this)">×</button>
+                            <div class="creation-thumbnail" style="background: linear-gradient(135deg, #FF6B6B, #4ECDC4);"></div>
+                            <div class="creation-title">Interactive Multiplication Garden</div>
+                            <div class="creation-stats">1,234 downloads • $12.00</div>
+                        </div>
+                        
+                        <div class="creation-card" draggable="true" ondragstart="handleDragStart(event)" ondragover="handleDragOver(event)" ondrop="handleDrop(event)">
+                            <button class="remove-creation" onclick="removeCreation(this)">×</button>
+                            <div class="creation-thumbnail" style="background: linear-gradient(135deg, #A8E6CF, #FFD93D);"></div>
+                            <div class="creation-title">Science Lab Safety Simulator</div>
+                            <div class="creation-stats">856 downloads • $15.00</div>
+                        </div>
+                        
+                        <div class="creation-card" draggable="true" ondragstart="handleDragStart(event)" ondragover="handleDragOver(event)" ondrop="handleDrop(event)">
+                            <button class="remove-creation" onclick="removeCreation(this)">×</button>
+                            <div class="creation-thumbnail" style="background: linear-gradient(135deg, #FFB6C1, #87CEEB);"></div>
+                            <div class="creation-title">Fraction Pizza Party</div>
+                            <div class="creation-stats">2,103 downloads • $10.00</div>
+                        </div>
+                        
+                        <div class="add-creation" onclick="addCreation()">
+                            <div class="add-icon">+</div>
+                            <div class="add-text">Add Featured Creation</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Save Button -->
+                <button class="save-button" onclick="saveProfile()">
+                    <span>💾</span>
+                    Save Changes
+                </button>
+            </div>
+
+            <!-- Preview Mode (Hidden by default) -->
+            <div class="preview-mode" id="previewMode">
+                <div class="preview-header">
+                    <div class="preview-avatar" id="previewAvatar">SC</div>
+                    <div class="preview-info">
+                        <h2 id="previewName">Sarah's Teaching Corner</h2>
+                        <div class="preview-bio" id="previewBio">Elementary teacher with 8+ years of experience creating engaging math and science tools. Passionate about making learning fun and accessible for all students!</div>
+                        <div class="preview-social" id="previewSocial">
+                            <!-- Social links will be populated here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="featured-creations">
+                    <h3 style="font-family: 'Poppins', sans-serif; font-weight: 600; margin-bottom: 1rem;">Featured Creations</h3>
+                    <div class="creations-grid" id="previewCreations">
+                        <!-- Featured creations will be mirrored here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Side Panel -->
+            <div class="side-panel">
+                <!-- Stats -->
+                <div class="panel-card">
+                    <h3 class="panel-title">
+                        <span>📊</span>
+                        Your Stats
+                    </h3>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-number">1,247</div>
+                            <div class="stat-label">Followers</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">89</div>
+                            <div class="stat-label">Following</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preview Toggle -->
+                <div class="panel-card">
+                    <h3 class="panel-title">
+                        <span>👁️</span>
+                        Preview
+                    </h3>
+                    <button class="preview-toggle" onclick="togglePreview()">
+                        <span>👀</span>
+                        <span id="previewButtonText">View Customer Preview</span>
+                    </button>
+                </div>
+
+                <!-- Tips -->
+                <div class="panel-card">
+                    <h3 class="panel-title">
+                        <span>💡</span>
+                        Profile Tips
+                    </h3>
+                    <div style="color: #6B7280; font-size: 0.875rem; line-height: 1.6;">
+                        <p style="margin-bottom: 1rem;"><strong>Professional Photo:</strong> Use a clear, friendly headshot or your teaching logo.</p>
+                        <p style="margin-bottom: 1rem;"><strong>Compelling Bio:</strong> Highlight your teaching experience and specialties.</p>
+                        <p><strong>Featured Creations:</strong> Showcase your most popular and highest-quality tools first.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isPreviewMode = false;
+        let draggedElement = null;
+
+        // User dropdown functionality
+        function toggleDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.user-dropdown')) {
+                document.getElementById('userDropdown').classList.remove('active');
+            }
+        });
+
+        // Avatar upload
+        function triggerFileInput() {
+            document.getElementById('avatarInput').click();
+        }
+
+        function handleAvatarUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const avatarPreview = document.getElementById('avatarPreview');
+                    avatarPreview.innerHTML = `<img src="${e.target.result}" alt="Avatar">`;
+                    
+                    const previewAvatar = document.getElementById('previewAvatar');
+                    previewAvatar.innerHTML = `<img src="${e.target.result}" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Bio character counter
+        function updateBioCounter() {
+            const bio = document.getElementById('bio');
+            const counter = document.getElementById('bioCounter');
+            const length = bio.value.length;
+            const maxLength = 500;
+            
+            counter.textContent = `${length}/${maxLength} characters`;
+            
+            if (length > maxLength * 0.9) {
+                counter.className = 'char-counter error';
+            } else if (length > maxLength * 0.8) {
+                counter.className = 'char-counter warning';
+            } else {
+                counter.className = 'char-counter';
+            }
+        }
+
+        // Drag and drop for featured creations
+        function handleDragStart(event) {
+            draggedElement = event.target;
+            event.target.classList.add('dragging');
+        }
+
+        function handleDragOver(event) {
+            event.preventDefault();
+        }
+
+        function handleDrop(event) {
+            event.preventDefault();
+            
+            if (draggedElement && event.target.classList.contains('creation-card')) {
+                const container = event.target.parentNode;
+                const afterElement = getDragAfterElement(container, event.clientY);
+                
+                if (afterElement == null) {
+                    container.appendChild(draggedElement);
+                } else {
+                    container.insertBefore(draggedElement, afterElement);
+                }
+            }
+            
+            if (draggedElement) {
+                draggedElement.classList.remove('dragging');
+                draggedElement = null;
+            }
+        }
+
+        function getDragAfterElement(container, y) {
+            const draggableElements = [...container.querySelectorAll('.creation-card:not(.dragging)')];
+            
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = y - box.top - box.height / 2;
+                
+                if (offset < 0 && offset > closest.offset) {
+                    return { offset: offset, element: child };
+                } else {
+                    return closest;
+                }
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+
+        // Remove creation
+        function removeCreation(button) {
+            if (confirm('Remove this creation from your featured list?')) {
+                button.parentElement.remove();
+                updatePreview();
+            }
+        }
+
+        // Add creation
+        function addCreation() {
+            const grid = document.getElementById('creationsGrid');
+            const creationCards = grid.querySelectorAll('.creation-card');
+            
+            if (creationCards.length >= 5) {
+                alert('You can only feature up to 5 creations.');
+                return;
+            }
+            
+            // This would normally open a modal to select from user's creations
+            alert('This would open a modal to select from your published creations.');
+        }
+
+        // Preview toggle
+        function togglePreview() {
+            isPreviewMode = !isPreviewMode;
+            const profileForm = document.getElementById('profileForm');
+            const previewMode = document.getElementById('previewMode');
+            const buttonText = document.getElementById('previewButtonText');
+            
+            if (isPreviewMode) {
+                profileForm.style.display = 'none';
+                previewMode.classList.add('active');
+                buttonText.textContent = 'Back to Edit Mode';
+                updatePreview();
+            } else {
+                profileForm.style.display = 'block';
+                previewMode.classList.remove('active');
+                buttonText.textContent = 'View Customer Preview';
+            }
+        }
+
+        // Update preview
+        function updatePreview() {
+            if (!isPreviewMode) return;
+            
+            const storeName = document.getElementById('storeName').value || 'Your Store Name';
+            const bio = document.getElementById('bio').value || 'Your bio will appear here...';
+            
+            document.getElementById('previewName').textContent = storeName;
+            document.getElementById('previewBio').textContent = bio;
+            
+            // Update social links
+            const socialContainer = document.getElementById('previewSocial');
+            socialContainer.innerHTML = '';
+            
+            const socialInputs = document.querySelectorAll('.social-input');
+            socialInputs.forEach(input => {
+                if (input.value.trim()) {
+                    const link = document.createElement('a');
+                    link.href = '#';
+                    link.className = 'social-link';
+                    
+                    // Get the icon from the sibling element
+                    const icon = input.parentElement.querySelector('.social-icon').textContent;
+                    link.textContent = icon;
+                    
+                    socialContainer.appendChild(link);
+                }
+            });
+            
+            // Update featured creations in preview
+            const previewCreations = document.getElementById('previewCreations');
+            const originalCreations = document.querySelectorAll('#creationsGrid .creation-card');
+            
+            previewCreations.innerHTML = '';
+            originalCreations.forEach(card => {
+                const clone = card.cloneNode(true);
+                clone.removeAttribute('draggable');
+                clone.removeAttribute('ondragstart');
+                clone.removeAttribute('ondragover');
+                clone.removeAttribute('ondrop');
+                clone.querySelector('.remove-creation').remove();
+                previewCreations.appendChild(clone);
+            });
+        }
+
+        // Save profile
+        function saveProfile() {
+            const button = event.target;
+            const originalText = button.innerHTML;
+            
+            button.innerHTML = '<span>💾</span> Saving...';
+            button.disabled = true;
+            button.style.background = '#F59E0B';
+            
+            // Simulate save process
+            setTimeout(() => {
+                button.innerHTML = '<span>✅</span> Saved Successfully!';
+                button.style.background = '#10B981';
+                
+                // Add pulse animation to stats
+                document.querySelectorAll('.stat-number').forEach(stat => {
+                    stat.classList.add('pulse');
+                });
+                
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                    button.style.background = '#10B981';
+                    
+                    document.querySelectorAll('.stat-number').forEach(stat => {
+                        stat.classList.remove('pulse');
+                    });
+                }, 2000);
+            }, 1500);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            updateBioCounter();
+            
+            // Add entrance animations
+            const elements = document.querySelectorAll('.form-section, .panel-card');
+            elements.forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    el.style.transition = 'all 0.6s ease';
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96c55a2844556dc5',t:'MTc1NDcyMjU3MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
