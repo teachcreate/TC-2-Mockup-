@@ -1,0 +1,1929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart & Checkout - TeachCreate.io</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #F9FAFB;
+            color: #111827;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: #4F46E5;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav a {
+            color: #6B7280;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .nav a:hover {
+            background: #F3F4F6;
+            color: #4F46E5;
+            transform: translateY(-1px);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .cart-icon {
+            position: relative;
+            background: #4F46E5;
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+        }
+
+        .cart-icon:hover {
+            background: #3730A3;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #EF4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .user-dropdown {
+            position: relative;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4F46E5, #F59E0B);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            padding: 0.5rem;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            z-index: 1000;
+        }
+
+        .dropdown-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #374151;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .dropdown-item:hover {
+            background: #F3F4F6;
+            color: #4F46E5;
+        }
+
+        /* Cart Drawer */
+        .cart-drawer {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            box-shadow: -4px 0 20px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-drawer.active {
+            right: 0;
+        }
+
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .cart-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .cart-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #E5E7EB;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: #111827;
+        }
+
+        .cart-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6B7280;
+            transition: all 0.2s ease;
+        }
+
+        .cart-close:hover {
+            color: #111827;
+            transform: scale(1.1);
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            transition: all 0.2s ease;
+            border: 1px solid #E5E7EB;
+        }
+
+        .cart-item:hover {
+            background: #F9FAFB;
+        }
+
+        .cart-item-image {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #4F46E5, #F59E0B);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.25rem;
+            font-size: 0.875rem;
+        }
+
+        .cart-item-creator {
+            color: #6B7280;
+            font-size: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-item-price {
+            font-weight: 700;
+            color: #4F46E5;
+            font-size: 0.875rem;
+        }
+
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .quantity-btn {
+            width: 24px;
+            height: 24px;
+            border: 1px solid #E5E7EB;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            transition: all 0.2s ease;
+        }
+
+        .quantity-btn:hover {
+            background: #F3F4F6;
+            border-color: #4F46E5;
+        }
+
+        .quantity-display {
+            font-weight: 600;
+            min-width: 20px;
+            text-align: center;
+            font-size: 0.875rem;
+        }
+
+        .remove-btn {
+            background: none;
+            border: none;
+            color: #EF4444;
+            cursor: pointer;
+            font-size: 0.75rem;
+            margin-left: auto;
+            transition: all 0.2s ease;
+        }
+
+        .remove-btn:hover {
+            color: #DC2626;
+            transform: scale(1.1);
+        }
+
+        .cart-footer {
+            padding: 1.5rem;
+            border-top: 1px solid #E5E7EB;
+            background: #F9FAFB;
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .cart-total-label {
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .cart-total-amount {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: #4F46E5;
+        }
+
+        .cart-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            padding: 0.875rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            border: none;
+            font-size: 0.875rem;
+        }
+
+        .btn-primary {
+            background: #4F46E5;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #3730A3;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #4F46E5;
+            border: 2px solid #4F46E5;
+        }
+
+        .btn-secondary:hover {
+            background: #4F46E5;
+            color: white;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Page Views */
+        .page-view {
+            display: none;
+        }
+
+        .page-view.active {
+            display: block;
+        }
+
+        /* Cart Page */
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: #6B7280;
+            font-size: 1.125rem;
+        }
+
+        .cart-content {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+        }
+
+        .cart-main {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .cart-sidebar {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .cart-list-item {
+            display: flex;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .cart-list-item:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-color: #4F46E5;
+        }
+
+        .cart-list-image {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #4F46E5, #F59E0B);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .cart-list-details {
+            flex: 1;
+        }
+
+        .cart-list-name {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.125rem;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-list-creator {
+            color: #6B7280;
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-list-description {
+            color: #6B7280;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .cart-list-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .cart-list-quantity {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .cart-list-price {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: #4F46E5;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #F9FAFB;
+            border-radius: 8px;
+            padding: 0.5rem;
+        }
+
+        .quantity-control button {
+            width: 32px;
+            height: 32px;
+            border: 1px solid #E5E7EB;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .quantity-control button:hover {
+            background: #4F46E5;
+            color: white;
+            border-color: #4F46E5;
+        }
+
+        .quantity-control span {
+            font-weight: 600;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .promo-section {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: #F0FDF4;
+            border: 1px solid #BBF7D0;
+            border-radius: 12px;
+        }
+
+        .promo-input {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .promo-input input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            font-size: 0.875rem;
+        }
+
+        .promo-input input:focus {
+            outline: none;
+            border-color: #4F46E5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .promo-applied {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #059669;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .guarantee-badge {
+            background: #EEF2FF;
+            border: 1px solid #C7D2FE;
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            margin: 1.5rem 0;
+        }
+
+        .guarantee-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .guarantee-text {
+            font-weight: 600;
+            color: #4F46E5;
+            margin-bottom: 0.25rem;
+        }
+
+        .guarantee-subtext {
+            color: #6B7280;
+            font-size: 0.875rem;
+        }
+
+        .order-summary {
+            margin-bottom: 2rem;
+        }
+
+        .summary-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: #111827;
+            margin-bottom: 1rem;
+        }
+
+        .summary-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #F3F4F6;
+        }
+
+        .summary-line:last-child {
+            border-bottom: none;
+            font-weight: 700;
+            font-size: 1.125rem;
+            color: #4F46E5;
+            padding-top: 1rem;
+            border-top: 2px solid #E5E7EB;
+        }
+
+        /* Checkout Page */
+        .checkout-content {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+        }
+
+        .checkout-form {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .form-section-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.125rem;
+            color: #111827;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.875rem;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #4F46E5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .form-input.error {
+            border-color: #EF4444;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+
+        .error-message {
+            color: #EF4444;
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+        }
+
+        .payment-methods {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .payment-method {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid #E5E7EB;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .payment-method:hover {
+            border-color: #4F46E5;
+        }
+
+        .payment-method.active {
+            border-color: #4F46E5;
+            background: #EEF2FF;
+            color: #4F46E5;
+        }
+
+        .security-badges {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: #F9FAFB;
+            border-radius: 8px;
+        }
+
+        .security-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #6B7280;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Confirmation Page */
+        .confirmation-header {
+            text-align: center;
+            background: linear-gradient(135deg, #4F46E5, #F59E0B);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+        }
+
+        .confirmation-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .confirmation-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .confirmation-subtitle {
+            font-size: 1.125rem;
+            opacity: 0.9;
+        }
+
+        .order-details {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        .order-number {
+            background: #F0FDF4;
+            border: 1px solid #BBF7D0;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .order-number-label {
+            color: #6B7280;
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .order-number-value {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: #059669;
+        }
+
+        .purchased-tools {
+            margin-bottom: 2rem;
+        }
+
+        .purchased-tool {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+        }
+
+        .purchased-tool-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #4F46E5, #F59E0B);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .purchased-tool-info {
+            flex: 1;
+        }
+
+        .purchased-tool-name {
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 0.25rem;
+        }
+
+        .purchased-tool-creator {
+            color: #6B7280;
+            font-size: 0.875rem;
+        }
+
+        .launch-btn {
+            background: #10B981;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .launch-btn:hover {
+            background: #059669;
+            transform: translateY(-1px);
+        }
+
+        .next-steps {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .next-steps-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: #111827;
+            margin-bottom: 1rem;
+        }
+
+        .next-steps-list {
+            list-style: none;
+        }
+
+        .next-steps-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: #F9FAFB;
+            border-radius: 8px;
+        }
+
+        .next-steps-icon {
+            font-size: 1.25rem;
+            margin-top: 0.125rem;
+        }
+
+        .next-steps-text {
+            flex: 1;
+        }
+
+        .next-steps-text strong {
+            color: #111827;
+            font-weight: 600;
+        }
+
+        /* Empty Cart */
+        .empty-cart {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #6B7280;
+        }
+
+        .empty-cart-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-cart-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-cart-text {
+            margin-bottom: 2rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .cart-content,
+            .checkout-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .cart-sidebar {
+                position: static;
+            }
+
+            .main-container {
+                padding: 1rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .cart-drawer {
+                width: 100%;
+                right: -100%;
+            }
+
+            .header-content {
+                padding: 0 1rem;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .payment-methods {
+                flex-direction: column;
+            }
+
+            .cart-list-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .cart-list-controls {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: center;
+            }
+
+            .confirmation-title {
+                font-size: 2rem;
+            }
+
+            .purchased-tool {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .cart-item,
+        .cart-list-item,
+        .purchased-tool {
+            animation: slideIn 0.3s ease;
+        }
+
+        /* Loading States */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #E5E7EB;
+            border-top: 4px solid #4F46E5;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">TeachCreate.io</a>
+            <nav class="nav">
+                <a href="#">Explore</a>
+                <a href="#">My Toolkit</a>
+                <a href="#">Creator Portal</a>
+            </nav>
+            <div class="header-right">
+                <button class="cart-icon" onclick="toggleCartDrawer()">
+                    🛒
+                    <span class="cart-badge" id="cartBadge">3</span>
+                </button>
+                <div class="user-dropdown">
+                    <div class="user-avatar" onclick="toggleDropdown()">MJ</div>
+                    <div class="dropdown-menu" id="userDropdown">
+                        <a href="#" class="dropdown-item">Profile Settings</a>
+                        <a href="#" class="dropdown-item">Account Settings</a>
+                        <a href="#" class="dropdown-item">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Cart Drawer -->
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCartDrawer()"></div>
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <h3 class="cart-title">Your Cart</h3>
+            <button class="cart-close" onclick="toggleCartDrawer()">×</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="cart-item">
+                <div class="cart-item-image">🧮</div>
+                <div class="cart-item-details">
+                    <div class="cart-item-name">Math Quiz Master</div>
+                    <div class="cart-item-creator">by TeachMath Pro</div>
+                    <div class="cart-item-price">$29.99</div>
+                    <div class="cart-item-controls">
+                        <button class="quantity-btn" onclick="updateQuantity('math-quiz', -1)">-</button>
+                        <span class="quantity-display">1</span>
+                        <button class="quantity-btn" onclick="updateQuantity('math-quiz', 1)">+</button>
+                        <button class="remove-btn" onclick="removeFromCart('math-quiz')">Remove</button>
+                    </div>
+                </div>
+            </div>
+            <div class="cart-item">
+                <div class="cart-item-image" style="background: linear-gradient(135deg, #EF4444, #DC2626);">📖</div>
+                <div class="cart-item-details">
+                    <div class="cart-item-name">Story Builder</div>
+                    <div class="cart-item-creator">by Creative Learning</div>
+                    <div class="cart-item-price">$24.99</div>
+                    <div class="cart-item-controls">
+                        <button class="quantity-btn" onclick="updateQuantity('story-builder', -1)">-</button>
+                        <span class="quantity-display">2</span>
+                        <button class="quantity-btn" onclick="updateQuantity('story-builder', 1)">+</button>
+                        <button class="remove-btn" onclick="removeFromCart('story-builder')">Remove</button>
+                    </div>
+                </div>
+            </div>
+            <div class="cart-item">
+                <div class="cart-item-image" style="background: linear-gradient(135deg, #8B5CF6, #7C3AED);">🔬</div>
+                <div class="cart-item-details">
+                    <div class="cart-item-name">Virtual Science Lab</div>
+                    <div class="cart-item-creator">by ScienceEd</div>
+                    <div class="cart-item-price">$39.99</div>
+                    <div class="cart-item-controls">
+                        <button class="quantity-btn" onclick="updateQuantity('science-lab', -1)">-</button>
+                        <span class="quantity-display">1</span>
+                        <button class="quantity-btn" onclick="updateQuantity('science-lab', 1)">+</button>
+                        <button class="remove-btn" onclick="removeFromCart('science-lab')">Remove</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span class="cart-total-label">Total:</span>
+                <span class="cart-total-amount" id="cartTotal">$94.97</span>
+            </div>
+            <div class="cart-actions">
+                <button class="btn btn-primary" onclick="showPage('cart')">
+                    <span>🛒</span>
+                    View Cart
+                </button>
+                <button class="btn btn-secondary" onclick="showPage('checkout')">
+                    <span>💳</span>
+                    Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Cart Page -->
+        <div id="cart-page" class="page-view active">
+            <div class="page-header">
+                <h1 class="page-title">Shopping Cart</h1>
+                <p class="page-subtitle">Review your selected educational tools</p>
+            </div>
+
+            <div class="cart-content">
+                <div class="cart-main">
+                    <div class="cart-list-item">
+                        <div class="cart-list-image">🧮</div>
+                        <div class="cart-list-details">
+                            <div class="cart-list-name">Math Quiz Master</div>
+                            <div class="cart-list-creator">by TeachMath Pro</div>
+                            <div class="cart-list-description">
+                                Interactive daily math challenges for grades 3-5 with real-time analytics and progress tracking. Perfect for classroom engagement and homework assignments.
+                            </div>
+                            <div class="cart-list-controls">
+                                <div class="cart-list-quantity">
+                                    <span>Quantity:</span>
+                                    <div class="quantity-control">
+                                        <button onclick="updateCartQuantity('math-quiz', -1)">-</button>
+                                        <span id="math-quiz-qty">1</span>
+                                        <button onclick="updateCartQuantity('math-quiz', 1)">+</button>
+                                    </div>
+                                </div>
+                                <div class="cart-list-price">$29.99</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cart-list-item">
+                        <div class="cart-list-image" style="background: linear-gradient(135deg, #EF4444, #DC2626);">📖</div>
+                        <div class="cart-list-details">
+                            <div class="cart-list-name">Story Builder</div>
+                            <div class="cart-list-creator">by Creative Learning</div>
+                            <div class="cart-list-description">
+                                Help students create engaging stories with guided prompts, character builders, and plot templates. Includes assessment rubrics and sharing features.
+                            </div>
+                            <div class="cart-list-controls">
+                                <div class="cart-list-quantity">
+                                    <span>Quantity:</span>
+                                    <div class="quantity-control">
+                                        <button onclick="updateCartQuantity('story-builder', -1)">-</button>
+                                        <span id="story-builder-qty">2</span>
+                                        <button onclick="updateCartQuantity('story-builder', 1)">+</button>
+                                    </div>
+                                </div>
+                                <div class="cart-list-price">$49.98</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cart-list-item">
+                        <div class="cart-list-image" style="background: linear-gradient(135deg, #8B5CF6, #7C3AED);">🔬</div>
+                        <div class="cart-list-details">
+                            <div class="cart-list-name">Virtual Science Lab</div>
+                            <div class="cart-list-creator">by ScienceEd</div>
+                            <div class="cart-list-description">
+                                Conduct safe virtual experiments with realistic simulations and detailed lab reports. Covers chemistry, physics, and biology for grades 6-8.
+                            </div>
+                            <div class="cart-list-controls">
+                                <div class="cart-list-quantity">
+                                    <span>Quantity:</span>
+                                    <div class="quantity-control">
+                                        <button onclick="updateCartQuantity('science-lab', -1)">-</button>
+                                        <span id="science-lab-qty">1</span>
+                                        <button onclick="updateCartQuantity('science-lab', 1)">+</button>
+                                    </div>
+                                </div>
+                                <div class="cart-list-price">$39.99</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="promo-section">
+                        <div class="promo-input">
+                            <input type="text" placeholder="Enter promo code" id="promoCode" value="TEACHER20">
+                            <button class="btn btn-secondary" onclick="applyPromo()">Apply</button>
+                        </div>
+                        <div class="promo-applied" id="promoApplied" style="display: flex;">
+                            <span>✅</span>
+                            <span>TEACHER20 applied - 20% off!</span>
+                        </div>
+                    </div>
+
+                    <div class="guarantee-badge">
+                        <div class="guarantee-icon">🛡️</div>
+                        <div class="guarantee-text">30-Day Money-Back Guarantee</div>
+                        <div class="guarantee-subtext">Not satisfied? Get a full refund within 30 days</div>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                        <button class="btn btn-secondary" onclick="continueShopping()">
+                            <span>🔍</span>
+                            Continue Shopping
+                        </button>
+                        <button class="btn btn-primary" onclick="showPage('checkout')" style="flex: 1;">
+                            <span>💳</span>
+                            Proceed to Checkout
+                        </button>
+                    </div>
+                </div>
+
+                <div class="cart-sidebar">
+                    <div class="order-summary">
+                        <h3 class="summary-title">Order Summary</h3>
+                        <div class="summary-line">
+                            <span>Subtotal (4 items)</span>
+                            <span>$119.96</span>
+                        </div>
+                        <div class="summary-line">
+                            <span>Discount (TEACHER20)</span>
+                            <span style="color: #10B981;">-$23.99</span>
+                        </div>
+                        <div class="summary-line">
+                            <span>Tax</span>
+                            <span>$7.68</span>
+                        </div>
+                        <div class="summary-line">
+                            <span>Total</span>
+                            <span>$103.65</span>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="showPage('checkout')" style="width: 100%; margin-bottom: 1rem;">
+                        <span>💳</span>
+                        Checkout Now
+                    </button>
+
+                    <div style="text-align: center; color: #6B7280; font-size: 0.875rem;">
+                        <p>🔒 Secure checkout with SSL encryption</p>
+                        <p style="margin-top: 0.5rem;">💳 We accept all major credit cards</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Checkout Page -->
+        <div id="checkout-page" class="page-view">
+            <div class="page-header">
+                <h1 class="page-title">Checkout</h1>
+                <p class="page-subtitle">Complete your purchase securely</p>
+            </div>
+
+            <div class="checkout-content">
+                <div class="checkout-form">
+                    <form id="checkoutForm">
+                        <div class="form-section">
+                            <h3 class="form-section-title">
+                                <span>📧</span>
+                                Contact Information
+                            </h3>
+                            <div class="form-group">
+                                <label class="form-label">Email Address</label>
+                                <input type="email" class="form-input" placeholder="your@email.com" required>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                                <input type="checkbox" id="createAccount">
+                                <label for="createAccount" style="font-size: 0.875rem; color: #6B7280;">Create an account for faster checkout next time</label>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3 class="form-section-title">
+                                <span>💳</span>
+                                Payment Method
+                            </h3>
+                            <div class="payment-methods">
+                                <div class="payment-method active" onclick="selectPaymentMethod(this, 'card')">
+                                    💳 Card
+                                </div>
+                                <div class="payment-method" onclick="selectPaymentMethod(this, 'paypal')">
+                                    🅿️ PayPal
+                                </div>
+                                <div class="payment-method" onclick="selectPaymentMethod(this, 'apple')">
+                                    🍎 Apple Pay
+                                </div>
+                            </div>
+
+                            <div id="cardForm">
+                                <div class="form-group">
+                                    <label class="form-label">Card Number</label>
+                                    <input type="text" class="form-input" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCardNumber(this)">
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Expiry Date</label>
+                                        <input type="text" class="form-input" placeholder="MM/YY" maxlength="5" oninput="formatExpiry(this)">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">CVC</label>
+                                        <input type="text" class="form-input" placeholder="123" maxlength="4">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Cardholder Name</label>
+                                    <input type="text" class="form-input" placeholder="John Doe" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3 class="form-section-title">
+                                <span>📍</span>
+                                Billing Address
+                            </h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">First Name</label>
+                                    <input type="text" class="form-input" placeholder="John" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Last Name</label>
+                                    <input type="text" class="form-input" placeholder="Doe" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Address</label>
+                                <input type="text" class="form-input" placeholder="123 Main Street" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">City</label>
+                                    <input type="text" class="form-input" placeholder="New York" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">State</label>
+                                    <select class="form-input" required>
+                                        <option value="">Select State</option>
+                                        <option value="NY">New York</option>
+                                        <option value="CA">California</option>
+                                        <option value="TX">Texas</option>
+                                        <option value="FL">Florida</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">ZIP Code</label>
+                                    <input type="text" class="form-input" placeholder="10001" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Country</label>
+                                    <select class="form-input" required>
+                                        <option value="US">United States</option>
+                                        <option value="CA">Canada</option>
+                                        <option value="UK">United Kingdom</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="security-badges">
+                            <div class="security-badge">
+                                <span>🔒</span>
+                                <span>SSL SECURED</span>
+                            </div>
+                            <div class="security-badge">
+                                <span>🛡️</span>
+                                <span>256-BIT ENCRYPTION</span>
+                            </div>
+                            <div class="security-badge">
+                                <span>✅</span>
+                                <span>PCI COMPLIANT</span>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 1rem; padding: 1rem;" onclick="processPayment(event)">
+                            <span>🔒</span>
+                            Complete Purchase - $103.65
+                        </button>
+
+                        <div style="text-align: center; margin-top: 1rem; color: #6B7280; font-size: 0.875rem;">
+                            <p>By completing your purchase, you agree to our Terms of Service and Privacy Policy</p>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="cart-sidebar">
+                    <div class="order-summary">
+                        <h3 class="summary-title">Order Summary</h3>
+                        <div style="margin-bottom: 1rem;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #4F46E5, #F59E0B); border-radius: 6px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1rem;">🧮</div>
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 600; font-size: 0.875rem;">Math Quiz Master</div>
+                                    <div style="color: #6B7280; font-size: 0.75rem;">Qty: 1 × $29.99</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #EF4444, #DC2626); border-radius: 6px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1rem;">📖</div>
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 600; font-size: 0.875rem;">Story Builder</div>
+                                    <div style="color: #6B7280; font-size: 0.75rem;">Qty: 2 × $24.99</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #8B5CF6, #7C3AED); border-radius: 6px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1rem;">🔬</div>
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 600; font-size: 0.875rem;">Virtual Science Lab</div>
+                                    <div style="color: #6B7280; font-size: 0.75rem;">Qty: 1 × $39.99</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="summary-line">
+                            <span>Subtotal</span>
+                            <span>$119.96</span>
+                        </div>
+                        <div class="summary-line">
+                            <span>Discount (TEACHER20)</span>
+                            <span style="color: #10B981;">-$23.99</span>
+                        </div>
+                        <div class="summary-line">
+                            <span>Tax</span>
+                            <span>$7.68</span>
+                        </div>
+                        <div class="summary-line">
+                            <span>Total</span>
+                            <span>$103.65</span>
+                        </div>
+                    </div>
+
+                    <div class="guarantee-badge">
+                        <div class="guarantee-icon">🛡️</div>
+                        <div class="guarantee-text">30-Day Guarantee</div>
+                        <div class="guarantee-subtext">Full refund if not satisfied</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Confirmation Page -->
+        <div id="confirmation-page" class="page-view">
+            <div class="confirmation-header">
+                <div class="confirmation-icon">🎉</div>
+                <h1 class="confirmation-title">Thank You!</h1>
+                <p class="confirmation-subtitle">Your purchase was successful and your tools are ready to use</p>
+            </div>
+
+            <div class="order-details">
+                <div class="order-number">
+                    <div class="order-number-label">Order Number</div>
+                    <div class="order-number-value">#TC-2024-001234</div>
+                </div>
+
+                <div class="purchased-tools">
+                    <h3 style="font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1.25rem; margin-bottom: 1rem;">Your New Tools</h3>
+                    
+                    <div class="purchased-tool">
+                        <div class="purchased-tool-icon">🧮</div>
+                        <div class="purchased-tool-info">
+                            <div class="purchased-tool-name">Math Quiz Master</div>
+                            <div class="purchased-tool-creator">by TeachMath Pro</div>
+                        </div>
+                        <button class="launch-btn" onclick="launchTool('math-quiz')">
+                            <span>🚀</span>
+                            Launch Now
+                        </button>
+                    </div>
+
+                    <div class="purchased-tool">
+                        <div class="purchased-tool-icon" style="background: linear-gradient(135deg, #EF4444, #DC2626);">📖</div>
+                        <div class="purchased-tool-info">
+                            <div class="purchased-tool-name">Story Builder</div>
+                            <div class="purchased-tool-creator">by Creative Learning</div>
+                        </div>
+                        <button class="launch-btn" onclick="launchTool('story-builder')">
+                            <span>🚀</span>
+                            Launch Now
+                        </button>
+                    </div>
+
+                    <div class="purchased-tool">
+                        <div class="purchased-tool-icon" style="background: linear-gradient(135deg, #8B5CF6, #7C3AED);">🔬</div>
+                        <div class="purchased-tool-info">
+                            <div class="purchased-tool-name">Virtual Science Lab</div>
+                            <div class="purchased-tool-creator">by ScienceEd</div>
+                        </div>
+                        <button class="launch-btn" onclick="launchTool('science-lab')">
+                            <span>🚀</span>
+                            Launch Now
+                        </button>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin: 2rem 0;">
+                    <button class="btn btn-primary" onclick="downloadReceipt()">
+                        <span>📄</span>
+                        Download Receipt
+                    </button>
+                </div>
+            </div>
+
+            <div class="next-steps">
+                <h3 class="next-steps-title">What's Next?</h3>
+                <ul class="next-steps-list">
+                    <li class="next-steps-item">
+                        <span class="next-steps-icon">📧</span>
+                        <div class="next-steps-text">
+                            <strong>Check your email</strong> - We've sent you a receipt and download links for your tools
+                        </div>
+                    </li>
+                    <li class="next-steps-item">
+                        <span class="next-steps-icon">🛠️</span>
+                        <div class="next-steps-text">
+                            <strong>Access your tools</strong> - All purchased tools are now available in your My Toolkit dashboard
+                        </div>
+                    </li>
+                    <li class="next-steps-item">
+                        <span class="next-steps-icon">📚</span>
+                        <div class="next-steps-text">
+                            <strong>Get started</strong> - Each tool includes setup guides and best practices for classroom use
+                        </div>
+                    </li>
+                    <li class="next-steps-item">
+                        <span class="next-steps-icon">💬</span>
+                        <div class="next-steps-text">
+                            <strong>Need help?</strong> - Our support team is available 24/7 at support@teachcreate.io
+                        </div>
+                    </li>
+                </ul>
+
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="btn btn-secondary" onclick="goToToolkit()" style="margin-right: 1rem;">
+                        <span>🛠️</span>
+                        Go to My Toolkit
+                    </button>
+                    <button class="btn btn-primary" onclick="continueShopping()">
+                        <span>🔍</span>
+                        Explore More Tools
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global state
+        let currentPage = 'cart';
+        let cartItems = {
+            'math-quiz': { name: 'Math Quiz Master', price: 29.99, quantity: 1, creator: 'TeachMath Pro', icon: '🧮' },
+            'story-builder': { name: 'Story Builder', price: 24.99, quantity: 2, creator: 'Creative Learning', icon: '📖' },
+            'science-lab': { name: 'Virtual Science Lab', price: 39.99, quantity: 1, creator: 'ScienceEd', icon: '🔬' }
+        };
+        let promoCode = 'TEACHER20';
+        let discount = 0.20;
+
+        // User dropdown functionality
+        function toggleDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.user-dropdown')) {
+                document.getElementById('userDropdown').classList.remove('active');
+            }
+        });
+
+        // Cart drawer functionality
+        function toggleCartDrawer() {
+            const drawer = document.getElementById('cartDrawer');
+            const overlay = document.getElementById('cartOverlay');
+            
+            drawer.classList.toggle('active');
+            overlay.classList.toggle('active');
+            
+            if (drawer.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Page navigation
+        function showPage(pageName) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page-view');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Show selected page
+            document.getElementById(pageName + '-page').classList.add('active');
+            currentPage = pageName;
+            
+            // Close cart drawer if open
+            const drawer = document.getElementById('cartDrawer');
+            const overlay = document.getElementById('cartOverlay');
+            drawer.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Cart quantity management
+        function updateQuantity(itemId, change) {
+            if (cartItems[itemId]) {
+                cartItems[itemId].quantity = Math.max(1, cartItems[itemId].quantity + change);
+                updateCartDisplay();
+            }
+        }
+
+        function updateCartQuantity(itemId, change) {
+            if (cartItems[itemId]) {
+                cartItems[itemId].quantity = Math.max(1, cartItems[itemId].quantity + change);
+                document.getElementById(itemId + '-qty').textContent = cartItems[itemId].quantity;
+                updateCartDisplay();
+                updateOrderSummary();
+            }
+        }
+
+        function removeFromCart(itemId) {
+            if (cartItems[itemId]) {
+                delete cartItems[itemId];
+                updateCartDisplay();
+                updateOrderSummary();
+                
+                // Show empty cart if no items
+                if (Object.keys(cartItems).length === 0) {
+                    showEmptyCart();
+                }
+            }
+        }
+
+        function updateCartDisplay() {
+            const totalItems = Object.values(cartItems).reduce((sum, item) => sum + item.quantity, 0);
+            const totalPrice = calculateTotal();
+            
+            document.getElementById('cartBadge').textContent = totalItems;
+            document.getElementById('cartTotal').textContent = '$' + totalPrice.toFixed(2);
+        }
+
+        function calculateTotal() {
+            const subtotal = Object.values(cartItems).reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const discountAmount = subtotal * discount;
+            const tax = (subtotal - discountAmount) * 0.08;
+            return subtotal - discountAmount + tax;
+        }
+
+        function updateOrderSummary() {
+            const subtotal = Object.values(cartItems).reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const discountAmount = subtotal * discount;
+            const tax = (subtotal - discountAmount) * 0.08;
+            const total = subtotal - discountAmount + tax;
+            
+            // Update all summary displays
+            const summaryLines = document.querySelectorAll('.summary-line');
+            if (summaryLines.length >= 4) {
+                summaryLines[0].querySelector('span:last-child').textContent = '$' + subtotal.toFixed(2);
+                summaryLines[1].querySelector('span:last-child').textContent = '-$' + discountAmount.toFixed(2);
+                summaryLines[2].querySelector('span:last-child').textContent = '$' + tax.toFixed(2);
+                summaryLines[3].querySelector('span:last-child').textContent = '$' + total.toFixed(2);
+            }
+        }
+
+        // Promo code functionality
+        function applyPromo() {
+            const promoInput = document.getElementById('promoCode');
+            const promoApplied = document.getElementById('promoApplied');
+            
+            if (promoInput.value.toUpperCase() === 'TEACHER20') {
+                promoApplied.style.display = 'flex';
+                promoInput.disabled = true;
+                discount = 0.20;
+                updateOrderSummary();
+                updateCartDisplay();
+                
+                // Show success message
+                alert('🎉 Promo code applied! You saved 20% on your order.');
+            } else {
+                alert('❌ Invalid promo code. Try TEACHER20 for 20% off!');
+            }
+        }
+
+        // Payment form functionality
+        function selectPaymentMethod(element, method) {
+            // Remove active class from all payment methods
+            const methods = document.querySelectorAll('.payment-method');
+            methods.forEach(m => m.classList.remove('active'));
+            
+            // Add active class to selected method
+            element.classList.add('active');
+            
+            // Show/hide card form based on selection
+            const cardForm = document.getElementById('cardForm');
+            if (method === 'card') {
+                cardForm.style.display = 'block';
+            } else {
+                cardForm.style.display = 'none';
+                if (method === 'paypal') {
+                    alert('🅿️ PayPal integration would redirect to PayPal checkout');
+                } else if (method === 'apple') {
+                    alert('🍎 Apple Pay would show the native Apple Pay dialog');
+                }
+            }
+        }
+
+        function formatCardNumber(input) {
+            let value = input.value.replace(/\s/g, '').replace(/[^0-9]/gi, '');
+            let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+            input.value = formattedValue;
+        }
+
+        function formatExpiry(input) {
+            let value = input.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            }
+            input.value = value;
+        }
+
+        function processPayment(event) {
+            event.preventDefault();
+            
+            // Show loading state
+            const button = event.target;
+            const originalText = button.innerHTML;
+            button.innerHTML = '<div class="loading-spinner" style="width: 20px; height: 20px; margin: 0 auto;"></div>';
+            button.disabled = true;
+            
+            // Simulate payment processing
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.disabled = false;
+                showPage('confirmation');
+                
+                // Show success message
+                alert('🎉 Payment successful! Your tools are now available.');
+            }, 2000);
+        }
+
+        // Tool actions
+        function launchTool(toolId) {
+            alert(`🚀 Launching ${toolId}! In the full version, this would open your new educational tool in a new window, ready for immediate classroom use.`);
+        }
+
+        function downloadReceipt() {
+            alert('📄 Downloading receipt... In the full version, this would download a PDF receipt with your purchase details and tax information.');
+        }
+
+        function continueShopping() {
+            alert('🔍 Redirecting to Explore page... In the full version, this would take you back to browse more educational tools.');
+        }
+
+        function goToToolkit() {
+            alert('🛠️ Going to My Toolkit... In the full version, this would take you to your dashboard where all purchased tools are organized and ready to use.');
+        }
+
+        function showEmptyCart() {
+            const cartMain = document.querySelector('.cart-main');
+            cartMain.innerHTML = `
+                <div class="empty-cart">
+                    <div class="empty-cart-icon">🛒</div>
+                    <div class="empty-cart-title">Your cart is empty</div>
+                    <div class="empty-cart-text">Discover amazing educational tools to enhance your teaching</div>
+                    <button class="btn btn-primary" onclick="continueShopping()">
+                        <span>🔍</span>
+                        Start Shopping
+                    </button>
+                </div>
+            `;
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartDisplay();
+            updateOrderSummary();
+            
+            // Add form validation
+            const form = document.getElementById('checkoutForm');
+            if (form) {
+                form.addEventListener('submit', processPayment);
+            }
+            
+            // Add real-time form validation
+            const inputs = document.querySelectorAll('.form-input');
+            inputs.forEach(input => {
+                input.addEventListener('blur', validateField);
+                input.addEventListener('input', clearError);
+            });
+        });
+
+        function validateField(event) {
+            const input = event.target;
+            const value = input.value.trim();
+            
+            // Remove existing error
+            input.classList.remove('error');
+            const existingError = input.parentNode.querySelector('.error-message');
+            if (existingError) {
+                existingError.remove();
+            }
+            
+            // Validate based on input type
+            let isValid = true;
+            let errorMessage = '';
+            
+            if (input.required && !value) {
+                isValid = false;
+                errorMessage = 'This field is required';
+            } else if (input.type === 'email' && value && !isValidEmail(value)) {
+                isValid = false;
+                errorMessage = 'Please enter a valid email address';
+            }
+            
+            if (!isValid) {
+                input.classList.add('error');
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'error-message';
+                errorDiv.textContent = errorMessage;
+                input.parentNode.appendChild(errorDiv);
+            }
+        }
+
+        function clearError(event) {
+            const input = event.target;
+            input.classList.remove('error');
+            const existingError = input.parentNode.querySelector('.error-message');
+            if (existingError) {
+                existingError.remove();
+            }
+        }
+
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        // Add smooth animations
+        const style = document.createElement('style');
+        style.textContent = `
+            .page-view {
+                animation: fadeIn 0.3s ease;
+            }
+            
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96c57a81772da0a9',t:'MTc1NDcyMzg5Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
