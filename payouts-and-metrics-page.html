@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payouts & Metrics - TeachCreate.io</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #F9FAFB;
+            color: #111827;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: #4F46E5;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav a {
+            color: #6B7280;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .nav a:hover {
+            background: #F3F4F6;
+            color: #4F46E5;
+            transform: translateY(-1px);
+        }
+
+        .nav a.active {
+            color: #4F46E5;
+            background: #EEF2FF;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .creator-links {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .creator-link {
+            background: #F59E0B;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .creator-link:hover {
+            background: #D97706;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+
+        .cart-icon {
+            position: relative;
+            background: #4F46E5;
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+        }
+
+        .cart-icon:hover {
+            background: #3730A3;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #EF4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .user-dropdown {
+            position: relative;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4F46E5, #F59E0B);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            padding: 0.5rem;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            z-index: 1000;
+        }
+
+        .dropdown-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #374151;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .dropdown-item:hover {
+            background: #F3F4F6;
+            color: #4F46E5;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: #6B7280;
+            font-size: 1.125rem;
+        }
+
+        /* Balance Section */
+        .balance-section {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .balance-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .balance-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #4F46E5, #10B981);
+        }
+
+        .balance-title {
+            color: #6B7280;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .balance-amount {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        }
+
+        .balance-subtitle {
+            color: #6B7280;
+            font-size: 0.875rem;
+        }
+
+        .payout-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .payout-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .payout-title {
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        }
+
+        .payout-date {
+            color: #4F46E5;
+            font-weight: 600;
+            font-size: 1.125rem;
+        }
+
+        .stripe-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .stripe-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10B981;
+        }
+
+        .status-text {
+            color: #10B981;
+            font-weight: 600;
+        }
+
+        .instant-payout {
+            background: #4F46E5;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.875rem;
+        }
+
+        .instant-payout:hover {
+            background: #3730A3;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        /* Metrics Section */
+        .metrics-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #111827;
+        }
+
+        .date-toggle {
+            display: flex;
+            background: white;
+            border-radius: 12px;
+            padding: 0.25rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .date-option {
+            background: none;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            color: #6B7280;
+        }
+
+        .date-option.active {
+            background: #4F46E5;
+            color: white;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .metric-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: all 0.2s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .metric-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .metric-title {
+            color: #6B7280;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .metric-icon {
+            font-size: 1.5rem;
+        }
+
+        .metric-value {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: 2rem;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-change {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .metric-change.positive {
+            color: #10B981;
+        }
+
+        .metric-change.negative {
+            color: #EF4444;
+        }
+
+        /* Projects Table */
+        .projects-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        .projects-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .projects-table th {
+            text-align: left;
+            padding: 1rem;
+            color: #6B7280;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 2px solid #E5E7EB;
+        }
+
+        .projects-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #F3F4F6;
+        }
+
+        .projects-table tr:hover {
+            background: #F9FAFB;
+        }
+
+        .project-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .project-thumbnail {
+            width: 60px;
+            height: 45px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .project-title {
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .project-category {
+            color: #6B7280;
+            font-size: 0.875rem;
+        }
+
+        .metric-cell {
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .analytics-btn {
+            background: #4F46E5;
+            color: white;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+        }
+
+        .analytics-btn:hover {
+            background: #3730A3;
+            transform: scale(1.1);
+        }
+
+        /* Payout Info */
+        .payout-info {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .payout-process {
+            margin-bottom: 2rem;
+        }
+
+        .process-step {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: #F9FAFB;
+            border-radius: 12px;
+        }
+
+        .step-number {
+            background: #4F46E5;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.875rem;
+        }
+
+        .step-text {
+            color: #374151;
+            font-weight: 500;
+        }
+
+        .payout-history {
+            margin-top: 2rem;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #F3F4F6;
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .history-date {
+            color: #6B7280;
+            font-size: 0.875rem;
+        }
+
+        .history-amount {
+            font-weight: 700;
+            color: #10B981;
+        }
+
+        /* Analytics Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 800px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .modal-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #111827;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6B7280;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .close-btn:hover {
+            background: #F3F4F6;
+            color: #111827;
+        }
+
+        .chart-container {
+            height: 300px;
+            background: #F9FAFB;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .chart-line {
+            fill: none;
+            stroke: #4F46E5;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .chart-area {
+            fill: url(#gradient);
+            opacity: 0.3;
+        }
+
+        .chart-dot {
+            fill: #4F46E5;
+            stroke: white;
+            stroke-width: 3;
+            r: 5;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .chart-dot:hover {
+            r: 7;
+            stroke-width: 4;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: #111827;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            pointer-events: none;
+            opacity: 0;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .tooltip.active {
+            opacity: 1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .balance-section {
+                grid-template-columns: 1fr;
+            }
+
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .creator-links {
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+
+            .creator-link {
+                font-size: 0.75rem;
+                padding: 0.375rem 0.75rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 0 1rem;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .main-container {
+                padding: 1rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .metrics-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+
+            .projects-table {
+                font-size: 0.875rem;
+            }
+
+            .project-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .modal-content {
+                width: 95%;
+                padding: 1rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-in {
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes countUp {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .count-up {
+            animation: countUp 0.6s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">TeachCreate.io</a>
+            <nav class="nav">
+                <a href="#">Explore</a>
+                <a href="#">My Toolkit</a>
+                <a href="#" class="active">Creator Portal</a>
+            </nav>
+            <div class="header-right">
+                <div class="creator-links">
+                    <a href="#" class="creator-link">
+                        <span>📤</span>
+                        Upload New Project
+                    </a>
+                    <a href="#" class="creator-link">
+                        <span>⚙️</span>
+                        Profile Settings
+                    </a>
+                </div>
+                <button class="cart-icon">
+                    🛒
+                    <span class="cart-badge">3</span>
+                </button>
+                <div class="user-dropdown">
+                    <div class="user-avatar" onclick="toggleDropdown()">SC</div>
+                    <div class="dropdown-menu" id="userDropdown">
+                        <a href="#" class="dropdown-item">Profile Settings</a>
+                        <a href="#" class="dropdown-item">Account Settings</a>
+                        <a href="#" class="dropdown-item">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">Payouts & Metrics</h1>
+            <p class="page-subtitle">Track your earnings and analyze your project performance</p>
+        </div>
+
+        <!-- Balance Section -->
+        <div class="balance-section">
+            <div class="balance-card">
+                <div class="balance-title">Current Balance</div>
+                <div class="balance-amount">$1,247.83</div>
+                <div class="balance-subtitle">Available for payout</div>
+            </div>
+            
+            <div class="payout-card">
+                <div class="payout-icon">📅</div>
+                <div class="payout-title">Next Payout</div>
+                <div class="payout-date">Dec 15, 2024</div>
+            </div>
+            
+            <div class="stripe-card">
+                <div class="stripe-status">
+                    <div class="status-dot"></div>
+                    <div class="status-text">Stripe Connected</div>
+                </div>
+                <button class="instant-payout" onclick="requestInstantPayout()">
+                    ⚡ Instant Payout
+                </button>
+            </div>
+        </div>
+
+        <!-- Metrics Section -->
+        <div class="metrics-header">
+            <h2 class="section-title">Performance Metrics</h2>
+            <div class="date-toggle">
+                <button class="date-option active" onclick="changeDateRange('30d', this)">30 Days</button>
+                <button class="date-option" onclick="changeDateRange('90d', this)">90 Days</button>
+                <button class="date-option" onclick="changeDateRange('all', this)">All Time</button>
+            </div>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-header">
+                    <div class="metric-title">Sales</div>
+                    <div class="metric-icon">💰</div>
+                </div>
+                <div class="metric-value" id="salesValue">$3,247</div>
+                <div class="metric-change positive">
+                    <span>↗️</span>
+                    <span>+12.5%</span>
+                </div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-header">
+                    <div class="metric-title">Favorites</div>
+                    <div class="metric-icon">❤️</div>
+                </div>
+                <div class="metric-value" id="favoritesValue">1,834</div>
+                <div class="metric-change positive">
+                    <span>↗️</span>
+                    <span>+8.3%</span>
+                </div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-header">
+                    <div class="metric-title">Saves</div>
+                    <div class="metric-icon">🔖</div>
+                </div>
+                <div class="metric-value" id="savesValue">2,156</div>
+                <div class="metric-change positive">
+                    <span>↗️</span>
+                    <span>+15.7%</span>
+                </div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-header">
+                    <div class="metric-title">Views</div>
+                    <div class="metric-icon">👁️</div>
+                </div>
+                <div class="metric-value" id="viewsValue">12,847</div>
+                <div class="metric-change negative">
+                    <span>↘️</span>
+                    <span>-2.1%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Projects Table -->
+        <div class="projects-section">
+            <h2 class="section-title" style="margin-bottom: 1.5rem;">Project Performance</h2>
+            <table class="projects-table">
+                <thead>
+                    <tr>
+                        <th>Project</th>
+                        <th>Sales</th>
+                        <th>Favorites</th>
+                        <th>Saves</th>
+                        <th>Views</th>
+                        <th>Analytics</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="project-info">
+                                <div class="project-thumbnail" style="background: linear-gradient(135deg, #FF6B6B, #4ECDC4);"></div>
+                                <div>
+                                    <div class="project-title">Interactive Multiplication Garden</div>
+                                    <div class="project-category">Mathematics • Elementary</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="metric-cell">$1,234</td>
+                        <td class="metric-cell">567</td>
+                        <td class="metric-cell">789</td>
+                        <td class="metric-cell">4,321</td>
+                        <td>
+                            <button class="analytics-btn" onclick="openAnalytics('Interactive Multiplication Garden')">
+                                👁️
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="project-info">
+                                <div class="project-thumbnail" style="background: linear-gradient(135deg, #A8E6CF, #FFD93D);"></div>
+                                <div>
+                                    <div class="project-title">Science Lab Safety Simulator</div>
+                                    <div class="project-category">Science • Middle School</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="metric-cell">$856</td>
+                        <td class="metric-cell">423</td>
+                        <td class="metric-cell">512</td>
+                        <td class="metric-cell">3,147</td>
+                        <td>
+                            <button class="analytics-btn" onclick="openAnalytics('Science Lab Safety Simulator')">
+                                👁️
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="project-info">
+                                <div class="project-thumbnail" style="background: linear-gradient(135deg, #FFB6C1, #87CEEB);"></div>
+                                <div>
+                                    <div class="project-title">Fraction Pizza Party</div>
+                                    <div class="project-category">Mathematics • Elementary</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="metric-cell">$1,157</td>
+                        <td class="metric-cell">844</td>
+                        <td class="metric-cell">855</td>
+                        <td class="metric-cell">5,379</td>
+                        <td>
+                            <button class="analytics-btn" onclick="openAnalytics('Fraction Pizza Party')">
+                                👁️
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Payout Info -->
+        <div class="payout-info">
+            <h2 class="section-title" style="margin-bottom: 1.5rem;">Payout Information</h2>
+            
+            <div class="payout-process">
+                <h3 style="font-weight: 600; margin-bottom: 1rem; color: #374151;">How Payouts Work</h3>
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <div class="step-text">Sales are processed and verified within 24 hours</div>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <div class="step-text">Funds are held for 7 days to ensure transaction security</div>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <div class="step-text">Automatic payouts occur every 2 weeks to your connected Stripe account</div>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <div class="step-text">Instant payouts available for verified creators (small fee applies)</div>
+                </div>
+            </div>
+
+            <div class="payout-history">
+                <h3 style="font-weight: 600; margin-bottom: 1rem; color: #374151;">Recent Payouts</h3>
+                <div class="history-item">
+                    <div>
+                        <div style="font-weight: 600; color: #111827;">Payout #1247</div>
+                        <div class="history-date">December 1, 2024</div>
+                    </div>
+                    <div class="history-amount">$2,156.78</div>
+                </div>
+                <div class="history-item">
+                    <div>
+                        <div style="font-weight: 600; color: #111827;">Payout #1246</div>
+                        <div class="history-date">November 15, 2024</div>
+                    </div>
+                    <div class="history-amount">$1,834.92</div>
+                </div>
+                <div class="history-item">
+                    <div>
+                        <div style="font-weight: 600; color: #111827;">Payout #1245</div>
+                        <div class="history-date">November 1, 2024</div>
+                    </div>
+                    <div class="history-amount">$2,743.15</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Analytics Modal -->
+    <div class="modal" id="analyticsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Project Analytics</h3>
+                <button class="close-btn" onclick="closeAnalytics()">×</button>
+            </div>
+            
+            <div class="chart-container">
+                <svg class="chart-svg" id="chartSvg">
+                    <defs>
+                        <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" style="stop-color:#4F46E5;stop-opacity:0.3" />
+                            <stop offset="100%" style="stop-color:#4F46E5;stop-opacity:0" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <div class="tooltip" id="chartTooltip"></div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">
+                <div style="text-align: center; padding: 1rem; background: #F9FAFB; border-radius: 12px;">
+                    <div style="font-size: 1.5rem; font-weight: 700; color: #4F46E5;">$1,234</div>
+                    <div style="color: #6B7280; font-size: 0.875rem;">Total Sales</div>
+                </div>
+                <div style="text-align: center; padding: 1rem; background: #F9FAFB; border-radius: 12px;">
+                    <div style="font-size: 1.5rem; font-weight: 700; color: #10B981;">567</div>
+                    <div style="color: #6B7280; font-size: 0.875rem;">Favorites</div>
+                </div>
+                <div style="text-align: center; padding: 1rem; background: #F9FAFB; border-radius: 12px;">
+                    <div style="font-size: 1.5rem; font-weight: 700; color: #F59E0B;">789</div>
+                    <div style="color: #6B7280; font-size: 0.875rem;">Saves</div>
+                </div>
+                <div style="text-align: center; padding: 1rem; background: #F9FAFB; border-radius: 12px;">
+                    <div style="font-size: 1.5rem; font-weight: 700; color: #EF4444;">4,321</div>
+                    <div style="color: #6B7280; font-size: 0.875rem;">Views</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // User dropdown functionality
+        function toggleDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.user-dropdown')) {
+                document.getElementById('userDropdown').classList.remove('active');
+            }
+        });
+
+        // Date range toggle
+        function changeDateRange(range, button) {
+            // Update active button
+            document.querySelectorAll('.date-option').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            button.classList.add('active');
+
+            // Update metrics based on range
+            const metrics = {
+                '30d': {
+                    sales: '$3,247',
+                    favorites: '1,834',
+                    saves: '2,156',
+                    views: '12,847'
+                },
+                '90d': {
+                    sales: '$8,921',
+                    favorites: '4,567',
+                    saves: '5,432',
+                    views: '34,521'
+                },
+                'all': {
+                    sales: '$24,156',
+                    favorites: '12,834',
+                    saves: '15,678',
+                    views: '89,432'
+                }
+            };
+
+            // Animate metric updates
+            const currentMetrics = metrics[range];
+            Object.keys(currentMetrics).forEach(key => {
+                const element = document.getElementById(key + 'Value');
+                element.classList.add('count-up');
+                element.textContent = currentMetrics[key];
+                
+                setTimeout(() => {
+                    element.classList.remove('count-up');
+                }, 600);
+            });
+        }
+
+        // Instant payout
+        function requestInstantPayout() {
+            const button = event.target;
+            const originalText = button.innerHTML;
+            
+            button.innerHTML = '⏳ Processing...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                button.innerHTML = '✅ Payout Requested!';
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                }, 2000);
+            }, 1500);
+        }
+
+        // Analytics modal
+        function openAnalytics(projectName) {
+            const modal = document.getElementById('analyticsModal');
+            const title = document.getElementById('modalTitle');
+            
+            title.textContent = `${projectName} - Analytics`;
+            modal.classList.add('active');
+            
+            // Generate chart
+            generateChart();
+        }
+
+        function closeAnalytics() {
+            const modal = document.getElementById('analyticsModal');
+            modal.classList.remove('active');
+        }
+
+        function generateChart() {
+            const svg = document.getElementById('chartSvg');
+            const tooltip = document.getElementById('chartTooltip');
+            
+            // Sample data points
+            const data = [
+                { x: 50, y: 200, value: 120 },
+                { x: 150, y: 150, value: 180 },
+                { x: 250, y: 100, value: 240 },
+                { x: 350, y: 80, value: 280 },
+                { x: 450, y: 120, value: 220 },
+                { x: 550, y: 60, value: 320 },
+                { x: 650, y: 40, value: 380 }
+            ];
+            
+            // Create path for line
+            const pathData = data.map((point, index) => {
+                return `${index === 0 ? 'M' : 'L'} ${point.x} ${point.y}`;
+            }).join(' ');
+            
+            // Create area path
+            const areaData = `M 50 250 ${pathData} L 650 250 Z`;
+            
+            svg.innerHTML = `
+                <defs>
+                    <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style="stop-color:#4F46E5;stop-opacity:0.3" />
+                        <stop offset="100%" style="stop-color:#4F46E5;stop-opacity:0" />
+                    </linearGradient>
+                </defs>
+                <path class="chart-area" d="${areaData}"></path>
+                <path class="chart-line" d="${pathData}"></path>
+                ${data.map(point => `
+                    <circle class="chart-dot" cx="${point.x}" cy="${point.y}" 
+                            onmouseover="showTooltip(event, '${point.value} views')"
+                            onmouseout="hideTooltip()"></circle>
+                `).join('')}
+            `;
+        }
+
+        function showTooltip(event, text) {
+            const tooltip = document.getElementById('chartTooltip');
+            tooltip.textContent = text;
+            tooltip.style.left = event.clientX - tooltip.offsetWidth / 2 + 'px';
+            tooltip.style.top = event.clientY - tooltip.offsetHeight - 10 + 'px';
+            tooltip.classList.add('active');
+        }
+
+        function hideTooltip() {
+            const tooltip = document.getElementById('chartTooltip');
+            tooltip.classList.remove('active');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('analyticsModal').addEventListener('click', (e) => {
+            if (e.target.id === 'analyticsModal') {
+                closeAnalytics();
+            }
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add entrance animations
+            const elements = document.querySelectorAll('.balance-card, .payout-card, .stripe-card, .metric-card, .projects-section, .payout-info');
+            elements.forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    el.style.transition = 'all 0.6s ease';
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96c55e30542950fd',t:'MTc1NDcyMjczNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
