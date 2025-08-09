@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Toolkit - TeachCreate.io</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #F9FAFB;
+            color: #111827;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: #4F46E5;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav a {
+            color: #6B7280;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .nav a:hover {
+            background: #F3F4F6;
+            color: #4F46E5;
+            transform: translateY(-1px);
+        }
+
+        .nav a.active {
+            color: #4F46E5;
+            background: #EEF2FF;
+        }
+
+        .nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            background: #4F46E5;
+            border-radius: 50%;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .cart-icon {
+            position: relative;
+            background: #4F46E5;
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+        }
+
+        .cart-icon:hover {
+            background: #3730A3;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #EF4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .user-dropdown {
+            position: relative;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4F46E5, #F59E0B);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            padding: 0.5rem;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            z-index: 1000;
+        }
+
+        .dropdown-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #374151;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .dropdown-item:hover {
+            background: #F3F4F6;
+            color: #4F46E5;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Page Header */
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: #6B7280;
+            font-size: 1.125rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .page-stats {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #374151;
+            font-weight: 500;
+        }
+
+        .stat-icon {
+            font-size: 1.25rem;
+        }
+
+        /* Search and Filters */
+        .search-section {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            align-items: center;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 0.875rem 1rem;
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            background: #F9FAFB;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #4F46E5;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .search-button {
+            background: #4F46E5;
+            color: white;
+            border: none;
+            padding: 0.875rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .search-button:hover {
+            background: #3730A3;
+            transform: translateY(-1px);
+        }
+
+        .filter-tags {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-tag {
+            background: #F3F4F6;
+            color: #374151;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+
+        .filter-tag:hover {
+            background: #E5E7EB;
+        }
+
+        .filter-tag.active {
+            background: #EEF2FF;
+            color: #4F46E5;
+            border-color: #4F46E5;
+        }
+
+        /* Recently Used Section */
+        .recently-used {
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #111827;
+        }
+
+        .view-all-link {
+            color: #4F46E5;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+
+        .view-all-link:hover {
+            color: #3730A3;
+            transform: translateX(2px);
+        }
+
+        .recent-tools-scroll {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+            scrollbar-width: thin;
+            scrollbar-color: #E5E7EB #F9FAFB;
+        }
+
+        .recent-tools-scroll::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .recent-tools-scroll::-webkit-scrollbar-track {
+            background: #F9FAFB;
+            border-radius: 3px;
+        }
+
+        .recent-tools-scroll::-webkit-scrollbar-thumb {
+            background: #E5E7EB;
+            border-radius: 3px;
+        }
+
+        .recent-tool-card {
+            min-width: 200px;
+            background: white;
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .recent-tool-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-color: #4F46E5;
+        }
+
+        .recent-tool-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #4F46E5, #F59E0B);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .recent-tool-name {
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.25rem;
+            font-size: 0.875rem;
+        }
+
+        .recent-tool-time {
+            color: #6B7280;
+            font-size: 0.75rem;
+        }
+
+        /* Main Tabs */
+        .main-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            background: white;
+            padding: 0.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 0.875rem 1.5rem;
+            border: none;
+            background: transparent;
+            color: #6B7280;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .tab-button:hover {
+            background: #F3F4F6;
+            color: #374151;
+        }
+
+        .tab-button.active {
+            background: #4F46E5;
+            color: white;
+            box-shadow: 0 2px 8px rgba(79, 70, 229, 0.3);
+        }
+
+        .tab-count {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .tab-button:not(.active) .tab-count {
+            background: #E5E7EB;
+            color: #6B7280;
+        }
+
+        /* Tools Grid */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .tool-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+            border-color: #4F46E5;
+        }
+
+        .tool-thumbnail {
+            height: 160px;
+            background: linear-gradient(135deg, #4F46E5, #F59E0B);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .tool-thumbnail.math { background: linear-gradient(135deg, #10B981, #059669); }
+        .tool-thumbnail.science { background: linear-gradient(135deg, #8B5CF6, #7C3AED); }
+        .tool-thumbnail.reading { background: linear-gradient(135deg, #EF4444, #DC2626); }
+        .tool-thumbnail.art { background: linear-gradient(135deg, #F59E0B, #D97706); }
+
+        .tool-badge {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background: rgba(255, 255, 255, 0.9);
+            color: #374151;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .tool-content {
+            padding: 1.5rem;
+        }
+
+        .tool-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        .tool-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.125rem;
+            color: #111827;
+            margin-bottom: 0.25rem;
+        }
+
+        .tool-creator {
+            color: #6B7280;
+            font-size: 0.875rem;
+        }
+
+        .tool-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            color: #F59E0B;
+            font-size: 0.875rem;
+        }
+
+        .tool-description {
+            color: #6B7280;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .tool-tags {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .tool-tag {
+            background: #F3F4F6;
+            color: #6B7280;
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .tool-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .action-button {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .action-button.primary {
+            background: #4F46E5;
+            color: white;
+        }
+
+        .action-button.primary:hover {
+            background: #3730A3;
+            transform: translateY(-1px);
+        }
+
+        .action-button.secondary {
+            background: #F3F4F6;
+            color: #374151;
+        }
+
+        .action-button.secondary:hover {
+            background: #E5E7EB;
+        }
+
+        .action-button.icon-only {
+            flex: none;
+            width: 40px;
+            padding: 0.75rem;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #6B7280;
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-description {
+            margin-bottom: 2rem;
+        }
+
+        .empty-action {
+            background: #4F46E5;
+            color: white;
+            border: none;
+            padding: 0.875rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .empty-action:hover {
+            background: #3730A3;
+            transform: translateY(-1px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .main-container {
+                padding: 1rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .tools-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 1rem;
+            }
+
+            .search-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .page-stats {
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 0 1rem;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .page-header {
+                text-align: center;
+            }
+
+            .page-title {
+                font-size: 1.75rem;
+            }
+
+            .page-stats {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .main-tabs {
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+
+            .tab-button {
+                justify-content: flex-start;
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .recent-tools-scroll {
+                gap: 0.75rem;
+            }
+
+            .recent-tool-card {
+                min-width: 160px;
+            }
+
+            .filter-tags {
+                justify-content: center;
+            }
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #E5E7EB;
+            border-top: 4px solid #4F46E5;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">TeachCreate.io</a>
+            <nav class="nav">
+                <a href="#">Explore</a>
+                <a href="#" class="active">My Toolkit</a>
+                <a href="#">Creator Portal</a>
+            </nav>
+            <div class="header-right">
+                <button class="cart-icon" onclick="openCart()">
+                    🛒
+                    <span class="cart-badge">3</span>
+                </button>
+                <div class="user-dropdown">
+                    <div class="user-avatar" onclick="toggleDropdown()">MJ</div>
+                    <div class="dropdown-menu" id="userDropdown">
+                        <a href="#" class="dropdown-item">Profile Settings</a>
+                        <a href="#" class="dropdown-item">Account Settings</a>
+                        <a href="#" class="dropdown-item">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">My Toolkit</h1>
+            <p class="page-subtitle">Manage and organize your educational tools</p>
+            <div class="page-stats">
+                <div class="stat-item">
+                    <span class="stat-icon">📚</span>
+                    <span>24 Tools</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon">⭐</span>
+                    <span>12 Favorites</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon">🛒</span>
+                    <span>8 Purchased</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon">📊</span>
+                    <span>156 Hours Used</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search and Filters -->
+        <div class="search-section">
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Search your tools..." id="searchInput">
+                <button class="search-button" onclick="searchTools()">
+                    <span>🔍</span>
+                    Search
+                </button>
+            </div>
+            <div class="filter-tags">
+                <div class="filter-tag active" onclick="filterByTag(this, 'all')">All Tools</div>
+                <div class="filter-tag" onclick="filterByTag(this, 'math')">Math</div>
+                <div class="filter-tag" onclick="filterByTag(this, 'science')">Science</div>
+                <div class="filter-tag" onclick="filterByTag(this, 'reading')">Reading</div>
+                <div class="filter-tag" onclick="filterByTag(this, 'art')">Art</div>
+                <div class="filter-tag" onclick="filterByTag(this, 'grade-k2')">K-2</div>
+                <div class="filter-tag" onclick="filterByTag(this, 'grade-35')">3-5</div>
+                <div class="filter-tag" onclick="filterByTag(this, 'grade-68')">6-8</div>
+            </div>
+        </div>
+
+        <!-- Recently Used -->
+        <div class="recently-used">
+            <div class="section-header">
+                <h2 class="section-title">Recently Used</h2>
+                <a href="#" class="view-all-link">View All →</a>
+            </div>
+            <div class="recent-tools-scroll">
+                <div class="recent-tool-card" onclick="launchTool('math-quiz')">
+                    <div class="recent-tool-icon">🧮</div>
+                    <div class="recent-tool-name">Math Quiz Master</div>
+                    <div class="recent-tool-time">2 hours ago</div>
+                </div>
+                <div class="recent-tool-card" onclick="launchTool('story-builder')">
+                    <div class="recent-tool-icon" style="background: linear-gradient(135deg, #EF4444, #DC2626);">📖</div>
+                    <div class="recent-tool-name">Story Builder</div>
+                    <div class="recent-tool-time">Yesterday</div>
+                </div>
+                <div class="recent-tool-card" onclick="launchTool('science-lab')">
+                    <div class="recent-tool-icon" style="background: linear-gradient(135deg, #8B5CF6, #7C3AED);">🔬</div>
+                    <div class="recent-tool-name">Virtual Science Lab</div>
+                    <div class="recent-tool-time">3 days ago</div>
+                </div>
+                <div class="recent-tool-card" onclick="launchTool('art-studio')">
+                    <div class="recent-tool-icon" style="background: linear-gradient(135deg, #F59E0B, #D97706);">🎨</div>
+                    <div class="recent-tool-name">Digital Art Studio</div>
+                    <div class="recent-tool-time">1 week ago</div>
+                </div>
+                <div class="recent-tool-card" onclick="launchTool('word-games')">
+                    <div class="recent-tool-icon" style="background: linear-gradient(135deg, #10B981, #059669);">🔤</div>
+                    <div class="recent-tool-name">Word Games</div>
+                    <div class="recent-tool-time">1 week ago</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Tabs -->
+        <div class="main-tabs">
+            <button class="tab-button active" onclick="switchTab('saved')">
+                <span>💾</span>
+                Saved
+                <span class="tab-count">16</span>
+            </button>
+            <button class="tab-button" onclick="switchTab('favorited')">
+                <span>⭐</span>
+                Favorited
+                <span class="tab-count">12</span>
+            </button>
+            <button class="tab-button" onclick="switchTab('purchased')">
+                <span>🛒</span>
+                Purchased
+                <span class="tab-count">8</span>
+            </button>
+        </div>
+
+        <!-- Tab Content -->
+        <div id="saved-content" class="tab-content active">
+            <div class="tools-grid">
+                <div class="tool-card" data-category="math">
+                    <div class="tool-thumbnail math">🧮</div>
+                    <div class="tool-content">
+                        <div class="tool-header">
+                            <div>
+                                <div class="tool-title">Math Quiz Master</div>
+                                <div class="tool-creator">by TeachMath Pro</div>
+                            </div>
+                            <div class="tool-rating">
+                                <span>⭐</span>
+                                <span>4.9</span>
+                            </div>
+                        </div>
+                        <div class="tool-description">
+                            Interactive daily math challenges for grades 3-5 with real-time analytics and progress tracking.
+                        </div>
+                        <div class="tool-tags">
+                            <span class="tool-tag">Math</span>
+                            <span class="tool-tag">Grades 3-5</span>
+                            <span class="tool-tag">Interactive</span>
+                        </div>
+                        <div class="tool-actions">
+                            <button class="action-button primary" onclick="launchTool('math-quiz')">
+                                <span>🚀</span>
+                                Launch
+                            </button>
+                            <button class="action-button secondary" onclick="shareTool('math-quiz')">
+                                <span>📤</span>
+                                Share
+                            </button>
+                            <button class="action-button icon-only secondary" onclick="toggleFavorite('math-quiz')">
+                                <span>⭐</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-category="reading">
+                    <div class="tool-thumbnail reading">📖</div>
+                    <div class="tool-content">
+                        <div class="tool-header">
+                            <div>
+                                <div class="tool-title">Story Builder</div>
+                                <div class="tool-creator">by Creative Learning</div>
+                            </div>
+                            <div class="tool-rating">
+                                <span>⭐</span>
+                                <span>4.7</span>
+                            </div>
+                        </div>
+                        <div class="tool-description">
+                            Help students create engaging stories with guided prompts, character builders, and plot templates.
+                        </div>
+                        <div class="tool-tags">
+                            <span class="tool-tag">Reading</span>
+                            <span class="tool-tag">Writing</span>
+                            <span class="tool-tag">K-5</span>
+                        </div>
+                        <div class="tool-actions">
+                            <button class="action-button primary" onclick="launchTool('story-builder')">
+                                <span>🚀</span>
+                                Launch
+                            </button>
+                            <button class="action-button secondary" onclick="shareTool('story-builder')">
+                                <span>📤</span>
+                                Share
+                            </button>
+                            <button class="action-button icon-only secondary" onclick="toggleFavorite('story-builder')">
+                                <span>⭐</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-category="science">
+                    <div class="tool-thumbnail science">🔬</div>
+                    <div class="tool-content">
+                        <div class="tool-header">
+                            <div>
+                                <div class="tool-title">Virtual Science Lab</div>
+                                <div class="tool-creator">by ScienceEd</div>
+                            </div>
+                            <div class="tool-rating">
+                                <span>⭐</span>
+                                <span>4.8</span>
+                            </div>
+                        </div>
+                        <div class="tool-description">
+                            Conduct safe virtual experiments with realistic simulations and detailed lab reports.
+                        </div>
+                        <div class="tool-tags">
+                            <span class="tool-tag">Science</span>
+                            <span class="tool-tag">Experiments</span>
+                            <span class="tool-tag">Grades 6-8</span>
+                        </div>
+                        <div class="tool-actions">
+                            <button class="action-button primary" onclick="launchTool('science-lab')">
+                                <span>🚀</span>
+                                Launch
+                            </button>
+                            <button class="action-button secondary" onclick="shareTool('science-lab')">
+                                <span>📤</span>
+                                Share
+                            </button>
+                            <button class="action-button icon-only secondary" onclick="toggleFavorite('science-lab')">
+                                <span>⭐</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-category="art">
+                    <div class="tool-thumbnail art">🎨</div>
+                    <div class="tool-content">
+                        <div class="tool-header">
+                            <div>
+                                <div class="tool-title">Digital Art Studio</div>
+                                <div class="tool-creator">by ArtEd Tools</div>
+                            </div>
+                            <div class="tool-rating">
+                                <span>⭐</span>
+                                <span>4.6</span>
+                            </div>
+                        </div>
+                        <div class="tool-description">
+                            Create digital masterpieces with kid-friendly tools, templates, and guided art lessons.
+                        </div>
+                        <div class="tool-tags">
+                            <span class="tool-tag">Art</span>
+                            <span class="tool-tag">Creative</span>
+                            <span class="tool-tag">All Ages</span>
+                        </div>
+                        <div class="tool-actions">
+                            <button class="action-button primary" onclick="launchTool('art-studio')">
+                                <span>🚀</span>
+                                Launch
+                            </button>
+                            <button class="action-button secondary" onclick="shareTool('art-studio')">
+                                <span>📤</span>
+                                Share
+                            </button>
+                            <button class="action-button icon-only secondary" onclick="toggleFavorite('art-studio')">
+                                <span>⭐</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-category="math">
+                    <div class="tool-thumbnail math">📊</div>
+                    <div class="tool-content">
+                        <div class="tool-header">
+                            <div>
+                                <div class="tool-title">Data Detective</div>
+                                <div class="tool-creator">by MathViz</div>
+                            </div>
+                            <div class="tool-rating">
+                                <span>⭐</span>
+                                <span>4.5</span>
+                            </div>
+                        </div>
+                        <div class="tool-description">
+                            Teach data analysis and graphing through interactive mysteries and real-world scenarios.
+                        </div>
+                        <div class="tool-tags">
+                            <span class="tool-tag">Math</span>
+                            <span class="tool-tag">Data</span>
+                            <span class="tool-tag">Grades 4-8</span>
+                        </div>
+                        <div class="tool-actions">
+                            <button class="action-button primary" onclick="launchTool('data-detective')">
+                                <span>🚀</span>
+                                Launch
+                            </button>
+                            <button class="action-button secondary" onclick="shareTool('data-detective')">
+                                <span>📤</span>
+                                Share
+                            </button>
+                            <button class="action-button icon-only secondary" onclick="toggleFavorite('data-detective')">
+                                <span>⭐</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-category="reading">
+                    <div class="tool-thumbnail reading">🔤</div>
+                    <div class="tool-content">
+                        <div class="tool-header">
+                            <div>
+                                <div class="tool-title">Word Games Collection</div>
+                                <div class="tool-creator">by Vocabulary Plus</div>
+                            </div>
+                            <div class="tool-rating">
+                                <span>⭐</span>
+                                <span>4.4</span>
+                            </div>
+                        </div>
+                        <div class="tool-description">
+                            Build vocabulary and spelling skills through engaging word puzzles and interactive games.
+                        </div>
+                        <div class="tool-tags">
+                            <span class="tool-tag">Reading</span>
+                            <span class="tool-tag">Vocabulary</span>
+                            <span class="tool-tag">K-6</span>
+                        </div>
+                        <div class="tool-actions">
+                            <button class="action-button primary" onclick="launchTool('word-games')">
+                                <span>🚀</span>
+                                Launch
+                            </button>
+                            <button class="action-button secondary" onclick="shareTool('word-games')">
+                                <span>📤</span>
+                                Share
+                            </button>
+                            <button class="action-button icon-only secondary" onclick="toggleFavorite('word-games')">
+                                <span>⭐</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="favorited-content" class="tab-content">
+            <div class="empty-state">
+                <div class="empty-icon">⭐</div>
+                <div class="empty-title">No Favorite Tools Yet</div>
+                <div class="empty-description">
+                    Start favoriting tools you love to see them here. Click the star icon on any tool card to add it to your favorites.
+                </div>
+                <button class="empty-action" onclick="switchTab('saved')">Browse Saved Tools</button>
+            </div>
+        </div>
+
+        <div id="purchased-content" class="tab-content">
+            <div class="tools-grid">
+                <div class="tool-card" data-category="math">
+                    <div class="tool-thumbnail math">🧮</div>
+                    <div class="tool-badge">Purchased</div>
+                    <div class="tool-content">
+                        <div class="tool-header">
+                            <div>
+                                <div class="tool-title">Math Quiz Master</div>
+                                <div class="tool-creator">by TeachMath Pro</div>
+                            </div>
+                            <div class="tool-rating">
+                                <span>⭐</span>
+                                <span>4.9</span>
+                            </div>
+                        </div>
+                        <div class="tool-description">
+                            Interactive daily math challenges for grades 3-5 with real-time analytics and progress tracking.
+                        </div>
+                        <div class="tool-tags">
+                            <span class="tool-tag">Math</span>
+                            <span class="tool-tag">Grades 3-5</span>
+                            <span class="tool-tag">Premium</span>
+                        </div>
+                        <div class="tool-actions">
+                            <button class="action-button primary" onclick="launchTool('math-quiz')">
+                                <span>🚀</span>
+                                Launch
+                            </button>
+                            <button class="action-button secondary" onclick="viewPurchase('math-quiz')">
+                                <span>📄</span>
+                                View Details
+                            </button>
+                            <button class="action-button icon-only secondary" onclick="downloadTool('math-quiz')">
+                                <span>⬇️</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // User dropdown functionality
+        function toggleDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.user-dropdown')) {
+                document.getElementById('userDropdown').classList.remove('active');
+            }
+        });
+
+        // Tab switching functionality
+        function switchTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabName + '-content').classList.add('active');
+
+            // Update tab buttons
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // Filter functionality
+        function filterByTag(element, category) {
+            // Update active filter
+            const filterTags = document.querySelectorAll('.filter-tag');
+            filterTags.forEach(tag => {
+                tag.classList.remove('active');
+            });
+            element.classList.add('active');
+
+            // Filter tool cards
+            const toolCards = document.querySelectorAll('.tool-card');
+            toolCards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                    card.style.animation = 'fadeIn 0.3s ease';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Search functionality
+        function searchTools() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const toolCards = document.querySelectorAll('.tool-card');
+            
+            toolCards.forEach(card => {
+                const title = card.querySelector('.tool-title').textContent.toLowerCase();
+                const description = card.querySelector('.tool-description').textContent.toLowerCase();
+                const creator = card.querySelector('.tool-creator').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || description.includes(searchTerm) || creator.includes(searchTerm)) {
+                    card.style.display = 'block';
+                    card.style.animation = 'fadeIn 0.3s ease';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Show results message
+            if (searchTerm) {
+                const visibleCards = Array.from(toolCards).filter(card => card.style.display !== 'none').length;
+                if (visibleCards === 0) {
+                    showNoResults(searchTerm);
+                }
+            }
+        }
+
+        // Real-time search
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            if (e.target.value === '') {
+                // Reset filter to show all tools
+                const toolCards = document.querySelectorAll('.tool-card');
+                toolCards.forEach(card => {
+                    card.style.display = 'block';
+                });
+            }
+        });
+
+        // Tool actions
+        function launchTool(toolId) {
+            alert(`🚀 Launching ${toolId}! In the full version, this would open the tool in a new window or tab, ready for classroom use.`);
+        }
+
+        function shareTool(toolId) {
+            alert(`📤 Sharing ${toolId}! In the full version, this would open sharing options to send the tool to colleagues or post on social media.`);
+        }
+
+        function toggleFavorite(toolId) {
+            const button = event.target.closest('.action-button');
+            const isFavorited = button.style.color === 'rgb(245, 158, 11)';
+            
+            if (isFavorited) {
+                button.style.color = '';
+                button.style.background = '#F3F4F6';
+                alert(`Removed ${toolId} from favorites`);
+            } else {
+                button.style.color = '#F59E0B';
+                button.style.background = '#FEF3C7';
+                alert(`Added ${toolId} to favorites! ⭐`);
+            }
+        }
+
+        function viewPurchase(toolId) {
+            alert(`📄 Viewing purchase details for ${toolId}. This would show your purchase history, license information, and download options.`);
+        }
+
+        function downloadTool(toolId) {
+            alert(`⬇️ Downloading ${toolId} for offline use. In the full version, this would download the tool files to your device.`);
+        }
+
+        function openCart() {
+            alert(`🛒 Opening cart with 3 items. This would show your pending purchases and checkout options.`);
+        }
+
+        function showNoResults(searchTerm) {
+            // This would show a "no results" message in a real implementation
+            alert(`No tools found for "${searchTerm}". Try different keywords or browse by category.`);
+        }
+
+        // Initialize page with animations
+        document.addEventListener('DOMContentLoaded', () => {
+            // Animate tool cards on load
+            const toolCards = document.querySelectorAll('.tool-card');
+            toolCards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+
+            // Animate recent tools
+            const recentCards = document.querySelectorAll('.recent-tool-card');
+            recentCards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateX(-20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.4s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateX(0)';
+                }, 500 + (index * 100));
+            });
+
+            // Add search suggestions
+            const searchInput = document.getElementById('searchInput');
+            const suggestions = ['Math Quiz', 'Story Builder', 'Science Lab', 'Art Studio', 'Word Games'];
+            
+            searchInput.addEventListener('focus', () => {
+                const randomSuggestion = suggestions[Math.floor(Math.random() * suggestions.length)];
+                if (!searchInput.value) {
+                    searchInput.placeholder = `Try searching for "${randomSuggestion}"...`;
+                }
+            });
+
+            searchInput.addEventListener('blur', () => {
+                searchInput.placeholder = 'Search your tools...';
+            });
+        });
+
+        // Add CSS animation keyframes
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96c574d9073251d9',t:'MTc1NDcyMzY2NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
