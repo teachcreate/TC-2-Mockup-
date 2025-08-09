@@ -770,9 +770,9 @@
                             <a href="teacher-creator-portal.html">Creator Portal</a>
             </nav>
             <div class="header-right">
-                <button class="cart-icon" onclick="openCart()">
+                <button class="cart-icon" onclick="toggleCartDrawer()">
                     🛒
-                    <span class="cart-badge">3</span>
+                    <span class="cart-badge" id="cartBadge">3</span>
                 </button>
                 <div class="user-dropdown">
                                     <div class="user-avatar" onclick="toggleDropdown()">MJ</div>
@@ -840,11 +840,11 @@
                 <a href="#" class="view-all-link">View All →</a>
             </div>
             <div class="recent-tools-scroll">
-                <div class="recent-tool-card" onclick="launchTool('math-quiz')">
+                <a href="pre-launch-page.html" class="recent-tool-card">
                     <div class="recent-tool-icon">🧮</div>
                     <div class="recent-tool-name">Math Quiz Master</div>
                     <div class="recent-tool-time">2 hours ago</div>
-                </div>
+                </a>
                 <div class="recent-tool-card" onclick="launchTool('story-builder')">
                     <div class="recent-tool-icon" style="background: linear-gradient(135deg, #EF4444, #DC2626);">📖</div>
                     <div class="recent-tool-name">Story Builder</div>
@@ -895,7 +895,7 @@
                     <div class="tool-content">
                         <div class="tool-header">
                             <div>
-                                <div class="tool-title">Math Quiz Master</div>
+                                <a href="pre-launch-page.html" class="tool-title">Math Quiz Master</a>
                                 <div class="tool-creator">by TeachMath Pro</div>
                             </div>
                             <div class="tool-rating">
@@ -1345,6 +1345,8 @@
             });
         });
 
+        updateCartDisplay();
+
         // Add CSS animation keyframes
         const style = document.createElement('style');
         style.textContent = `
@@ -1356,4 +1358,326 @@
         document.head.appendChild(style);
     </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96c574d9073251d9',t:'MTc1NDcyMzY2NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<!-- Cart Drawer -->
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCartDrawer()"></div>
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <h3 class="cart-title">Your Cart</h3>
+            <button class="cart-close" onclick="toggleCartDrawer()">×</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="cart-item">
+                <div class="cart-item-image">🧮</div>
+                <div class="cart-item-details">
+                    <div class="cart-item-name">Math Quiz Master</div>
+                    <div class="cart-item-creator">by TeachMath Pro</div>
+                    <div class="cart-item-price">$29.99</div>
+                    <div class="cart-item-controls">
+                        <button class="quantity-btn" onclick="updateQuantity('math-quiz', -1)">-</button>
+                        <span class="quantity-display">1</span>
+                        <button class="quantity-btn" onclick="updateQuantity('math-quiz', 1)">+</button>
+                        <button class="remove-btn" onclick="removeFromCart('math-quiz')">Remove</button>
+                    </div>
+                </div>
+            </div>
+            <div class="cart-item">
+                <div class="cart-item-image" style="background: linear-gradient(135deg, #EF4444, #DC2626);">📖</div>
+                <div class="cart-item-details">
+                    <div class="cart-item-name">Story Builder</div>
+                    <div class="cart-item-creator">by Creative Learning</div>
+                    <div class="cart-item-price">$24.99</div>
+                    <div class="cart-item-controls">
+                        <button class="quantity-btn" onclick="updateQuantity('story-builder', -1)">-</button>
+                        <span class="quantity-display">2</span>
+                        <button class="quantity-btn" onclick="updateQuantity('story-builder', 1)">+</button>
+                        <button class="remove-btn" onclick="removeFromCart('story-builder')">Remove</button>
+                    </div>
+                </div>
+            </div>
+            <div class="cart-item">
+                <div class="cart-item-image" style="background: linear-gradient(135deg, #8B5CF6, #7C3AED);">🔬</div>
+                <div class="cart-item-details">
+                    <div class="cart-item-name">Virtual Science Lab</div>
+                    <div class="cart-item-creator">by ScienceEd</div>
+                    <div class="cart-item-price">$39.99</div>
+                    <div class="cart-item-controls">
+                        <button class="quantity-btn" onclick="updateQuantity('science-lab', -1)">-</button>
+                        <span class="quantity-display">1</span>
+                        <button class="quantity-btn" onclick="updateQuantity('science-lab', 1)">+</button>
+                        <button class="remove-btn" onclick="removeFromCart('science-lab')">Remove</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span class="cart-total-label">Total:</span>
+                <span class="cart-total-amount" id="cartTotal">$94.97</span>
+            </div>
+            <div class="cart-actions">
+                <button class="btn btn-primary" onclick="showPage('cart')">
+                    <span>🛒</span>
+                    View Cart
+                </button>
+                <button class="btn btn-secondary" onclick="showPage('checkout')">
+                    <span>💳</span>
+                    Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global state
+        let currentPage = 'cart';
+        let cartItems = {
+            'math-quiz': { name: 'Math Quiz Master', price: 29.99, quantity: 1, creator: 'TeachMath Pro', icon: '🧮' },
+            'story-builder': { name: 'Story Builder', price: 24.99, quantity: 2, creator: 'Creative Learning', icon: '📖' },
+            'science-lab': { name: 'Virtual Science Lab', price: 39.99, quantity: 1, creator: 'ScienceEd', icon: '🔬' }
+        };
+        let promoCode = 'TEACHER20';
+        let discount = 0.20;
+
+        // User dropdown functionality
+        function toggleDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.user-dropdown')) {
+                document.getElementById('userDropdown').classList.remove('active');
+            }
+        });
+
+        // Cart drawer functionality
+        function toggleCartDrawer() {
+            const drawer = document.getElementById('cartDrawer');
+            const overlay = document.getElementById('cartOverlay');
+            
+            drawer.classList.toggle('active');
+            overlay.classList.toggle('active');
+            
+            if (drawer.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Page navigation
+        function showPage(pageName) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page-view');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Show selected page
+            document.getElementById(pageName + '-page').classList.add('active');
+            currentPage = pageName;
+            
+            // Close cart drawer if open
+            const drawer = document.getElementById('cartDrawer');
+            const overlay = document.getElementById('cartOverlay');
+            drawer.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Cart quantity management
+        function updateQuantity(itemId, change) {
+            if (cartItems[itemId]) {
+                cartItems[itemId].quantity = Math.max(1, cartItems[itemId].quantity + change);
+                updateCartDisplay();
+            }
+        }
+
+        function updateCartQuantity(itemId, change) {
+            if (cartItems[itemId]) {
+                cartItems[itemId].quantity = Math.max(1, cartItems[itemId].quantity + change);
+                document.getElementById(itemId + '-qty').textContent = cartItems[itemId].quantity;
+                updateCartDisplay();
+                updateOrderSummary();
+            }
+        }
+
+        function removeFromCart(itemId) {
+            if (cartItems[itemId]) {
+                delete cartItems[itemId];
+                updateCartDisplay();
+                updateOrderSummary();
+                
+                // Show empty cart if no items
+                if (Object.keys(cartItems).length === 0) {
+                    showEmptyCart();
+                }
+            }
+        }
+
+        function updateCartDisplay() {
+            const totalItems = Object.values(cartItems).reduce((sum, item) => sum + item.quantity, 0);
+            const totalPrice = calculateTotal();
+            
+            document.getElementById('cartBadge').textContent = totalItems;
+            document.getElementById('cartTotal').textContent = '$' + totalPrice.toFixed(2);
+        }
+
+        function calculateTotal() {
+            const subtotal = Object.values(cartItems).reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const discountAmount = subtotal * discount;
+            const tax = (subtotal - discountAmount) * 0.08;
+            return subtotal - discountAmount + tax;
+        }
+
+        function updateOrderSummary() {
+            const subtotal = Object.values(cartItems).reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const discountAmount = subtotal * discount;
+            const tax = (subtotal - discountAmount) * 0.08;
+            const total = subtotal - discountAmount + tax;
+            
+            // Update all summary displays
+            const summaryLines = document.querySelectorAll('.summary-line');
+            if (summaryLines.length >= 4) {
+                summaryLines[0].querySelector('span:last-child').textContent = '$' + subtotal.toFixed(2);
+                summaryLines[1].querySelector('span:last-child').textContent = '-$' + discountAmount.toFixed(2);
+                summaryLines[2].querySelector('span:last-child').textContent = '$' + tax.toFixed(2);
+                summaryLines[3].querySelector('span:last-child').textContent = '$' + total.toFixed(2);
+            }
+        }
+
+        // Promo code functionality
+        function applyPromo() {
+            const promoInput = document.getElementById('promoCode');
+            const promoApplied = document.getElementById('promoApplied');
+            
+            if (promoInput.value.toUpperCase() === 'TEACHER20') {
+                promoApplied.style.display = 'flex';
+                promoInput.disabled = true;
+                discount = 0.20;
+                updateOrderSummary();
+                updateCartDisplay();
+                
+                // Show success message
+                alert('🎉 Promo code applied! You saved 20% on your order.');
+            } else {
+                alert('❌ Invalid promo code. Try TEACHER20 for 20% off!');
+            }
+        }
+
+        // Payment form functionality
+        function selectPaymentMethod(element, method) {
+            // Remove active class from all payment methods
+            const methods = document.querySelectorAll('.payment-method');
+            methods.forEach(m => m.classList.remove('active'));
+            
+            // Add active class to selected method
+            element.classList.add('active');
+            
+            // Show/hide card form based on selection
+            const cardForm = document.getElementById('cardForm');
+            if (method === 'card') {
+                cardForm.style.display = 'block';
+            } else {
+                cardForm.style.display = 'none';
+                if (method === 'paypal') {
+                    alert('🅿️ PayPal integration would redirect to PayPal checkout');
+                } else if (method === 'apple') {
+                    alert('🍎 Apple Pay would show the native Apple Pay dialog');
+                }
+            }
+        }
+
+        function formatCardNumber(input) {
+            let value = input.value.replace(/\s/g, '').replace(/[^0-9]/gi, '');
+            let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+            input.value = formattedValue;
+        }
+
+        function formatExpiry(input) {
+            let value = input.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            }
+            input.value = value;
+        }
+
+        function processPayment(event) {
+            event.preventDefault();
+            
+            // Show loading state
+            const button = event.target;
+            const originalText = button.innerHTML;
+            button.innerHTML = '<div class="loading-spinner" style="width: 20px; height: 20px; margin: 0 auto;"></div>';
+            button.disabled = true;
+            
+            // Simulate payment processing
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.disabled = false;
+                showPage('confirmation');
+                
+                // Show success message
+                alert('🎉 Payment successful! Your tools are now available.');
+            }, 2000);
+        }
+
+        // Tool actions
+        function launchTool(toolId) {
+            alert(`🚀 Launching ${toolId}! In the full version, this would open the tool in a new window or tab, ready for classroom use.`);
+        }
+
+        function shareTool(toolId) {
+            alert(`📤 Sharing ${toolId}! In the full version, this would open sharing options to send the tool to colleagues or post on social media.`);
+        }
+
+        function toggleFavorite(toolId) {
+            const button = event.target.closest('.action-button');
+            const isFavorited = button.style.color === 'rgb(245, 158, 11)';
+            
+            if (isFavorited) {
+                button.style.color = '';
+                button.style.background = '#F3F4F6';
+                alert(`Removed ${toolId} from favorites`);
+            } else {
+                button.style.color = '#F59E0B';
+                button.style.background = '#FEF3C7';
+                alert(`Added ${toolId} to favorites! ⭐`);
+            }
+        }
+
+        function viewPurchase(toolId) {
+            alert(`📄 Viewing purchase details for ${toolId}. This would show your purchase history, license information, and download options.`);
+        }
+
+        function downloadTool(toolId) {
+            alert(`⬇️ Downloading ${toolId} for offline use. In the full version, this would download the tool files to your device.`);
+        }
+
+        function openCart() {
+            alert(`🛒 Opening cart with 3 items. This would show your pending purchases and checkout options.`);
+        }
+
+        function showEmptyCart() {
+            const cartMain = document.querySelector('.cart-main');
+            cartMain.innerHTML = `
+                <div class="empty-cart">
+                    <div class="empty-cart-icon">🛒</div>
+                    <div class="empty-cart-title">Your cart is empty</div>
+                    <div class="empty-cart-text">Discover amazing educational tools to enhance your teaching</div>
+                    <button class="btn btn-primary" onclick="continueShopping()">
+                        <span>🔍</span>
+                        Start Shopping
+                    </button>
+                </div>
+            `;
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartDisplay();
+        });
+    </script>
 </html>

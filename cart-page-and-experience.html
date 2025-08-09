@@ -1080,7 +1080,40 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-    </style>
+
+       /* Dropdown styles */
+       .dropdown {
+           position: relative;
+           display: inline-block;
+       }
+
+       .dropdown-content {
+           display: none;
+           position: absolute;
+           background-color: #f9f9f9;
+           min-width: 200px;
+           box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+           padding: 8px 12px;
+           z-index: 1;
+           right: 0;
+           border-radius: 8px;
+       }
+
+       .dropdown:hover .dropdown-content {
+           display: block;
+       }
+
+       .dropdown-content a {
+           color: black;
+           padding: 6px 8px;
+           text-decoration: none;
+           display: block;
+       }
+
+       .dropdown-content a:hover {
+           background-color: #ddd;
+       }
+   </style>
 </head>
 <body>
     <!-- Header -->
@@ -1090,8 +1123,16 @@
                                     <nav class="nav">
                                         <a href="home-page.html">Explore</a>
                                         <a href="my-toolkit-dashboard.html">My Toolkit</a>
-                                        <a href="teacher-creator-portal.html">Creator Portal</a>
-            </nav>
+                                        <div class="dropdown">
+                                            <a href="teacher-creator-portal.html">Creator Portal</a>
+                                            <div class="dropdown-content">
+                                                <a href="submit-new-project.html">Submit New Project</a>
+                                                <a href="advanced-teachercreator-settings-panel.html">Advanced Settings</a>
+                                                <a href="payouts-and-metrics-page.html">Payouts & Metrics</a>
+                                                <a href="public-teacher-profile-page.html">Public Profile</a>
+                                            </div>
+                                        </div>
+           </nav>
             <div class="header-right">
                 <button class="cart-icon" onclick="toggleCartDrawer()">
                     🛒
@@ -1102,12 +1143,22 @@
                                     <div class="dropdown-menu" id="userDropdown">
                                         <a href="profile-settings-page.html" class="dropdown-item">Profile Settings</a>
                                         <a href="user-settings-page.html" class="dropdown-item">Account Settings</a>
+                                        <a href="admin-control-panel.html" class="dropdown-item" id="adminPanelLink" style="display:none;">Admin Panel</a>
                                         <a href="#" class="dropdown-item">Logout</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </header>
+  <script>
+      // Check if user is admin
+      const isAdmin = true; // Replace with actual check
+      const adminPanelLink = document.getElementById('adminPanelLink');
+
+      if (isAdmin) {
+          adminPanelLink.style.display = 'block';
+      }
+  </script>
 
     <!-- Cart Drawer -->
     <div class="cart-overlay" id="cartOverlay" onclick="toggleCartDrawer()"></div>
