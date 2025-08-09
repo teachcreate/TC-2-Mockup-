@@ -1,0 +1,2064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creator Portal - TeachCreate.io</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #F9FAFB;
+            color: #111827;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: #4F46E5;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav a {
+            color: #6B7280;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .nav a:hover, .nav a.active {
+            background: #F3F4F6;
+            color: #4F46E5;
+            transform: translateY(-1px);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .cart-icon {
+            position: relative;
+            background: #4F46E5;
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+        }
+
+        .cart-icon:hover {
+            background: #3730A3;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #EF4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .user-dropdown {
+            position: relative;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4F46E5, #F59E0B);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            padding: 0.5rem;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            z-index: 1000;
+        }
+
+        .dropdown-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #374151;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .dropdown-item:hover {
+            background: #F3F4F6;
+            color: #4F46E5;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Dashboard Header */
+        .dashboard-header {
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-subtitle {
+            color: #6B7280;
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: all 0.2s ease;
+            border: 1px solid #E5E7EB;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .stat-trend {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .stat-trend.up {
+            color: #10B981;
+        }
+
+        .stat-trend.down {
+            color: #EF4444;
+        }
+
+        .stat-value {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 2rem;
+            color: #111827;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            color: #6B7280;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        /* Controls Bar */
+        .controls-bar {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .controls-left {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid #E5E7EB;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #6B7280;
+        }
+
+        .filter-btn:hover {
+            border-color: #4F46E5;
+            color: #4F46E5;
+        }
+
+        .filter-btn.active {
+            background: #4F46E5;
+            color: white;
+            border-color: #4F46E5;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-input {
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            width: 300px;
+            transition: all 0.2s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #4F46E5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6B7280;
+        }
+
+        .sort-select {
+            padding: 0.75rem;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            background: white;
+            cursor: pointer;
+        }
+
+        .upload-btn {
+            background: #4F46E5;
+            color: white;
+            border: none;
+            padding: 0.875rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .upload-btn:hover {
+            background: #3730A3;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        /* Tools Grid */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .tool-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: all 0.2s ease;
+            border: 1px solid #E5E7EB;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .tool-image {
+            height: 180px;
+            background: linear-gradient(135deg, #4F46E5, #F59E0B);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            position: relative;
+        }
+
+        .tool-status {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-published {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .status-processing {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+
+        .status-archived {
+            background: #F3F4F6;
+            color: #6B7280;
+        }
+
+        .status-draft {
+            background: #DBEAFE;
+            color: #1E40AF;
+        }
+
+        .tool-content {
+            padding: 1.5rem;
+        }
+
+        .tool-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .tool-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.125rem;
+            color: #111827;
+            margin-bottom: 0.25rem;
+        }
+
+        .tool-category {
+            color: #6B7280;
+            font-size: 0.875rem;
+        }
+
+        .tool-menu {
+            position: relative;
+        }
+
+        .tool-menu-btn {
+            background: none;
+            border: none;
+            color: #6B7280;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .tool-menu-btn:hover {
+            background: #F3F4F6;
+            color: #111827;
+        }
+
+        .tool-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            padding: 0.5rem;
+            min-width: 150px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .tool-dropdown.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .tool-dropdown-item {
+            display: block;
+            padding: 0.5rem 0.75rem;
+            color: #374151;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            font-size: 0.875rem;
+            cursor: pointer;
+        }
+
+        .tool-dropdown-item:hover {
+            background: #F3F4F6;
+            color: #4F46E5;
+        }
+
+        .tool-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .tool-stat {
+            text-align: center;
+        }
+
+        .tool-stat-value {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: #4F46E5;
+        }
+
+        .tool-stat-label {
+            color: #6B7280;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .tool-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            border: none;
+            font-size: 0.875rem;
+        }
+
+        .btn-primary {
+            background: #4F46E5;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #3730A3;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #4F46E5;
+            border: 1px solid #4F46E5;
+        }
+
+        .btn-secondary:hover {
+            background: #4F46E5;
+            color: white;
+        }
+
+        .btn-ghost {
+            background: #F9FAFB;
+            color: #6B7280;
+            border: 1px solid #E5E7EB;
+        }
+
+        .btn-ghost:hover {
+            background: #F3F4F6;
+            color: #111827;
+        }
+
+        /* Modals */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 16px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.9);
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            padding: 2rem 2rem 1rem;
+            border-bottom: 1px solid #E5E7EB;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #111827;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6B7280;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            color: #111827;
+            transform: scale(1.1);
+        }
+
+        .modal-content {
+            padding: 2rem;
+        }
+
+        /* Upload Form */
+        .upload-form {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #374151;
+            font-size: 0.875rem;
+        }
+
+        .form-input {
+            padding: 0.875rem;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #4F46E5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .file-upload {
+            border: 2px dashed #E5E7EB;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .file-upload:hover {
+            border-color: #4F46E5;
+            background: #F9FAFB;
+        }
+
+        .file-upload.dragover {
+            border-color: #4F46E5;
+            background: #EEF2FF;
+        }
+
+        .file-upload-icon {
+            font-size: 3rem;
+            color: #6B7280;
+            margin-bottom: 1rem;
+        }
+
+        .file-upload-text {
+            color: #6B7280;
+            margin-bottom: 0.5rem;
+        }
+
+        .file-upload-hint {
+            color: #9CA3AF;
+            font-size: 0.875rem;
+        }
+
+        .tag-input {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            min-height: 44px;
+            align-items: center;
+        }
+
+        .tag {
+            background: #EEF2FF;
+            color: #4F46E5;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tag-remove {
+            background: none;
+            border: none;
+            color: #4F46E5;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+
+        .tag-input input {
+            border: none;
+            outline: none;
+            flex: 1;
+            min-width: 100px;
+            padding: 0.25rem;
+        }
+
+        /* Analytics Charts */
+        .chart-container {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .chart-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .chart-period {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .period-btn {
+            padding: 0.25rem 0.75rem;
+            border: 1px solid #E5E7EB;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: all 0.2s ease;
+        }
+
+        .period-btn.active {
+            background: #4F46E5;
+            color: white;
+            border-color: #4F46E5;
+        }
+
+        .chart-placeholder {
+            height: 200px;
+            background: linear-gradient(135deg, #EEF2FF, #F0FDF4);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6B7280;
+            font-style: italic;
+        }
+
+        /* Reviews Section */
+        .reviews-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .review-item {
+            border-bottom: 1px solid #E5E7EB;
+            padding: 1.5rem 0;
+        }
+
+        .review-item:last-child {
+            border-bottom: none;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .review-user {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .review-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4F46E5, #F59E0B);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .review-info {
+            flex: 1;
+        }
+
+        .review-name {
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .review-date {
+            color: #6B7280;
+            font-size: 0.875rem;
+        }
+
+        .review-rating {
+            display: flex;
+            gap: 0.25rem;
+            color: #F59E0B;
+        }
+
+        .review-text {
+            color: #374151;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .review-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .review-response {
+            background: #F9FAFB;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            border-left: 3px solid #4F46E5;
+        }
+
+        .response-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #4F46E5;
+            font-size: 0.875rem;
+        }
+
+        /* Version History */
+        .version-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .version-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .version-item:hover {
+            background: #F9FAFB;
+        }
+
+        .version-number {
+            background: #4F46E5;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .version-info {
+            flex: 1;
+        }
+
+        .version-title {
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.25rem;
+        }
+
+        .version-date {
+            color: #6B7280;
+            font-size: 0.875rem;
+        }
+
+        .version-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .main-container {
+                padding: 1rem;
+            }
+
+            .controls-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .controls-left {
+                justify-content: center;
+            }
+
+            .search-input {
+                width: 100%;
+            }
+
+            .tools-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-title {
+                font-size: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-group {
+                flex-wrap: wrap;
+            }
+
+            .modal {
+                width: 95%;
+                margin: 1rem;
+            }
+
+            .modal-header,
+            .modal-content {
+                padding: 1.5rem;
+            }
+
+            .nav {
+                display: none;
+            }
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .tool-card,
+        .stat-card {
+            animation: slideIn 0.3s ease;
+        }
+
+        /* Loading States */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #E5E7EB;
+            border-top: 4px solid #4F46E5;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Success/Error States */
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .alert-success {
+            background: #D1FAE5;
+            color: #065F46;
+            border: 1px solid #A7F3D0;
+        }
+
+        .alert-error {
+            background: #FEE2E2;
+            color: #991B1B;
+            border: 1px solid #FECACA;
+        }
+
+        .alert-warning {
+            background: #FEF3C7;
+            color: #92400E;
+            border: 1px solid #FDE68A;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">TeachCreate.io</a>
+            <nav class="nav">
+                <a href="#">Explore</a>
+                <a href="#">My Toolkit</a>
+                <a href="#" class="active">Creator Portal</a>
+            </nav>
+            <div class="header-right">
+                <button class="cart-icon">
+                    🛒
+                    <span class="cart-badge">2</span>
+                </button>
+                <div class="user-dropdown">
+                    <div class="user-avatar" onclick="toggleDropdown()">MJ</div>
+                    <div class="dropdown-menu" id="userDropdown">
+                        <a href="#" class="dropdown-item">Profile Settings</a>
+                        <a href="#" class="dropdown-item">Account Settings</a>
+                        <a href="#" class="dropdown-item">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            <h1 class="dashboard-title">Creator Dashboard</h1>
+            <p class="dashboard-subtitle">Manage your educational tools and track your success</p>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #10B981, #059669);">💰</div>
+                    <div class="stat-trend up">
+                        <span>↗</span>
+                        <span>+12%</span>
+                    </div>
+                </div>
+                <div class="stat-value">$2,847</div>
+                <div class="stat-label">Total Earnings</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #4F46E5, #3730A3);">📊</div>
+                    <div class="stat-trend up">
+                        <span>↗</span>
+                        <span>+8%</span>
+                    </div>
+                </div>
+                <div class="stat-value">1,234</div>
+                <div class="stat-label">Total Sales</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #F59E0B, #D97706);">👁️</div>
+                    <div class="stat-trend up">
+                        <span>↗</span>
+                        <span>+15%</span>
+                    </div>
+                </div>
+                <div class="stat-value">8,567</div>
+                <div class="stat-label">Total Views</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #EF4444, #DC2626);">⭐</div>
+                    <div class="stat-trend up">
+                        <span>↗</span>
+                        <span>+0.2</span>
+                    </div>
+                </div>
+                <div class="stat-value">4.8</div>
+                <div class="stat-label">Avg Rating</div>
+            </div>
+        </div>
+
+        <!-- Controls Bar -->
+        <div class="controls-bar">
+            <div class="controls-left">
+                <div class="filter-group">
+                    <button class="filter-btn active" onclick="filterTools('all')">All</button>
+                    <button class="filter-btn" onclick="filterTools('published')">Published</button>
+                    <button class="filter-btn" onclick="filterTools('processing')">Processing</button>
+                    <button class="filter-btn" onclick="filterTools('archived')">Archived</button>
+                    <button class="filter-btn" onclick="filterTools('draft')">Draft</button>
+                </div>
+
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input" placeholder="Search your tools..." oninput="searchTools(this.value)">
+                </div>
+
+                <select class="sort-select" onchange="sortTools(this.value)">
+                    <option value="recent">Most Recent</option>
+                    <option value="sales">Most Sold</option>
+                    <option value="liked">Most Liked</option>
+                    <option value="revenue">Highest Revenue</option>
+                    <option value="rating">Highest Rated</option>
+                </select>
+            </div>
+
+            <button class="upload-btn" onclick="openUploadModal()">
+                <span>📤</span>
+                Upload New Tool
+            </button>
+        </div>
+
+        <!-- Tools Grid -->
+        <div class="tools-grid" id="toolsGrid">
+            <div class="tool-card" data-status="published" data-category="math">
+                <div class="tool-image">
+                    🧮
+                    <div class="tool-status status-published">Published</div>
+                </div>
+                <div class="tool-content">
+                    <div class="tool-header">
+                        <div>
+                            <div class="tool-title">Math Quiz Master</div>
+                            <div class="tool-category">Mathematics</div>
+                        </div>
+                        <div class="tool-menu">
+                            <button class="tool-menu-btn" onclick="toggleToolMenu(this)">⋮</button>
+                            <div class="tool-dropdown">
+                                <div class="tool-dropdown-item" onclick="openAnalytics('math-quiz')">📊 Analytics</div>
+                                <div class="tool-dropdown-item" onclick="editTool('math-quiz')">✏️ Edit</div>
+                                <div class="tool-dropdown-item" onclick="openVersions('math-quiz')">📋 Versions</div>
+                                <div class="tool-dropdown-item" onclick="archiveTool('math-quiz')">📦 Archive</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tool-stats">
+                        <div class="tool-stat">
+                            <div class="tool-stat-value">342</div>
+                            <div class="tool-stat-label">Sales</div>
+                        </div>
+                        <div class="tool-stat">
+                            <div class="tool-stat-value">4.9</div>
+                            <div class="tool-stat-label">Rating</div>
+                        </div>
+                        <div class="tool-stat">
+                            <div class="tool-stat-value">$1,026</div>
+                            <div class="tool-stat-label">Revenue</div>
+                        </div>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="btn btn-primary" onclick="openAnalytics('math-quiz')">
+                            <span>📊</span>
+                            Analytics
+                        </button>
+                        <button class="btn btn-secondary" onclick="editTool('math-quiz')">
+                            <span>✏️</span>
+                            Edit
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tool-card" data-status="processing" data-category="language">
+                <div class="tool-image" style="background: linear-gradient(135deg, #EF4444, #DC2626);">
+                    📖
+                    <div class="tool-status status-processing">Processing</div>
+                </div>
+                <div class="tool-content">
+                    <div class="tool-header">
+                        <div>
+                            <div class="tool-title">Story Builder Pro</div>
+                            <div class="tool-category">Language Arts</div>
+                        </div>
+                        <div class="tool-menu">
+                            <button class="tool-menu-btn" onclick="toggleToolMenu(this)">⋮</button>
+                            <div class="tool-dropdown">
+                                <div class="tool-dropdown-item" onclick="editTool('story-builder')">✏️ Edit</div>
+                                <div class="tool-dropdown-item" onclick="cancelProcessing('story-builder')">❌ Cancel</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tool-stats">
+                        <div class="tool-stat">
+                            <div class="tool-stat-value">-</div>
+                            <div class="tool-stat-label">Sales</div>
+                        </div>
+                        <div class="tool-stat">
+                            <div class="tool-stat-value">-</div>
+                            <div class="tool-stat-label">Rating</div>
+                        </div>
+                        <div class="tool-stat">
+                            <div class="tool-stat-value">-</div>
+                            <div class="tool-stat-label">Revenue</div>
+                        </div>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="btn btn-ghost" disabled>
+                            <span>⏳</span>
+                            Processing...
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tool-card" data-status="published" data-category="science">
+                <div class="tool-image" style="background: linear-gradient(135deg, #8B5CF6, #7C3AED);">
+                    🔬
+                    <div class="tool-status status-published">Published</div>
+                </div>
+                <div class="tool-content">
+                    <div class="tool-header">
+                        <div>
+                            <div class="tool-title">Virtual Science Lab</div>
+                            <div class="tool-category">Science</div>
+                        </div>
+                        <div class="tool-menu">
+                            <button class="tool-menu-btn" onclick="toggleToolMenu(this)">⋮</button>
+                            <div class="tool-dropdown">
+                                <div class="tool-dropdown-item" onclick="openAnalytics('science-lab')">📊 Analytics</div>
+                                <div class="tool-dropdown-item" onclick="editTool('science-lab')">✏️ Edit</div>
+                                <div class="tool-dropdown-item" onclick="openVersions('science-lab')">📋 Versions</div>
+                                <div class="tool-dropdown-item" onclick="archiveTool('science-lab')">📦 Archive</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tool-stats">
+                        <div class="tool-stat">
+                            <div class="tool-stat-value">189</div>
+                            <div class="tool-stat-label">Sales</div>
+                        </div>
+                        <div class="tool-stat">
+                            <div class="tool-stat-value">4.7</div>
+                            <div class="tool-stat-label">Rating</div>
+                        </div>
+                        <div class="tool-stat">
+                            <div class="tool-stat-value">$756</div>
+                            <div class="tool-stat-label">Revenue</div>
+                        </div>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="btn btn-primary" onclick="openAnalytics('science-lab')">
+                            <span>📊</span>
+                            Analytics
+                        </button>
+                        <button class="btn btn-secondary" onclick="editTool('science-lab')">
+                            <span>✏️</span>
+                            Edit
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tool-card" data-status="archived" data-category="math">
+                <div class="tool-image" style="background: linear-gradient(135deg, #6B7280, #4B5563);">
+                    📐
+                    <div class="tool-status status-archived">Archived</div>
+                </div>
+                <div class="tool-content">
+                    <div class="tool-header">
+                        <div>
+                            <div class="tool-title">Geometry Helper</div>
+                            <div class="tool-category">Mathematics</div>
+                        </div>
+                        <div class="tool-menu">
+                            <button class="tool-menu-btn" onclick="toggleToolMenu(this)">⋮</button>
+                            <div class="tool-dropdown">
+                                <div class="tool-dropdown-item" onclick="restoreTool('geometry-helper')">🔄 Restore</div>
+                                <div class="tool-dropdown-item" onclick="deleteTool('geometry-helper')">🗑️ Delete</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tool-stats">
+                        <div class="tool-stat">
+                            <div class="tool-stat-value">67</div>
+                            <div class="tool-stat-label">Sales</div>
+                        </div>
+                        <div class="tool-stat">
+                            <div class="tool-stat-value">4.2</div>
+                            <div class="tool-stat-label">Rating</div>
+                        </div>
+                        <div class="tool-stat">
+                            <div class="tool-stat-value">$201</div>
+                            <div class="tool-stat-label">Revenue</div>
+                        </div>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="btn btn-secondary" onclick="restoreTool('geometry-helper')">
+                            <span>🔄</span>
+                            Restore
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tool-card" data-status="draft" data-category="history">
+                <div class="tool-image" style="background: linear-gradient(135deg, #F59E0B, #D97706);">
+                    🏛️
+                    <div class="tool-status status-draft">Draft</div>
+                </div>
+                <div class="tool-content">
+                    <div class="tool-header">
+                        <div>
+                            <div class="tool-title">History Timeline</div>
+                            <div class="tool-category">Social Studies</div>
+                        </div>
+                        <div class="tool-menu">
+                            <button class="tool-menu-btn" onclick="toggleToolMenu(this)">⋮</button>
+                            <div class="tool-dropdown">
+                                <div class="tool-dropdown-item" onclick="editTool('history-timeline')">✏️ Edit</div>
+                                <div class="tool-dropdown-item" onclick="publishTool('history-timeline')">🚀 Publish</div>
+                                <div class="tool-dropdown-item" onclick="deleteTool('history-timeline')">🗑️ Delete</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tool-stats">
+                        <div class="tool-stat">
+                            <div class="tool-stat-value">-</div>
+                            <div class="tool-stat-label">Sales</div>
+                        </div>
+                        <div class="tool-stat">
+                            <div class="tool-stat-value">-</div>
+                            <div class="tool-stat-label">Rating</div>
+                        </div>
+                        <div class="tool-stat">
+                            <div class="tool-stat-value">-</div>
+                            <div class="tool-stat-label">Revenue</div>
+                        </div>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="btn btn-primary" onclick="editTool('history-timeline')">
+                            <span>✏️</span>
+                            Continue Editing
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tool-card" data-status="published" data-category="art">
+                <div class="tool-image" style="background: linear-gradient(135deg, #EC4899, #DB2777);">
+                    🎨
+                    <div class="tool-status status-published">Published</div>
+                </div>
+                <div class="tool-content">
+                    <div class="tool-header">
+                        <div>
+                            <div class="tool-title">Digital Art Studio</div>
+                            <div class="tool-category">Arts & Crafts</div>
+                        </div>
+                        <div class="tool-menu">
+                            <button class="tool-menu-btn" onclick="toggleToolMenu(this)">⋮</button>
+                            <div class="tool-dropdown">
+                                <div class="tool-dropdown-item" onclick="openAnalytics('art-studio')">📊 Analytics</div>
+                                <div class="tool-dropdown-item" onclick="editTool('art-studio')">✏️ Edit</div>
+                                <div class="tool-dropdown-item" onclick="openVersions('art-studio')">📋 Versions</div>
+                                <div class="tool-dropdown-item" onclick="archiveTool('art-studio')">📦 Archive</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tool-stats">
+                        <div class="tool-stat">
+                            <div class="tool-stat-value">156</div>
+                            <div class="tool-stat-label">Sales</div>
+                        </div>
+                        <div class="tool-stat">
+                            <div class="tool-stat-value">4.6</div>
+                            <div class="tool-stat-label">Rating</div>
+                        </div>
+                        <div class="tool-stat">
+                            <div class="tool-stat-value">$468</div>
+                            <div class="tool-stat-label">Revenue</div>
+                        </div>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="btn btn-primary" onclick="openAnalytics('art-studio')">
+                            <span>📊</span>
+                            Analytics
+                        </button>
+                        <button class="btn btn-secondary" onclick="editTool('art-studio')">
+                            <span>✏️</span>
+                            Edit
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reviews Section -->
+        <div class="reviews-section">
+            <h2 style="font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1.5rem; margin-bottom: 1.5rem; color: #111827;">Recent Reviews</h2>
+            
+            <div class="review-item">
+                <div class="review-header">
+                    <div class="review-user">
+                        <div class="review-avatar">SM</div>
+                        <div class="review-info">
+                            <div class="review-name">Sarah Mitchell</div>
+                            <div class="review-date">2 days ago</div>
+                        </div>
+                    </div>
+                    <div class="review-rating">
+                        <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span>
+                    </div>
+                </div>
+                <div class="review-text">
+                    "Math Quiz Master has been a game-changer for my 4th grade class! The students are so engaged, and I love the detailed analytics that help me track their progress. Highly recommend!"
+                </div>
+                <div class="review-actions">
+                    <button class="btn btn-secondary" onclick="respondToReview('review-1')">
+                        <span>💬</span>
+                        Respond
+                    </button>
+                    <button class="btn btn-ghost" onclick="likeReview('review-1')">
+                        <span>👍</span>
+                        Helpful
+                    </button>
+                </div>
+                <div class="review-response">
+                    <div class="response-header">
+                        <span>👨‍🏫</span>
+                        <span>Creator Response</span>
+                    </div>
+                    <div>Thank you so much, Sarah! I'm thrilled to hear that your students are enjoying the quizzes. The analytics feature was designed specifically to help teachers like you track progress effectively. Happy teaching! 🎉</div>
+                </div>
+            </div>
+
+            <div class="review-item">
+                <div class="review-header">
+                    <div class="review-user">
+                        <div class="review-avatar" style="background: linear-gradient(135deg, #10B981, #059669);">JD</div>
+                        <div class="review-info">
+                            <div class="review-name">James Davis</div>
+                            <div class="review-date">5 days ago</div>
+                        </div>
+                    </div>
+                    <div class="review-rating">
+                        <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span style="color: #E5E7EB;">⭐</span>
+                    </div>
+                </div>
+                <div class="review-text">
+                    "Great tool overall! The Virtual Science Lab is fantastic for remote learning. Would love to see more chemistry experiments added in future updates."
+                </div>
+                <div class="review-actions">
+                    <button class="btn btn-secondary" onclick="respondToReview('review-2')">
+                        <span>💬</span>
+                        Respond
+                    </button>
+                    <button class="btn btn-ghost" onclick="likeReview('review-2')">
+                        <span>👍</span>
+                        Helpful
+                    </button>
+                </div>
+            </div>
+
+            <div class="review-item">
+                <div class="review-header">
+                    <div class="review-user">
+                        <div class="review-avatar" style="background: linear-gradient(135deg, #EC4899, #DB2777);">LW</div>
+                        <div class="review-info">
+                            <div class="review-name">Lisa Wang</div>
+                            <div class="review-date">1 week ago</div>
+                        </div>
+                    </div>
+                    <div class="review-rating">
+                        <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span>
+                    </div>
+                </div>
+                <div class="review-text">
+                    "The Digital Art Studio has transformed my art classes! Students can experiment with different techniques without the mess, and the undo feature is perfect for building confidence."
+                </div>
+                <div class="review-actions">
+                    <button class="btn btn-secondary" onclick="respondToReview('review-3')">
+                        <span>💬</span>
+                        Respond
+                    </button>
+                    <button class="btn btn-ghost" onclick="likeReview('review-3')">
+                        <span>👍</span>
+                        Helpful
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload Modal -->
+    <div class="modal-overlay" id="uploadModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Upload New Tool</h2>
+                <button class="modal-close" onclick="closeModal('uploadModal')">×</button>
+            </div>
+            <div class="modal-content">
+                <form class="upload-form" onsubmit="uploadTool(event)">
+                    <div class="form-group">
+                        <label class="form-label">Tool Name</label>
+                        <input type="text" class="form-input" placeholder="Enter tool name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Category</label>
+                        <select class="form-input" required>
+                            <option value="">Select Category</option>
+                            <option value="math">Mathematics</option>
+                            <option value="science">Science</option>
+                            <option value="language">Language Arts</option>
+                            <option value="history">Social Studies</option>
+                            <option value="art">Arts & Crafts</option>
+                            <option value="music">Music</option>
+                            <option value="pe">Physical Education</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-input form-textarea" placeholder="Describe your educational tool..." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Grade Levels</label>
+                        <div class="tag-input" id="gradeTags">
+                            <input type="text" placeholder="Add grade levels (e.g., K-2, 3-5)" onkeypress="addTag(event, 'gradeTags')">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Tags</label>
+                        <div class="tag-input" id="toolTags">
+                            <input type="text" placeholder="Add tags for better discoverability" onkeypress="addTag(event, 'toolTags')">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Price ($)</label>
+                        <input type="number" class="form-input" placeholder="0.00" min="0" step="0.01" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Upload Files</label>
+                        <div class="file-upload" onclick="document.getElementById('fileInput').click()" ondrop="handleDrop(event)" ondragover="handleDragOver(event)">
+                            <div class="file-upload-icon">📁</div>
+                            <div class="file-upload-text">Click to upload or drag and drop</div>
+                            <div class="file-upload-hint">HTML, ZIP, or other educational content files</div>
+                            <input type="file" id="fileInput" style="display: none;" multiple accept=".html,.zip,.pdf,.doc,.docx">
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem;">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('uploadModal')">Cancel</button>
+                        <button type="submit" class="btn btn-primary">
+                            <span>📤</span>
+                            Upload Tool
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Analytics Modal -->
+    <div class="modal-overlay" id="analyticsModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Tool Analytics</h2>
+                <button class="modal-close" onclick="closeModal('analyticsModal')">×</button>
+            </div>
+            <div class="modal-content">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3 class="chart-title">Sales Over Time</h3>
+                        <div class="chart-period">
+                            <button class="period-btn active">7D</button>
+                            <button class="period-btn">30D</button>
+                            <button class="period-btn">90D</button>
+                            <button class="period-btn">1Y</button>
+                        </div>
+                    </div>
+                    <div class="chart-placeholder">📈 Interactive sales chart would appear here</div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3 class="chart-title">User Engagement</h3>
+                    </div>
+                    <div class="chart-placeholder">📊 User engagement metrics and heatmaps</div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                    <div class="stat-card">
+                        <div class="stat-value" style="color: #10B981;">342</div>
+                        <div class="stat-label">Total Downloads</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" style="color: #4F46E5;">4.9</div>
+                        <div class="stat-label">Average Rating</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" style="color: #F59E0B;">87%</div>
+                        <div class="stat-label">Completion Rate</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" style="color: #EF4444;">23min</div>
+                        <div class="stat-label">Avg Session</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Version History Modal -->
+    <div class="modal-overlay" id="versionsModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Version History</h2>
+                <button class="modal-close" onclick="closeModal('versionsModal')">×</button>
+            </div>
+            <div class="modal-content">
+                <div class="version-list">
+                    <div class="version-item">
+                        <div class="version-number">v2.1</div>
+                        <div class="version-info">
+                            <div class="version-title">Added new quiz types and improved analytics</div>
+                            <div class="version-date">March 15, 2024 - Current Version</div>
+                        </div>
+                        <div class="version-actions">
+                            <button class="btn btn-ghost" disabled>Current</button>
+                        </div>
+                    </div>
+
+                    <div class="version-item">
+                        <div class="version-number">v2.0</div>
+                        <div class="version-info">
+                            <div class="version-title">Major UI overhaul and performance improvements</div>
+                            <div class="version-date">February 28, 2024</div>
+                        </div>
+                        <div class="version-actions">
+                            <button class="btn btn-secondary" onclick="revertVersion('v2.0')">Revert</button>
+                            <button class="btn btn-ghost" onclick="compareVersions('v2.0')">Compare</button>
+                        </div>
+                    </div>
+
+                    <div class="version-item">
+                        <div class="version-number">v1.5</div>
+                        <div class="version-info">
+                            <div class="version-title">Bug fixes and stability improvements</div>
+                            <div class="version-date">February 10, 2024</div>
+                        </div>
+                        <div class="version-actions">
+                            <button class="btn btn-secondary" onclick="revertVersion('v1.5')">Revert</button>
+                            <button class="btn btn-ghost" onclick="compareVersions('v1.5')">Compare</button>
+                        </div>
+                    </div>
+
+                    <div class="version-item">
+                        <div class="version-number">v1.0</div>
+                        <div class="version-info">
+                            <div class="version-title">Initial release</div>
+                            <div class="version-date">January 15, 2024</div>
+                        </div>
+                        <div class="version-actions">
+                            <button class="btn btn-secondary" onclick="revertVersion('v1.0')">Revert</button>
+                            <button class="btn btn-ghost" onclick="compareVersions('v1.0')">Compare</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global state
+        let currentFilter = 'all';
+        let currentSort = 'recent';
+        let searchQuery = '';
+
+        // User dropdown functionality
+        function toggleDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.user-dropdown')) {
+                document.getElementById('userDropdown').classList.remove('active');
+            }
+            
+            // Close tool menus when clicking outside
+            if (!e.target.closest('.tool-menu')) {
+                document.querySelectorAll('.tool-dropdown').forEach(dropdown => {
+                    dropdown.classList.remove('active');
+                });
+            }
+        });
+
+        // Tool menu functionality
+        function toggleToolMenu(button) {
+            const dropdown = button.nextElementSibling;
+            const isActive = dropdown.classList.contains('active');
+            
+            // Close all dropdowns
+            document.querySelectorAll('.tool-dropdown').forEach(d => d.classList.remove('active'));
+            
+            // Toggle current dropdown
+            if (!isActive) {
+                dropdown.classList.add('active');
+            }
+        }
+
+        // Filter functionality
+        function filterTools(status) {
+            currentFilter = status;
+            
+            // Update filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Filter tools
+            applyFilters();
+        }
+
+        function searchTools(query) {
+            searchQuery = query.toLowerCase();
+            applyFilters();
+        }
+
+        function sortTools(sortBy) {
+            currentSort = sortBy;
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const tools = document.querySelectorAll('.tool-card');
+            let visibleTools = [];
+            
+            tools.forEach(tool => {
+                const status = tool.dataset.status;
+                const title = tool.querySelector('.tool-title').textContent.toLowerCase();
+                const category = tool.querySelector('.tool-category').textContent.toLowerCase();
+                
+                // Apply status filter
+                const statusMatch = currentFilter === 'all' || status === currentFilter;
+                
+                // Apply search filter
+                const searchMatch = !searchQuery || 
+                    title.includes(searchQuery) || 
+                    category.includes(searchQuery);
+                
+                if (statusMatch && searchMatch) {
+                    tool.style.display = 'block';
+                    visibleTools.push(tool);
+                } else {
+                    tool.style.display = 'none';
+                }
+            });
+            
+            // Apply sorting
+            if (currentSort !== 'recent') {
+                // In a real app, this would sort based on actual data
+                console.log(`Sorting by: ${currentSort}`);
+            }
+        }
+
+        // Modal functionality
+        function openUploadModal() {
+            document.getElementById('uploadModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function openAnalytics(toolId) {
+            document.getElementById('analyticsModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            console.log(`Opening analytics for: ${toolId}`);
+        }
+
+        function openVersions(toolId) {
+            document.getElementById('versionsModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            console.log(`Opening version history for: ${toolId}`);
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Tool actions
+        function editTool(toolId) {
+            alert(`✏️ Opening editor for ${toolId}. In the full version, this would open a comprehensive tool editor with drag-and-drop interface, code editor, and live preview.`);
+        }
+
+        function archiveTool(toolId) {
+            if (confirm('Are you sure you want to archive this tool? It will be hidden from the marketplace but you can restore it later.')) {
+                alert(`📦 ${toolId} has been archived. You can restore it anytime from the Archived filter.`);
+                // In real app, would update the tool status
+            }
+        }
+
+        function restoreTool(toolId) {
+            alert(`🔄 ${toolId} has been restored and is now published again!`);
+        }
+
+        function deleteTool(toolId) {
+            if (confirm('Are you sure you want to permanently delete this tool? This action cannot be undone.')) {
+                alert(`🗑️ ${toolId} has been permanently deleted.`);
+            }
+        }
+
+        function publishTool(toolId) {
+            alert(`🚀 ${toolId} is now being processed for publication. You'll receive an email when it's live!`);
+        }
+
+        function cancelProcessing(toolId) {
+            if (confirm('Are you sure you want to cancel processing? The tool will return to draft status.')) {
+                alert(`❌ Processing cancelled for ${toolId}. The tool is now in draft status.`);
+            }
+        }
+
+        // Upload functionality
+        function uploadTool(event) {
+            event.preventDefault();
+            
+            // Show loading state
+            const button = event.target.querySelector('button[type="submit"]');
+            const originalText = button.innerHTML;
+            button.innerHTML = '<div class="loading-spinner" style="width: 20px; height: 20px; margin: 0 auto;"></div>';
+            button.disabled = true;
+            
+            // Simulate upload
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.disabled = false;
+                closeModal('uploadModal');
+                
+                // Show success message
+                const alert = document.createElement('div');
+                alert.className = 'alert alert-success';
+                alert.innerHTML = '<span>✅</span><span>Tool uploaded successfully! It\'s now being processed and will be available soon.</span>';
+                document.querySelector('.main-container').insertBefore(alert, document.querySelector('.dashboard-header'));
+                
+                setTimeout(() => alert.remove(), 5000);
+            }, 2000);
+        }
+
+        // File upload functionality
+        function handleDragOver(event) {
+            event.preventDefault();
+            event.currentTarget.classList.add('dragover');
+        }
+
+        function handleDrop(event) {
+            event.preventDefault();
+            event.currentTarget.classList.remove('dragover');
+            
+            const files = event.dataTransfer.files;
+            handleFiles(files);
+        }
+
+        function handleFiles(files) {
+            console.log('Files selected:', files);
+            // In real app, would handle file upload
+            alert(`📁 ${files.length} file(s) selected for upload!`);
+        }
+
+        // Tag functionality
+        function addTag(event, containerId) {
+            if (event.key === 'Enter' && event.target.value.trim()) {
+                event.preventDefault();
+                
+                const container = document.getElementById(containerId);
+                const input = event.target;
+                const tagText = input.value.trim();
+                
+                // Create tag element
+                const tag = document.createElement('div');
+                tag.className = 'tag';
+                tag.innerHTML = `
+                    <span>${tagText}</span>
+                    <button type="button" class="tag-remove" onclick="removeTag(this)">×</button>
+                `;
+                
+                // Insert before input
+                container.insertBefore(tag, input);
+                input.value = '';
+            }
+        }
+
+        function removeTag(button) {
+            button.parentElement.remove();
+        }
+
+        // Review functionality
+        function respondToReview(reviewId) {
+            const response = prompt('Enter your response to this review:');
+            if (response) {
+                alert(`💬 Response sent! Your reply: "${response}"`);
+            }
+        }
+
+        function likeReview(reviewId) {
+            alert('👍 Marked as helpful! This helps other creators learn from valuable feedback.');
+        }
+
+        // Version control
+        function revertVersion(version) {
+            if (confirm(`Are you sure you want to revert to ${version}? This will create a new version with the previous content.`)) {
+                alert(`🔄 Reverted to ${version}. A new version has been created with the previous content.`);
+            }
+        }
+
+        function compareVersions(version) {
+            alert(`📋 Opening comparison view between current version and ${version}. You'll see a side-by-side diff of all changes.`);
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add file input change handler
+            document.getElementById('fileInput').addEventListener('change', (e) => {
+                handleFiles(e.target.files);
+            });
+            
+            // Initialize tooltips and other interactive elements
+            console.log('Creator Dashboard initialized');
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Escape to close modals
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay.active').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+                document.body.style.overflow = '';
+            }
+            
+            // Ctrl/Cmd + U to open upload modal
+            if ((e.ctrlKey || e.metaKey) && e.key === 'u') {
+                e.preventDefault();
+                openUploadModal();
+            }
+        });
+
+        // Auto-save functionality for forms
+        function autoSave() {
+            // In real app, would save form data to localStorage or server
+            console.log('Auto-saving form data...');
+        }
+
+        // Set up auto-save for form inputs
+        document.addEventListener('input', (e) => {
+            if (e.target.matches('.form-input, .form-textarea')) {
+                clearTimeout(window.autoSaveTimeout);
+                window.autoSaveTimeout = setTimeout(autoSave, 2000);
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96c580c221a53370',t:'MTc1NDcyNDE1Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
