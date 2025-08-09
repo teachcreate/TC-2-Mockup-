@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Quiz Master - Tool Viewer - TeachCreate.io</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #F9FAFB;
+            color: #111827;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: #4F46E5;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav a {
+            color: #6B7280;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .nav a:hover {
+            background: #F3F4F6;
+            color: #4F46E5;
+            transform: translateY(-1px);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .cart-icon {
+            position: relative;
+            background: #4F46E5;
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+        }
+
+        .cart-icon:hover {
+            background: #3730A3;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #EF4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .user-dropdown {
+            position: relative;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4F46E5, #F59E0B);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            padding: 0.5rem;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            z-index: 1000;
+        }
+
+        .dropdown-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #374151;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .dropdown-item:hover {
+            background: #F3F4F6;
+            color: #4F46E5;
+        }
+
+        /* Main Layout */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+        }
+
+        /* Tool Header */
+        .tool-header {
+            grid-column: 1 / -1;
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 1rem;
+        }
+
+        .tool-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        }
+
+        .tool-subtitle {
+            color: #6B7280;
+            font-size: 1.125rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tool-meta {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #374151;
+            font-weight: 500;
+        }
+
+        .meta-icon {
+            font-size: 1.25rem;
+        }
+
+        .purchase-badge {
+            background: linear-gradient(135deg, #10B981, #059669);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* Toggle Bar */
+        .toggle-bar {
+            background: white;
+            border-radius: 16px;
+            padding: 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+        }
+
+        .toggle-pill {
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            background: #F3F4F6;
+            color: #6B7280;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .toggle-pill:hover {
+            background: #E5E7EB;
+            color: #374151;
+        }
+
+        .toggle-pill.active {
+            background: #4F46E5;
+            color: white;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        /* Tool Interface */
+        .tool-interface {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            overflow: hidden;
+            min-height: 500px;
+        }
+
+        .interface-header {
+            background: linear-gradient(135deg, #4F46E5, #3730A3);
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .interface-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .interface-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .control-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .interface-content {
+            padding: 2rem;
+        }
+
+        /* Class List View */
+        .class-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .student-card {
+            background: #F9FAFB;
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .student-card:hover {
+            border-color: #4F46E5;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.1);
+        }
+
+        .student-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #F59E0B, #D97706);
+            margin: 0 auto 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .student-name {
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.25rem;
+        }
+
+        .student-score {
+            color: #6B7280;
+            font-size: 0.875rem;
+        }
+
+        /* QOTD View */
+        .qotd-container {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .qotd-question {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #111827;
+            margin-bottom: 2rem;
+            line-height: 1.4;
+        }
+
+        .qotd-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .qotd-option {
+            background: #F3F4F6;
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .qotd-option:hover {
+            border-color: #4F46E5;
+            background: #EEF2FF;
+        }
+
+        .qotd-option.correct {
+            border-color: #10B981;
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .qotd-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 2rem;
+            color: #4F46E5;
+        }
+
+        .stat-label {
+            color: #6B7280;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        /* Action Bar */
+        .action-bar {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .launch-button {
+            background: linear-gradient(135deg, #10B981, #059669);
+            color: white;
+            border: none;
+            padding: 1rem 3rem;
+            border-radius: 16px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .launch-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        .launch-subtitle {
+            color: #6B7280;
+            font-size: 0.875rem;
+        }
+
+        /* Side Panel */
+        .side-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .panel-section {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        .panel-header {
+            background: #F9FAFB;
+            padding: 1.5rem;
+            border-bottom: 2px solid #E5E7EB;
+        }
+
+        .panel-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.125rem;
+            color: #111827;
+        }
+
+        .panel-content {
+            padding: 1.5rem;
+        }
+
+        /* Ratings */
+        .rating-summary {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .rating-score {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            color: #F59E0B;
+        }
+
+        .rating-details {
+            flex: 1;
+        }
+
+        .rating-stars {
+            color: #F59E0B;
+            font-size: 1.25rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .rating-count {
+            color: #6B7280;
+            font-size: 0.875rem;
+        }
+
+        .rating-bars {
+            margin-bottom: 1.5rem;
+        }
+
+        .rating-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .bar-label {
+            font-size: 0.875rem;
+            color: #6B7280;
+            width: 20px;
+        }
+
+        .bar-fill {
+            flex: 1;
+            height: 8px;
+            background: #E5E7EB;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .bar-progress {
+            height: 100%;
+            background: #F59E0B;
+            border-radius: 4px;
+        }
+
+        .bar-count {
+            font-size: 0.875rem;
+            color: #6B7280;
+            width: 30px;
+            text-align: right;
+        }
+
+        /* Reviews */
+        .review-item {
+            border-bottom: 1px solid #E5E7EB;
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .review-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .reviewer-name {
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .review-date {
+            color: #6B7280;
+            font-size: 0.875rem;
+        }
+
+        .review-stars {
+            color: #F59E0B;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .review-text {
+            color: #374151;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        /* Upgrades Carousel */
+        .upgrades-section {
+            grid-column: 1 / -1;
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-top: 1rem;
+        }
+
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #111827;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .upgrades-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .upgrade-card {
+            background: #F9FAFB;
+            border: 2px solid #E5E7EB;
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .upgrade-card:hover {
+            border-color: #4F46E5;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .upgrade-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .upgrade-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .upgrade-price {
+            background: #4F46E5;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .upgrade-description {
+            color: #6B7280;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .upgrade-features {
+            list-style: none;
+            margin-bottom: 1rem;
+        }
+
+        .upgrade-features li {
+            color: #374151;
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .upgrade-features li::before {
+            content: "✓";
+            color: #10B981;
+            font-weight: 700;
+        }
+
+        .upgrade-button {
+            background: #4F46E5;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+
+        .upgrade-button:hover {
+            background: #3730A3;
+            transform: translateY(-1px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+
+            .tool-title {
+                font-size: 2rem;
+            }
+
+            .tool-meta {
+                gap: 1rem;
+            }
+
+            .toggle-bar {
+                padding: 0.75rem;
+            }
+
+            .toggle-pill {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 0 1rem;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .tool-header {
+                padding: 1.5rem;
+            }
+
+            .tool-title {
+                font-size: 1.75rem;
+            }
+
+            .tool-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+
+            .class-list {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+
+            .qotd-options {
+                grid-template-columns: 1fr;
+            }
+
+            .qotd-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .upgrades-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .launch-button {
+                padding: 0.875rem 2rem;
+                font-size: 1.125rem;
+            }
+        }
+
+        /* Hidden content views */
+        .content-view {
+            display: none;
+        }
+
+        .content-view.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">TeachCreate.io</a>
+            <nav class="nav">
+                <a href="#">Explore</a>
+                <a href="#">My Toolkit</a>
+                <a href="#">Creator Portal</a>
+            </nav>
+            <div class="header-right">
+                <button class="cart-icon">
+                    🛒
+                    <span class="cart-badge">2</span>
+                </button>
+                <div class="user-dropdown">
+                    <div class="user-avatar" onclick="toggleDropdown()">MJ</div>
+                    <div class="dropdown-menu" id="userDropdown">
+                        <a href="#" class="dropdown-item">Profile Settings</a>
+                        <a href="#" class="dropdown-item">Account Settings</a>
+                        <a href="#" class="dropdown-item">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Tool Header -->
+        <div class="tool-header">
+            <h1 class="tool-title">Math Quiz Master</h1>
+            <p class="tool-subtitle">Interactive daily math challenges for grades 3-5</p>
+            <div class="tool-meta">
+                <div class="meta-item">
+                    <span class="meta-icon">👥</span>
+                    <span>Up to 30 students</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-icon">📊</span>
+                    <span>Real-time analytics</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-icon">⭐</span>
+                    <span>4.9/5 rating</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-icon">🎯</span>
+                    <span>Common Core aligned</span>
+                </div>
+                <div class="purchase-badge">
+                    <span>✓</span>
+                    <span>Purchased</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Toggle Bar -->
+            <div class="toggle-bar">
+                <button class="toggle-pill active" onclick="showView('class-list')">
+                    <span>👥</span>
+                    Class List
+                </button>
+                <button class="toggle-pill" onclick="showView('qotd')">
+                    <span>❓</span>
+                    Question of the Day
+                </button>
+                <button class="toggle-pill" onclick="showView('analytics')">
+                    <span>📊</span>
+                    Analytics
+                </button>
+                <button class="toggle-pill" onclick="showView('settings')">
+                    <span>⚙️</span>
+                    Settings
+                </button>
+                <button class="toggle-pill" onclick="showView('help')">
+                    <span>❓</span>
+                    Help
+                </button>
+            </div>
+
+            <!-- Tool Interface -->
+            <div class="tool-interface">
+                <div class="interface-header">
+                    <div class="interface-title">Live Preview - Try It Out!</div>
+                    <div class="interface-controls">
+                        <button class="control-btn" title="Fullscreen">⛶</button>
+                        <button class="control-btn" title="Settings">⚙️</button>
+                        <button class="control-btn" title="Help">❓</button>
+                    </div>
+                </div>
+                <div class="interface-content">
+                    <!-- Class List View -->
+                    <div id="class-list" class="content-view active">
+                        <div class="class-list">
+                            <div class="student-card" onclick="selectStudent('emma')">
+                                <div class="student-avatar">EM</div>
+                                <div class="student-name">Emma Johnson</div>
+                                <div class="student-score">92% Average</div>
+                            </div>
+                            <div class="student-card" onclick="selectStudent('alex')">
+                                <div class="student-avatar" style="background: linear-gradient(135deg, #4F46E5, #3730A3);">AL</div>
+                                <div class="student-name">Alex Rodriguez</div>
+                                <div class="student-score">88% Average</div>
+                            </div>
+                            <div class="student-card" onclick="selectStudent('sarah')">
+                                <div class="student-avatar" style="background: linear-gradient(135deg, #10B981, #059669);">SA</div>
+                                <div class="student-name">Sarah Chen</div>
+                                <div class="student-score">95% Average</div>
+                            </div>
+                            <div class="student-card" onclick="selectStudent('mike')">
+                                <div class="student-avatar" style="background: linear-gradient(135deg, #EF4444, #DC2626);">MI</div>
+                                <div class="student-name">Mike Thompson</div>
+                                <div class="student-score">85% Average</div>
+                            </div>
+                            <div class="student-card" onclick="selectStudent('lily')">
+                                <div class="student-avatar" style="background: linear-gradient(135deg, #8B5CF6, #7C3AED);">LI</div>
+                                <div class="student-name">Lily Park</div>
+                                <div class="student-score">91% Average</div>
+                            </div>
+                            <div class="student-card" onclick="selectStudent('james')">
+                                <div class="student-avatar" style="background: linear-gradient(135deg, #06B6D4, #0891B2);">JA</div>
+                                <div class="student-name">James Wilson</div>
+                                <div class="student-score">89% Average</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question of the Day View -->
+                    <div id="qotd" class="content-view">
+                        <div class="qotd-container">
+                            <div class="qotd-question">
+                                If Sarah has 24 stickers and wants to share them equally among 6 friends, how many stickers will each friend get?
+                            </div>
+                            <div class="qotd-options">
+                                <div class="qotd-option correct" onclick="selectAnswer(this, true)">
+                                    4 stickers
+                                </div>
+                                <div class="qotd-option" onclick="selectAnswer(this, false)">
+                                    6 stickers
+                                </div>
+                                <div class="qotd-option" onclick="selectAnswer(this, false)">
+                                    3 stickers
+                                </div>
+                                <div class="qotd-option" onclick="selectAnswer(this, false)">
+                                    5 stickers
+                                </div>
+                            </div>
+                            <div class="qotd-stats">
+                                <div class="stat-item">
+                                    <div class="stat-value">18</div>
+                                    <div class="stat-label">Students Answered</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">83%</div>
+                                    <div class="stat-label">Correct Rate</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">2:15</div>
+                                    <div class="stat-label">Avg Time</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Analytics View -->
+                    <div id="analytics" class="content-view">
+                        <div style="text-align: center; padding: 3rem; color: #6B7280;">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
+                            <h3 style="font-family: 'Poppins', sans-serif; font-weight: 700; color: #111827; margin-bottom: 0.5rem;">Detailed Analytics Dashboard</h3>
+                            <p>Track student progress, identify learning gaps, and celebrate achievements with comprehensive reporting tools.</p>
+                        </div>
+                    </div>
+
+                    <!-- Settings View -->
+                    <div id="settings" class="content-view">
+                        <div style="text-align: center; padding: 3rem; color: #6B7280;">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">⚙️</div>
+                            <h3 style="font-family: 'Poppins', sans-serif; font-weight: 700; color: #111827; margin-bottom: 0.5rem;">Customization Settings</h3>
+                            <p>Personalize difficulty levels, question types, timing, and classroom integration options to match your teaching style.</p>
+                        </div>
+                    </div>
+
+                    <!-- Help View -->
+                    <div id="help" class="content-view">
+                        <div style="text-align: center; padding: 3rem; color: #6B7280;">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">❓</div>
+                            <h3 style="font-family: 'Poppins', sans-serif; font-weight: 700; color: #111827; margin-bottom: 0.5rem;">Help & Support</h3>
+                            <p>Access video tutorials, setup guides, troubleshooting tips, and connect with our teacher support community.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Bar -->
+            <div class="action-bar">
+                <button class="launch-button" onclick="launchTool()">
+                    <span>🚀</span>
+                    Launch Now
+                </button>
+                <div class="launch-subtitle">Ready to use in your classroom immediately</div>
+            </div>
+        </div>
+
+        <!-- Side Panel -->
+        <div class="side-panel">
+            <!-- Ratings & Reviews -->
+            <div class="panel-section">
+                <div class="panel-header">
+                    <div class="panel-title">Ratings & Reviews</div>
+                </div>
+                <div class="panel-content">
+                    <div class="rating-summary">
+                        <div class="rating-score">4.9</div>
+                        <div class="rating-details">
+                            <div class="rating-stars">★★★★★</div>
+                            <div class="rating-count">Based on 247 reviews</div>
+                        </div>
+                    </div>
+                    
+                    <div class="rating-bars">
+                        <div class="rating-bar">
+                            <div class="bar-label">5</div>
+                            <div class="bar-fill">
+                                <div class="bar-progress" style="width: 85%;"></div>
+                            </div>
+                            <div class="bar-count">210</div>
+                        </div>
+                        <div class="rating-bar">
+                            <div class="bar-label">4</div>
+                            <div class="bar-fill">
+                                <div class="bar-progress" style="width: 12%;"></div>
+                            </div>
+                            <div class="bar-count">29</div>
+                        </div>
+                        <div class="rating-bar">
+                            <div class="bar-label">3</div>
+                            <div class="bar-fill">
+                                <div class="bar-progress" style="width: 2%;"></div>
+                            </div>
+                            <div class="bar-count">5</div>
+                        </div>
+                        <div class="rating-bar">
+                            <div class="bar-label">2</div>
+                            <div class="bar-fill">
+                                <div class="bar-progress" style="width: 1%;"></div>
+                            </div>
+                            <div class="bar-count">2</div>
+                        </div>
+                        <div class="rating-bar">
+                            <div class="bar-label">1</div>
+                            <div class="bar-fill">
+                                <div class="bar-progress" style="width: 0%;"></div>
+                            </div>
+                            <div class="bar-count">1</div>
+                        </div>
+                    </div>
+
+                    <div class="review-item">
+                        <div class="review-header">
+                            <div class="reviewer-name">Jennifer M.</div>
+                            <div class="review-date">2 days ago</div>
+                        </div>
+                        <div class="review-stars">★★★★★</div>
+                        <div class="review-text">
+                            "My 4th graders absolutely love the daily math challenges! The interface is so intuitive and the real-time feedback keeps them engaged."
+                        </div>
+                    </div>
+
+                    <div class="review-item">
+                        <div class="review-header">
+                            <div class="reviewer-name">Robert K.</div>
+                            <div class="review-date">1 week ago</div>
+                        </div>
+                        <div class="review-stars">★★★★★</div>
+                        <div class="review-text">
+                            "Perfect for morning warm-ups! The analytics help me identify which concepts need more practice."
+                        </div>
+                    </div>
+
+                    <div class="review-item">
+                        <div class="review-header">
+                            <div class="reviewer-name">Lisa T.</div>
+                            <div class="review-date">2 weeks ago</div>
+                        </div>
+                        <div class="review-stars">★★★★★</div>
+                        <div class="review-text">
+                            "Easy setup, great student engagement, and the progress tracking is fantastic. Highly recommend!"
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q&A Section -->
+            <div class="panel-section">
+                <div class="panel-header">
+                    <div class="panel-title">Questions & Answers</div>
+                </div>
+                <div class="panel-content">
+                    <div class="review-item">
+                        <div class="review-header">
+                            <div class="reviewer-name">Q: How do I add students?</div>
+                        </div>
+                        <div class="review-text">
+                            <strong>A:</strong> Click the "Add Students" button in the Class List view. You can import from Google Classroom, upload a CSV file, or add manually.
+                        </div>
+                    </div>
+
+                    <div class="review-item">
+                        <div class="review-header">
+                            <div class="reviewer-name">Q: Can I customize difficulty?</div>
+                        </div>
+                        <div class="review-text">
+                            <strong>A:</strong> Yes! Go to Settings to adjust difficulty levels, question types, and timing for each student or the entire class.
+                        </div>
+                    </div>
+
+                    <div class="review-item">
+                        <div class="review-header">
+                            <div class="reviewer-name">Q: Is it Common Core aligned?</div>
+                        </div>
+                        <div class="review-text">
+                            <strong>A:</strong> Absolutely! All questions are aligned with Common Core standards for grades 3-5, with clear standard references in the analytics.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upgrades Section -->
+        <div class="upgrades-section">
+            <h2 class="section-title">Enhance Your Experience</h2>
+            <div class="upgrades-grid">
+                <div class="upgrade-card" onclick="purchaseUpgrade('premium')">
+                    <div class="upgrade-header">
+                        <div class="upgrade-title">Premium Analytics</div>
+                        <div class="upgrade-price">$9.99</div>
+                    </div>
+                    <div class="upgrade-description">
+                        Get detailed insights into student learning patterns and progress tracking.
+                    </div>
+                    <ul class="upgrade-features">
+                        <li>Individual student reports</li>
+                        <li>Parent communication tools</li>
+                        <li>Learning gap identification</li>
+                        <li>Progress over time charts</li>
+                    </ul>
+                    <button class="upgrade-button">Add to Cart</button>
+                </div>
+
+                <div class="upgrade-card" onclick="purchaseUpgrade('advanced')">
+                    <div class="upgrade-header">
+                        <div class="upgrade-title">Advanced Question Bank</div>
+                        <div class="upgrade-price">$14.99</div>
+                    </div>
+                    <div class="upgrade-description">
+                        Access 500+ additional questions with advanced problem-solving challenges.
+                    </div>
+                    <ul class="upgrade-features">
+                        <li>Word problems collection</li>
+                        <li>Multi-step challenges</li>
+                        <li>Visual math problems</li>
+                        <li>Seasonal themed questions</li>
+                    </ul>
+                    <button class="upgrade-button">Add to Cart</button>
+                </div>
+
+                <div class="upgrade-card" onclick="purchaseUpgrade('bundle')">
+                    <div class="upgrade-header">
+                        <div class="upgrade-title">Complete Bundle</div>
+                        <div class="upgrade-price">$19.99</div>
+                    </div>
+                    <div class="upgrade-description">
+                        Get everything! Premium Analytics + Advanced Questions + bonus features.
+                    </div>
+                    <ul class="upgrade-features">
+                        <li>All premium features</li>
+                        <li>Custom question creator</li>
+                        <li>Homework assignments</li>
+                        <li>Priority support</li>
+                    </ul>
+                    <button class="upgrade-button" style="background: #10B981;">Best Value</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // User dropdown functionality
+        function toggleDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.user-dropdown')) {
+                document.getElementById('userDropdown').classList.remove('active');
+            }
+        });
+
+        // View switching functionality
+        function showView(viewId) {
+            // Hide all views
+            const views = document.querySelectorAll('.content-view');
+            views.forEach(view => {
+                view.classList.remove('active');
+            });
+
+            // Show selected view
+            document.getElementById(viewId).classList.add('active');
+
+            // Update toggle pills
+            const pills = document.querySelectorAll('.toggle-pill');
+            pills.forEach(pill => {
+                pill.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // Student selection
+        function selectStudent(studentId) {
+            alert(`Viewing detailed progress for ${studentId}. In the full version, this would show individual analytics, recent answers, and personalized recommendations.`);
+        }
+
+        // Answer selection for QOTD
+        function selectAnswer(element, isCorrect) {
+            // Remove any existing selections
+            const options = document.querySelectorAll('.qotd-option');
+            options.forEach(option => {
+                option.style.background = '#F3F4F6';
+                option.style.borderColor = '#E5E7EB';
+                option.style.color = '#111827';
+            });
+
+            // Highlight selected answer
+            if (isCorrect) {
+                element.style.background = '#D1FAE5';
+                element.style.borderColor = '#10B981';
+                element.style.color = '#065F46';
+                setTimeout(() => {
+                    alert('Correct! 🎉 Great job! The answer is 4 stickers (24 ÷ 6 = 4)');
+                }, 300);
+            } else {
+                element.style.background = '#FEE2E2';
+                element.style.borderColor = '#EF4444';
+                element.style.color = '#991B1B';
+                setTimeout(() => {
+                    alert('Not quite right. Try again! Think about 24 divided by 6. 🤔');
+                }, 300);
+            }
+        }
+
+        // Launch tool functionality
+        function launchTool() {
+            // Create launch modal
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.5);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 1000;
+            `;
+
+            const modalContent = document.createElement('div');
+            modalContent.style.cssText = `
+                background: white;
+                border-radius: 16px;
+                padding: 2rem;
+                max-width: 500px;
+                text-align: center;
+                box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            `;
+
+            modalContent.innerHTML = `
+                <div style="font-size: 3rem; margin-bottom: 1rem;">🚀</div>
+                <h2 style="font-family: 'Poppins', sans-serif; font-weight: 700; color: #111827; margin-bottom: 1rem;">Ready to Launch!</h2>
+                <p style="color: #6B7280; margin-bottom: 2rem;">Your Math Quiz Master tool will open in a new window, ready for classroom use.</p>
+                <div style="display: flex; gap: 1rem; justify-content: center;">
+                    <button onclick="document.body.removeChild(this.closest('div').parentElement)" style="background: #E5E7EB; color: #374151; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer;">Cancel</button>
+                    <button onclick="actualLaunch()" style="background: #10B981; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer;">Launch Tool</button>
+                </div>
+            `;
+
+            modal.appendChild(modalContent);
+            document.body.appendChild(modal);
+
+            // Close modal when clicking outside
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            });
+        }
+
+        function actualLaunch() {
+            alert('🎉 Tool launched successfully! In the full version, this would open your Math Quiz Master in a new window, ready for your students to use.');
+            // Remove modal
+            const modal = document.querySelector('div[style*="position: fixed"]');
+            if (modal) {
+                document.body.removeChild(modal);
+            }
+        }
+
+        // Purchase upgrade functionality
+        function purchaseUpgrade(upgradeType) {
+            const upgrades = {
+                premium: 'Premium Analytics',
+                advanced: 'Advanced Question Bank',
+                bundle: 'Complete Bundle'
+            };
+
+            alert(`Adding ${upgrades[upgradeType]} to your cart! This upgrade will enhance your Math Quiz Master with additional features and capabilities.`);
+        }
+
+        // Initialize page with animations
+        document.addEventListener('DOMContentLoaded', () => {
+            // Animate student cards
+            const studentCards = document.querySelectorAll('.student-card');
+            studentCards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+
+            // Animate upgrade cards
+            const upgradeCards = document.querySelectorAll('.upgrade-card');
+            upgradeCards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.8s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 1000 + (index * 200));
+            });
+
+            // Add pulse animation to launch button
+            const launchButton = document.querySelector('.launch-button');
+            setInterval(() => {
+                launchButton.style.transform = 'scale(1.02)';
+                setTimeout(() => {
+                    launchButton.style.transform = 'scale(1)';
+                }, 200);
+            }, 3000);
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96c5703e36880669',t:'MTc1NDcyMzQ3Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
