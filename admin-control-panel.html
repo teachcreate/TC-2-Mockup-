@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal - TeachCreate.io</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #F9FAFB;
+            color: #111827;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: #4F46E5;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav a {
+            color: #6B7280;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .nav a:hover {
+            background: #F3F4F6;
+            color: #4F46E5;
+            transform: translateY(-1px);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .cart-icon {
+            position: relative;
+            background: #4F46E5;
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+        }
+
+        .cart-icon:hover {
+            background: #3730A3;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #EF4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .user-dropdown {
+            position: relative;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #EF4444, #F59E0B);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            padding: 0.5rem;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            z-index: 1000;
+        }
+
+        .dropdown-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #374151;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .dropdown-item:hover {
+            background: #F3F4F6;
+            color: #4F46E5;
+        }
+
+        /* Admin Badge */
+        .admin-badge {
+            background: linear-gradient(135deg, #EF4444, #DC2626);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+
+        /* Main Layout */
+        .admin-layout {
+            display: flex;
+            min-height: calc(100vh - 80px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+            padding: 2rem 0;
+            position: sticky;
+            top: 80px;
+            height: calc(100vh - 80px);
+            overflow-y: auto;
+        }
+
+        .sidebar-section {
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 0.875rem;
+            color: #6B7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.875rem 1.5rem;
+            color: #374151;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            border-right: 3px solid transparent;
+        }
+
+        .sidebar-item:hover {
+            background: #F9FAFB;
+            color: #4F46E5;
+            border-right-color: #4F46E5;
+        }
+
+        .sidebar-item.active {
+            background: #EEF2FF;
+            color: #4F46E5;
+            border-right-color: #4F46E5;
+            font-weight: 600;
+        }
+
+        .sidebar-icon {
+            font-size: 1.25rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-x: auto;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: 2rem;
+            color: #111827;
+        }
+
+        .page-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Dashboard Cards */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-color: #E5E7EB;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-weight: 600;
+            color: #6B7280;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .card-icon {
+            font-size: 1.5rem;
+            padding: 0.5rem;
+            border-radius: 12px;
+            background: #F3F4F6;
+        }
+
+        .card-value {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 2rem;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-change {
+            font-size: 0.875rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .card-change.positive {
+            color: #10B981;
+        }
+
+        .card-change.negative {
+            color: #EF4444;
+        }
+
+        /* Tables */
+        .table-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .table-header {
+            padding: 1.5rem;
+            border-bottom: 2px solid #F3F4F6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: #111827;
+        }
+
+        .table-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .search-input {
+            padding: 0.5rem 1rem;
+            border: 2px solid #E5E7EB;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            width: 250px;
+            transition: all 0.2s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #4F46E5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .filter-select {
+            padding: 0.5rem 1rem;
+            border: 2px solid #E5E7EB;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            background: white;
+            cursor: pointer;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            background: #F9FAFB;
+            padding: 1rem 1.5rem;
+            text-align: left;
+            font-weight: 600;
+            color: #374151;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 2px solid #E5E7EB;
+        }
+
+        .data-table td {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #F3F4F6;
+            color: #374151;
+        }
+
+        .data-table tr:hover {
+            background: #F9FAFB;
+        }
+
+        /* Status Badges */
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .status-active {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .status-pending {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+
+        .status-suspended {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+
+        .status-flagged {
+            background: #FECACA;
+            color: #B91C1C;
+        }
+
+        /* Action Buttons */
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            font-size: 0.875rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: #4F46E5;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #3730A3;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .btn-secondary {
+            background: #F59E0B;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #D97706;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+
+        .btn-danger {
+            background: #EF4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #DC2626;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #4F46E5;
+            border: 2px solid #4F46E5;
+        }
+
+        .btn-outline:hover {
+            background: #4F46E5;
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 0.375rem 0.75rem;
+            font-size: 0.75rem;
+        }
+
+        /* Content Sections */
+        .content-section {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .section-header {
+            padding: 1.5rem;
+            border-bottom: 2px solid #F3F4F6;
+            background: linear-gradient(135deg, #F9FAFB, #F3F4F6);
+        }
+
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-description {
+            color: #6B7280;
+            font-size: 0.875rem;
+        }
+
+        .section-content {
+            padding: 1.5rem;
+        }
+
+        /* Moderation Queue */
+        .moderation-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border: 2px solid #F3F4F6;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .moderation-item:hover {
+            border-color: #E5E7EB;
+            background: #F9FAFB;
+        }
+
+        .moderation-info {
+            flex: 1;
+        }
+
+        .moderation-title {
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.25rem;
+        }
+
+        .moderation-meta {
+            color: #6B7280;
+            font-size: 0.875rem;
+        }
+
+        .moderation-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Charts */
+        .chart-container {
+            height: 300px;
+            background: #F9FAFB;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6B7280;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .admin-layout {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: static;
+                padding: 1rem 0;
+            }
+
+            .sidebar-item {
+                padding: 0.75rem 1rem;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1rem;
+            }
+
+            .table-controls {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.5rem;
+            }
+
+            .search-input {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 0 1rem;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .page-actions {
+                width: 100%;
+                justify-content: stretch;
+            }
+
+            .page-actions .btn {
+                flex: 1;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .data-table {
+                font-size: 0.875rem;
+            }
+
+            .data-table th,
+            .data-table td {
+                padding: 0.75rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">TeachCreate.io<span class="admin-badge">ADMIN</span></a>
+            <nav class="nav">
+                <a href="#">Explore</a>
+                <a href="#">My Toolkit</a>
+                <a href="#">Creator Portal</a>
+            </nav>
+            <div class="header-right">
+                <button class="cart-icon">
+                    🛒
+                    <span class="cart-badge">3</span>
+                </button>
+                <div class="user-dropdown">
+                    <div class="user-avatar" onclick="toggleDropdown()">AD</div>
+                    <div class="dropdown-menu" id="userDropdown">
+                        <a href="#" class="dropdown-item">Profile Settings</a>
+                        <a href="#" class="dropdown-item">Account Settings</a>
+                        <a href="#" class="dropdown-item">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Admin Layout -->
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">Management</div>
+                <a href="#" class="sidebar-item active" onclick="showSection('dashboard')">
+                    <span class="sidebar-icon">📊</span>
+                    Dashboard
+                </a>
+                <a href="#" class="sidebar-item" onclick="showSection('users')">
+                    <span class="sidebar-icon">👥</span>
+                    User Management
+                </a>
+                <a href="#" class="sidebar-item" onclick="showSection('content')">
+                    <span class="sidebar-icon">🔍</span>
+                    Content Moderation
+                </a>
+                <a href="#" class="sidebar-item" onclick="showSection('financial')">
+                    <span class="sidebar-icon">💰</span>
+                    Financial Reports
+                </a>
+            </div>
+            <div class="sidebar-section">
+                <div class="sidebar-title">Operations</div>
+                <a href="#" class="sidebar-item" onclick="showSection('applications')">
+                    <span class="sidebar-icon">📝</span>
+                    Applications
+                </a>
+                <a href="#" class="sidebar-item" onclick="showSection('communications')">
+                    <span class="sidebar-icon">💬</span>
+                    Communications
+                </a>
+                <a href="#" class="sidebar-item" onclick="showSection('settings')">
+                    <span class="sidebar-icon">⚙️</span>
+                    System Settings
+                </a>
+            </div>
+            <div class="sidebar-section">
+                <div class="sidebar-title">Tools</div>
+                <a href="#" class="sidebar-item" onclick="showSection('analytics')">
+                    <span class="sidebar-icon">📈</span>
+                    Analytics
+                </a>
+                <a href="#" class="sidebar-item" onclick="showSection('logs')">
+                    <span class="sidebar-icon">📋</span>
+                    System Logs
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Section -->
+            <div id="dashboard" class="content-view">
+                <div class="page-header">
+                    <h1 class="page-title">Admin Dashboard</h1>
+                    <div class="page-actions">
+                        <button class="btn btn-primary">
+                            <span>📊</span>
+                            Generate Report
+                        </button>
+                        <button class="btn btn-outline">
+                            <span>🔄</span>
+                            Refresh Data
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Dashboard Cards -->
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">Total Sales</div>
+                            <div class="card-icon" style="background: #EEF2FF; color: #4F46E5;">💰</div>
+                        </div>
+                        <div class="card-value">$127,543</div>
+                        <div class="card-change positive">
+                            <span>↗️</span>
+                            +12.5% from last month
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">Active Teachers</div>
+                            <div class="card-icon" style="background: #F0FDF4; color: #10B981;">👨‍🏫</div>
+                        </div>
+                        <div class="card-value">2,847</div>
+                        <div class="card-change positive">
+                            <span>↗️</span>
+                            +8.3% from last month
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">Monthly Revenue</div>
+                            <div class="card-icon" style="background: #FFFBEB; color: #F59E0B;">📈</div>
+                        </div>
+                        <div class="card-value">$43,291</div>
+                        <div class="card-change positive">
+                            <span>↗️</span>
+                            +15.7% from last month
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">Pending Reviews</div>
+                            <div class="card-icon" style="background: #FEF2F2; color: #EF4444;">⏳</div>
+                        </div>
+                        <div class="card-value">47</div>
+                        <div class="card-change negative">
+                            <span>↗️</span>
+                            +3 from yesterday
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="content-section">
+                    <div class="section-header">
+                        <div class="section-title">Recent Activity</div>
+                        <div class="section-description">Latest platform activity and system events</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="moderation-item">
+                            <div class="moderation-info">
+                                <div class="moderation-title">New teacher application submitted</div>
+                                <div class="moderation-meta">Sarah Johnson • Elementary Math • 2 minutes ago</div>
+                            </div>
+                            <div class="moderation-actions">
+                                <button class="btn btn-primary btn-sm">Review</button>
+                            </div>
+                        </div>
+
+                        <div class="moderation-item">
+                            <div class="moderation-info">
+                                <div class="moderation-title">Content flagged for review</div>
+                                <div class="moderation-meta">"Advanced Algebra Worksheets" • Reported by 3 users • 15 minutes ago</div>
+                            </div>
+                            <div class="moderation-actions">
+                                <button class="btn btn-secondary btn-sm">Moderate</button>
+                            </div>
+                        </div>
+
+                        <div class="moderation-item">
+                            <div class="moderation-info">
+                                <div class="moderation-title">Large purchase detected</div>
+                                <div class="moderation-meta">$247.50 purchase by Lincoln Elementary • 1 hour ago</div>
+                            </div>
+                            <div class="moderation-actions">
+                                <button class="btn btn-outline btn-sm">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Revenue Chart -->
+                <div class="content-section">
+                    <div class="section-header">
+                        <div class="section-title">Revenue Trends</div>
+                        <div class="section-description">Monthly revenue performance over the last 12 months</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="chart-container">
+                            📊 Interactive Revenue Chart Would Display Here
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Management Section -->
+            <div id="users" class="content-view" style="display: none;">
+                <div class="page-header">
+                    <h1 class="page-title">User Management</h1>
+                    <div class="page-actions">
+                        <button class="btn btn-primary">
+                            <span>➕</span>
+                            Add User
+                        </button>
+                        <button class="btn btn-secondary">
+                            <span>📤</span>
+                            Export Users
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <div class="table-title">All Users</div>
+                        <div class="table-controls">
+                            <input type="text" class="search-input" placeholder="Search users..." onkeyup="searchUsers(this.value)">
+                            <select class="filter-select" onchange="filterUsers(this.value)">
+                                <option value="">All Roles</option>
+                                <option value="teacher">Teachers</option>
+                                <option value="student">Students</option>
+                                <option value="admin">Administrators</option>
+                            </select>
+                            <select class="filter-select" onchange="filterUserStatus(this.value)">
+                                <option value="">All Status</option>
+                                <option value="active">Active</option>
+                                <option value="pending">Pending</option>
+                                <option value="suspended">Suspended</option>
+                            </select>
+                        </div>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Joined</th>
+                                <th>Last Active</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                            <tr>
+                                <td>
+                                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                        <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #4F46E5, #F59E0B); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">SJ</div>
+                                        <div>
+                                            <div style="font-weight: 600;">Sarah Johnson</div>
+                                            <div style="color: #6B7280; font-size: 0.875rem;">sarah.johnson@email.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="status-badge" style="background: #DBEAFE; color: #1E40AF;">Teacher</span></td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                                <td>Mar 15, 2024</td>
+                                <td>2 hours ago</td>
+                                <td>
+                                    <div style="display: flex; gap: 0.5rem;">
+                                        <button class="btn btn-outline btn-sm" onclick="viewUser('sarah')">View</button>
+                                        <button class="btn btn-secondary btn-sm" onclick="editUser('sarah')">Edit</button>
+                                        <button class="btn btn-danger btn-sm" onclick="suspendUser('sarah')">Suspend</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                        <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #10B981, #059669); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">MR</div>
+                                        <div>
+                                            <div style="font-weight: 600;">Michael Rodriguez</div>
+                                            <div style="color: #6B7280; font-size: 0.875rem;">m.rodriguez@school.edu</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="status-badge" style="background: #DBEAFE; color: #1E40AF;">Teacher</span></td>
+                                <td><span class="status-badge status-pending">Pending</span></td>
+                                <td>Mar 18, 2024</td>
+                                <td>1 day ago</td>
+                                <td>
+                                    <div style="display: flex; gap: 0.5rem;">
+                                        <button class="btn btn-outline btn-sm" onclick="viewUser('michael')">View</button>
+                                        <button class="btn btn-primary btn-sm" onclick="approveUser('michael')">Approve</button>
+                                        <button class="btn btn-danger btn-sm" onclick="rejectUser('michael')">Reject</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                        <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #EF4444, #DC2626); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">LC</div>
+                                        <div>
+                                            <div style="font-weight: 600;">Lisa Chen</div>
+                                            <div style="color: #6B7280; font-size: 0.875rem;">lisa.chen@district.org</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="status-badge" style="background: #F3E8FF; color: #7C3AED;">Admin</span></td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                                <td>Jan 10, 2024</td>
+                                <td>30 minutes ago</td>
+                                <td>
+                                    <div style="display: flex; gap: 0.5rem;">
+                                        <button class="btn btn-outline btn-sm" onclick="viewUser('lisa')">View</button>
+                                        <button class="btn btn-secondary btn-sm" onclick="editUser('lisa')">Edit</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Content Moderation Section -->
+            <div id="content" class="content-view" style="display: none;">
+                <div class="page-header">
+                    <h1 class="page-title">Content Moderation</h1>
+                    <div class="page-actions">
+                        <button class="btn btn-primary">
+                            <span>🔍</span>
+                            Review Queue
+                        </button>
+                        <button class="btn btn-secondary">
+                            <span>📊</span>
+                            Moderation Stats
+                        </button>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-header">
+                        <div class="section-title">Flagged Content Queue</div>
+                        <div class="section-description">Content that requires immediate review and action</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="moderation-item">
+                            <div class="moderation-info">
+                                <div class="moderation-title">🚨 "Advanced Chemistry Lab Experiments"</div>
+                                <div class="moderation-meta">Flagged for safety concerns • 5 reports • Uploaded by Dr. Amanda Foster</div>
+                            </div>
+                            <div class="moderation-actions">
+                                <button class="btn btn-primary btn-sm" onclick="reviewContent('chemistry')">Review</button>
+                                <button class="btn btn-danger btn-sm" onclick="removeContent('chemistry')">Remove</button>
+                                <button class="btn btn-outline btn-sm" onclick="contactCreator('chemistry')">Contact Creator</button>
+                            </div>
+                        </div>
+
+                        <div class="moderation-item">
+                            <div class="moderation-info">
+                                <div class="moderation-title">⚠️ "Elementary Math Worksheets Pack"</div>
+                                <div class="moderation-meta">Copyright claim • 2 reports • Uploaded by Jennifer Martinez</div>
+                            </div>
+                            <div class="moderation-actions">
+                                <button class="btn btn-primary btn-sm" onclick="reviewContent('math')">Review</button>
+                                <button class="btn btn-secondary btn-sm" onclick="requestChanges('math')">Request Changes</button>
+                                <button class="btn btn-outline btn-sm" onclick="dismissFlag('math')">Dismiss</button>
+                            </div>
+                        </div>
+
+                        <div class="moderation-item">
+                            <div class="moderation-info">
+                                <div class="moderation-title">📝 "Creative Writing Prompts Collection"</div>
+                                <div class="moderation-meta">Quality review needed • Auto-flagged • Uploaded by Robert Kim</div>
+                            </div>
+                            <div class="moderation-actions">
+                                <button class="btn btn-primary btn-sm" onclick="reviewContent('writing')">Review</button>
+                                <button class="btn btn-secondary btn-sm" onclick="approveContent('writing')">Approve</button>
+                                <button class="btn btn-outline btn-sm" onclick="requestRevision('writing')">Request Revision</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">Pending Reviews</div>
+                            <div class="card-icon" style="background: #FEF2F2; color: #EF4444;">⏳</div>
+                        </div>
+                        <div class="card-value">47</div>
+                        <div class="card-change negative">
+                            <span>↗️</span>
+                            +3 from yesterday
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">Approved Today</div>
+                            <div class="card-icon" style="background: #F0FDF4; color: #10B981;">✅</div>
+                        </div>
+                        <div class="card-value">23</div>
+                        <div class="card-change positive">
+                            <span>↗️</span>
+                            +15% from yesterday
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">Removed Content</div>
+                            <div class="card-icon" style="background: #FFFBEB; color: #F59E0B;">🗑️</div>
+                        </div>
+                        <div class="card-value">8</div>
+                        <div class="card-change negative">
+                            <span>↗️</span>
+                            +2 from yesterday
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">Appeals</div>
+                            <div class="card-icon" style="background: #EEF2FF; color: #4F46E5;">⚖️</div>
+                        </div>
+                        <div class="card-value">3</div>
+                        <div class="card-change positive">
+                            <span>→</span>
+                            No change
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Financial Reports Section -->
+            <div id="financial" class="content-view" style="display: none;">
+                <div class="page-header">
+                    <h1 class="page-title">Financial Reports</h1>
+                    <div class="page-actions">
+                        <button class="btn btn-primary">
+                            <span>📊</span>
+                            Generate Report
+                        </button>
+                        <button class="btn btn-secondary">
+                            <span>💰</span>
+                            Process Payouts
+                        </button>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">Total Revenue</div>
+                            <div class="card-icon" style="background: #EEF2FF; color: #4F46E5;">💰</div>
+                        </div>
+                        <div class="card-value">$127,543</div>
+                        <div class="card-change positive">
+                            <span>↗️</span>
+                            +12.5% from last month
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">Platform Fees</div>
+                            <div class="card-icon" style="background: #F0FDF4; color: #10B981;">📈</div>
+                        </div>
+                        <div class="card-value">$19,131</div>
+                        <div class="card-change positive">
+                            <span>↗️</span>
+                            +12.5% from last month
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">Pending Payouts</div>
+                            <div class="card-icon" style="background: #FFFBEB; color: #F59E0B;">⏳</div>
+                        </div>
+                        <div class="card-value">$43,291</div>
+                        <div class="card-change positive">
+                            <span>↗️</span>
+                            +8.7% from last week
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-title">Refunds Issued</div>
+                            <div class="card-icon" style="background: #FEF2F2; color: #EF4444;">💸</div>
+                        </div>
+                        <div class="card-value">$2,847</div>
+                        <div class="card-change negative">
+                            <span>↗️</span>
+                            +23% from last month
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-header">
+                        <div class="section-title">Revenue Breakdown</div>
+                        <div class="section-description">Detailed financial performance metrics</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="chart-container">
+                            📊 Financial Charts and Analytics Would Display Here
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Applications Section -->
+            <div id="applications" class="content-view" style="display: none;">
+                <div class="page-header">
+                    <h1 class="page-title">Teacher Applications</h1>
+                    <div class="page-actions">
+                        <button class="btn btn-primary">
+                            <span>✅</span>
+                            Batch Approve
+                        </button>
+                        <button class="btn btn-secondary">
+                            <span>📧</span>
+                            Send Updates
+                        </button>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-header">
+                        <div class="section-title">Pending Applications</div>
+                        <div class="section-description">New teacher applications awaiting review</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="moderation-item">
+                            <div class="moderation-info">
+                                <div class="moderation-title">📚 Sarah Johnson - Elementary Math Specialist</div>
+                                <div class="moderation-meta">M.Ed in Elementary Education • 8 years experience • Portfolio: 15 sample resources</div>
+                            </div>
+                            <div class="moderation-actions">
+                                <button class="btn btn-primary btn-sm" onclick="reviewApplication('sarah')">Review</button>
+                                <button class="btn btn-secondary btn-sm" onclick="approveApplication('sarah')">Approve</button>
+                                <button class="btn btn-danger btn-sm" onclick="rejectApplication('sarah')">Reject</button>
+                            </div>
+                        </div>
+
+                        <div class="moderation-item">
+                            <div class="moderation-info">
+                                <div class="moderation-title">🔬 Dr. Michael Rodriguez - High School Science</div>
+                                <div class="moderation-meta">Ph.D in Chemistry • 12 years experience • Portfolio: 23 sample resources</div>
+                            </div>
+                            <div class="moderation-actions">
+                                <button class="btn btn-primary btn-sm" onclick="reviewApplication('michael')">Review</button>
+                                <button class="btn btn-secondary btn-sm" onclick="requestMoreInfo('michael')">Request Info</button>
+                                <button class="btn btn-outline btn-sm" onclick="scheduleInterview('michael')">Schedule Interview</button>
+                            </div>
+                        </div>
+
+                        <div class="moderation-item">
+                            <div class="moderation-info">
+                                <div class="moderation-title">🎨 Jennifer Martinez - Art & Creative Writing</div>
+                                <div class="moderation-meta">B.A in Fine Arts • 5 years experience • Portfolio: 31 sample resources</div>
+                            </div>
+                            <div class="moderation-actions">
+                                <button class="btn btn-primary btn-sm" onclick="reviewApplication('jennifer')">Review</button>
+                                <button class="btn btn-secondary btn-sm" onclick="approveApplication('jennifer')">Approve</button>
+                                <button class="btn btn-outline btn-sm" onclick="contactApplicant('jennifer')">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Communications Section -->
+            <div id="communications" class="content-view" style="display: none;">
+                <div class="page-header">
+                    <h1 class="page-title">Communications</h1>
+                    <div class="page-actions">
+                        <button class="btn btn-primary">
+                            <span>📧</span>
+                            New Campaign
+                        </button>
+                        <button class="btn btn-secondary">
+                            <span>📢</span>
+                            Send Announcement
+                        </button>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-header">
+                        <div class="section-title">Direct Messaging</div>
+                        <div class="section-description">Send messages to individual users or groups</div>
+                    </div>
+                    <div class="section-content">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                            <div>
+                                <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Recipient</label>
+                                <select style="width: 100%; padding: 0.75rem; border: 2px solid #E5E7EB; border-radius: 8px; margin-bottom: 1rem;">
+                                    <option>Select user or group...</option>
+                                    <option>All Teachers</option>
+                                    <option>All Students</option>
+                                    <option>Premium Members</option>
+                                    <option>New Users (Last 30 days)</option>
+                                </select>
+                                
+                                <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Subject</label>
+                                <input type="text" style="width: 100%; padding: 0.75rem; border: 2px solid #E5E7EB; border-radius: 8px; margin-bottom: 1rem;" placeholder="Message subject...">
+                            </div>
+                            <div>
+                                <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Template</label>
+                                <select style="width: 100%; padding: 0.75rem; border: 2px solid #E5E7EB; border-radius: 8px; margin-bottom: 1rem;">
+                                    <option>Select template...</option>
+                                    <option>Welcome Message</option>
+                                    <option>Account Verification</option>
+                                    <option>Policy Update</option>
+                                    <option>Feature Announcement</option>
+                                </select>
+                                
+                                <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Priority</label>
+                                <select style="width: 100%; padding: 0.75rem; border: 2px solid #E5E7EB; border-radius: 8px; margin-bottom: 1rem;">
+                                    <option>Normal</option>
+                                    <option>High</option>
+                                    <option>Urgent</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Message</label>
+                        <textarea style="width: 100%; padding: 0.75rem; border: 2px solid #E5E7EB; border-radius: 8px; min-height: 120px; margin-bottom: 1rem;" placeholder="Type your message here..."></textarea>
+                        
+                        <div style="display: flex; gap: 1rem;">
+                            <button class="btn btn-primary">
+                                <span>📧</span>
+                                Send Message
+                            </button>
+                            <button class="btn btn-outline">
+                                <span>💾</span>
+                                Save Draft
+                            </button>
+                            <button class="btn btn-secondary">
+                                <span>👁️</span>
+                                Preview
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Settings Section -->
+            <div id="settings" class="content-view" style="display: none;">
+                <div class="page-header">
+                    <h1 class="page-title">System Settings</h1>
+                    <div class="page-actions">
+                        <button class="btn btn-primary">
+                            <span>💾</span>
+                            Save Changes
+                        </button>
+                        <button class="btn btn-danger">
+                            <span>🔄</span>
+                            Reset to Defaults
+                        </button>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-header">
+                        <div class="section-title">Platform Configuration</div>
+                        <div class="section-description">Core system settings and feature toggles</div>
+                    </div>
+                    <div class="section-content">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                            <div>
+                                <h3 style="font-weight: 600; margin-bottom: 1rem;">General Settings</h3>
+                                <div style="margin-bottom: 1rem;">
+                                    <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Platform Name</label>
+                                    <input type="text" value="TeachCreate.io" style="width: 100%; padding: 0.75rem; border: 2px solid #E5E7EB; border-radius: 8px;">
+                                </div>
+                                <div style="margin-bottom: 1rem;">
+                                    <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Support Email</label>
+                                    <input type="email" value="support@teachcreate.io" style="width: 100%; padding: 0.75rem; border: 2px solid #E5E7EB; border-radius: 8px;">
+                                </div>
+                                <div style="margin-bottom: 1rem;">
+                                    <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Platform Fee (%)</label>
+                                    <input type="number" value="15" min="0" max="50" style="width: 100%; padding: 0.75rem; border: 2px solid #E5E7EB; border-radius: 8px;">
+                                </div>
+                            </div>
+                            <div>
+                                <h3 style="font-weight: 600; margin-bottom: 1rem;">Feature Toggles</h3>
+                                <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #F9FAFB; border-radius: 8px; margin-bottom: 0.5rem;">
+                                    <span>New User Registration</span>
+                                    <button class="btn btn-primary btn-sm">Enabled</button>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #F9FAFB; border-radius: 8px; margin-bottom: 0.5rem;">
+                                    <span>Content Auto-Approval</span>
+                                    <button class="btn btn-outline btn-sm">Disabled</button>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #F9FAFB; border-radius: 8px; margin-bottom: 0.5rem;">
+                                    <span>Teacher Applications</span>
+                                    <button class="btn btn-primary btn-sm">Enabled</button>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #F9FAFB; border-radius: 8px; margin-bottom: 0.5rem;">
+                                    <span>Maintenance Mode</span>
+                                    <button class="btn btn-outline btn-sm">Disabled</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // User dropdown functionality
+        function toggleDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.user-dropdown')) {
+                document.getElementById('userDropdown').classList.remove('active');
+            }
+        });
+
+        // Section navigation
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.content-view');
+            sections.forEach(section => {
+                section.style.display = 'none';
+            });
+
+            // Show selected section
+            document.getElementById(sectionId).style.display = 'block';
+
+            // Update sidebar active state
+            const sidebarItems = document.querySelectorAll('.sidebar-item');
+            sidebarItems.forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // User management functions
+        function searchUsers(query) {
+            console.log('Searching users:', query);
+            // Implement user search functionality
+        }
+
+        function filterUsers(role) {
+            console.log('Filtering users by role:', role);
+            // Implement user filtering functionality
+        }
+
+        function filterUserStatus(status) {
+            console.log('Filtering users by status:', status);
+            // Implement status filtering functionality
+        }
+
+        function viewUser(userId) {
+            alert(`Viewing user profile for: ${userId}`);
+        }
+
+        function editUser(userId) {
+            alert(`Opening edit form for user: ${userId}`);
+        }
+
+        function suspendUser(userId) {
+            if (confirm(`Are you sure you want to suspend user: ${userId}?`)) {
+                alert(`User ${userId} has been suspended.`);
+            }
+        }
+
+        function approveUser(userId) {
+            alert(`User ${userId} has been approved and activated.`);
+        }
+
+        function rejectUser(userId) {
+            if (confirm(`Are you sure you want to reject user: ${userId}?`)) {
+                alert(`User ${userId} has been rejected.`);
+            }
+        }
+
+        // Content moderation functions
+        function reviewContent(contentId) {
+            alert(`Opening detailed review for content: ${contentId}`);
+        }
+
+        function removeContent(contentId) {
+            if (confirm(`Are you sure you want to remove this content: ${contentId}?`)) {
+                alert(`Content ${contentId} has been removed from the platform.`);
+            }
+        }
+
+        function contactCreator(contentId) {
+            alert(`Opening message composer to contact creator of: ${contentId}`);
+        }
+
+        function requestChanges(contentId) {
+            alert(`Sending change request for content: ${contentId}`);
+        }
+
+        function dismissFlag(contentId) {
+            alert(`Flag dismissed for content: ${contentId}`);
+        }
+
+        function approveContent(contentId) {
+            alert(`Content ${contentId} has been approved and published.`);
+        }
+
+        function requestRevision(contentId) {
+            alert(`Revision requested for content: ${contentId}`);
+        }
+
+        // Application functions
+        function reviewApplication(applicantId) {
+            alert(`Opening detailed application review for: ${applicantId}`);
+        }
+
+        function approveApplication(applicantId) {
+            alert(`Application approved for: ${applicantId}. Welcome email sent.`);
+        }
+
+        function rejectApplication(applicantId) {
+            if (confirm(`Are you sure you want to reject application from: ${applicantId}?`)) {
+                alert(`Application rejected for: ${applicantId}. Notification sent.`);
+            }
+        }
+
+        function requestMoreInfo(applicantId) {
+            alert(`Requesting additional information from: ${applicantId}`);
+        }
+
+        function scheduleInterview(applicantId) {
+            alert(`Opening interview scheduler for: ${applicantId}`);
+        }
+
+        function contactApplicant(applicantId) {
+            alert(`Opening message composer for applicant: ${applicantId}`);
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add entrance animations
+            const cards = document.querySelectorAll('.dashboard-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+
+            // Simulate real-time updates
+            setInterval(() => {
+                // Update dashboard metrics with slight variations
+                const metrics = document.querySelectorAll('.card-value');
+                metrics.forEach(metric => {
+                    if (Math.random() > 0.95) { // 5% chance to update
+                        const currentValue = metric.textContent;
+                        if (currentValue.includes('$')) {
+                            const num = parseInt(currentValue.replace(/[$,]/g, ''));
+                            const change = Math.floor(Math.random() * 100) - 50;
+                            metric.textContent = '$' + (num + change).toLocaleString();
+                        } else if (!isNaN(currentValue)) {
+                            const num = parseInt(currentValue);
+                            const change = Math.floor(Math.random() * 5) - 2;
+                            metric.textContent = Math.max(0, num + change);
+                        }
+                    }
+                });
+            }, 5000);
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96c56b21b54132d8',t:'MTc1NDcyMzI2Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
